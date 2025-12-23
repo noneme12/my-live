@@ -2,146 +2,130 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Wednesday Style</title>
+<title>Wednesday Site</title>
 
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
-body {
-    background: radial-gradient(circle at top, #1b0f2e, #050008);
-    color: #eaeaea;
-    font-family: 'Montserrat', sans-serif;
-    min-height: 100vh;
+body{
+    background:radial-gradient(circle at top,#1a0033,#050008);
+    color:#eee;
+    font-family:Montserrat,sans-serif;
+    min-height:100vh;
 }
 
 /* HEADER */
-header {
-    padding: 30px 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+header{
+    display:flex;
+    justify-content:space-between;
+    padding:25px 60px;
 }
 
-.logo {
-    font-family: 'UnifrakturCook', cursive;
-    font-size: 36px;
-    color: #b88cff;
-    text-shadow: 0 0 15px rgba(184,140,255,.6);
+.logo{
+    font-family:UnifrakturCook;
+    font-size:40px;
+    color:#b88cff;
+    text-shadow:0 0 15px #b88cff;
 }
 
-nav a {
-    margin-left: 30px;
-    text-decoration: none;
-    color: #ccc;
-    font-weight: 500;
-    position: relative;
+nav a{
+    color:#ccc;
+    margin-left:25px;
+    text-decoration:none;
+    position:relative;
 }
 
-nav a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 0;
-    height: 2px;
-    background: #b88cff;
-    transition: .3s;
+nav a::after{
+    content:"";
+    position:absolute;
+    bottom:-6px;
+    left:0;
+    width:0;
+    height:2px;
+    background:#b88cff;
+    transition:.3s;
 }
-
-nav a:hover::after {
-    width: 100%;
-}
+nav a:hover::after{width:100%}
 
 /* HERO */
-.hero {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 80vh;
-    text-align: center;
-    padding: 20px;
+.hero{
+    height:70vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
 }
 
-.hero h1 {
-    font-family: 'UnifrakturCook', cursive;
-    font-size: 64px;
-    color: #e7d6ff;
-    text-shadow: 0 0 25px rgba(184,140,255,.7);
-    animation: glow 3s infinite alternate;
+.hero h1{
+    font-family:UnifrakturCook;
+    font-size:64px;
+    color:#e6d6ff;
+    text-shadow:0 0 25px #b88cff;
 }
 
-.hero p {
-    margin-top: 20px;
-    font-size: 18px;
-    opacity: .85;
-}
-
-/* BUTTON */
-.btn {
-    margin-top: 35px;
-    display: inline-block;
-    padding: 14px 40px;
-    border: 1px solid #b88cff;
-    color: #b88cff;
-    text-decoration: none;
-    letter-spacing: 2px;
-    transition: .3s;
-}
-
-.btn:hover {
-    background: #b88cff;
-    color: #000;
-    box-shadow: 0 0 25px rgba(184,140,255,.7);
-}
+.hero p{opacity:.8;margin-top:15px}
 
 /* CARDS */
-.section {
-    padding: 80px 60px;
+.section{padding:60px}
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap: 30px;
+.card{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(184,140,255,.3);
+    padding:20px;
+    backdrop-filter:blur(10px);
+    position:relative;
 }
 
-.card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(184,140,255,.2);
-    padding: 30px;
-    backdrop-filter: blur(10px);
-    transition: .3s;
+.card img{
+    width:100%;
+    border-radius:6px;
+    margin-bottom:10px;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 25px rgba(184,140,255,.3);
+/* ADMIN PANEL */
+#adminPanel{
+    position:fixed;
+    top:50%;
+    right:0;
+    transform:translateY(-50%);
+    background:#0b0015;
+    border-left:2px solid #b88cff;
+    padding:20px;
+    width:220px;
+    display:none;
+    z-index:9999;
 }
 
-.card h3 {
-    color: #b88cff;
-    margin-bottom: 10px;
+#adminPanel h3{
+    color:#b88cff;
+    margin-bottom:10px;
+    font-family:UnifrakturCook;
 }
 
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 30px;
-    font-size: 14px;
-    opacity: .6;
+#adminPanel button,
+#adminPanel input{
+    width:100%;
+    margin-bottom:10px;
+    background:transparent;
+    color:#b88cff;
+    border:1px solid #b88cff;
+    padding:8px;
+    cursor:pointer;
 }
 
-/* ANIMATION */
-@keyframes glow {
-    from { text-shadow: 0 0 10px rgba(184,140,255,.3); }
-    to { text-shadow: 0 0 30px rgba(184,140,255,1); }
+.editing *{
+    outline:1px dashed rgba(184,140,255,.4);
 }
+
+/* HIDDEN FILE INPUT */
+input[type=file]{display:none}
 </style>
 </head>
 
@@ -153,38 +137,111 @@ footer {
         <a href="#">Главная</a>
         <a href="#">О нас</a>
         <a href="#">Люди</a>
-        <a href="#">Контакты</a>
     </nav>
 </header>
 
 <section class="hero">
     <div>
-        <h1>Тьма — мой стиль</h1>
-        <p>Холод. Разум. Контроль. Никаких эмоций.</p>
-        <a href="#" class="btn">Войти</a>
+        <h1 contenteditable="true">Тьма — мой стиль</h1>
+        <p contenteditable="true">Холод. Контроль. Без эмоций.</p>
     </div>
 </section>
 
 <section class="section">
-    <div class="cards">
+    <div class="cards" id="cards">
         <div class="card">
-            <h3>Холодный разум</h3>
-            <p>Никакой жалости. Только логика и факты.</p>
-        </div>
-        <div class="card">
-            <h3>Тьма внутри</h3>
-            <p>Мы принимаем темную сторону.</p>
-        </div>
-        <div class="card">
-            <h3>Контроль</h3>
-            <p>Каждый шаг под наблюдением.</p>
+            <img src="https://via.placeholder.com/400x250" />
+            <h3 contenteditable="true">Имя</h3>
+            <p contenteditable="true">Описание</p>
         </div>
     </div>
 </section>
 
-<footer>
-    © 2025 | Wednesday Style
-</footer>
+<!-- ADMIN -->
+<div id="adminPanel">
+    <h3>Админка</h3>
+    <button onclick="toggleEdit()">✏ Редактировать</button>
+    <button onclick="addCard()">➕ Карточка</button>
+    <button onclick="uploadImage()">🖼 Загрузить фото</button>
+    <button onclick="save()">💾 Сохранить</button>
+    <button onclick="exitAdmin()">🚪 Выйти</button>
+</div>
+
+<input type="file" id="imgUpload" accept="image/*">
+
+<script>
+const PASS="wednesday";
+let editing=false;
+
+/* LOAD */
+if(localStorage.site){
+    document.body.innerHTML=localStorage.site;
+}
+
+/* ADMIN ACCESS */
+function openAdmin(){
+    const p=prompt("Пароль:");
+    if(p===PASS){
+        document.getElementById("adminPanel").style.display="block";
+    }
+}
+
+document.addEventListener("keydown",e=>{
+    if(e.ctrlKey&&e.shiftKey&&e.key==="A")openAdmin();
+});
+
+if(location.hash==="#admin")openAdmin();
+
+/* EDIT */
+function toggleEdit(){
+    editing=!editing;
+    document.body.classList.toggle("editing",editing);
+    document.body.contentEditable=editing;
+}
+
+/* ADD CARD */
+function addCard(){
+    const c=document.createElement("div");
+    c.className="card";
+    c.innerHTML=`
+        <img src="https://via.placeholder.com/400x250">
+        <h3 contenteditable="true">Имя</h3>
+        <p contenteditable="true">Описание</p>`;
+    document.getElementById("cards").appendChild(c);
+}
+
+/* IMAGE UPLOAD */
+function uploadImage(){
+    const f=document.getElementById("imgUpload");
+    f.click();
+    f.onchange=()=>{
+        const file=f.files[0];
+        const r=new FileReader();
+        r.onload=e=>{
+            const img=document.activeElement.closest(".card")?.querySelector("img");
+            if(img)img.src=e.target.result;
+        };
+        r.readAsDataURL(file);
+    };
+}
+
+/* SAVE */
+function save(){
+    localStorage.site=document.body.innerHTML;
+    alert("Сохранено");
+}
+
+/* AUTOSAVE */
+setInterval(()=>{
+    if(editing)localStorage.site=document.body.innerHTML;
+},3000);
+
+function exitAdmin(){
+    editing=false;
+    document.body.contentEditable=false;
+    document.getElementById("adminPanel").style.display="none";
+}
+</script>
 
 </body>
 </html>
