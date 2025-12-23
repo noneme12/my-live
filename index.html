@@ -20,26 +20,91 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            background: radial-gradient(circle at center, #111111 0%, #000000 70%);
+            cursor: none;
         }
 
         .terminal {
-            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
             padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .screen {
+            background: rgba(10, 10, 10, 0.9);
+            border: 2px solid #333;
             border-radius: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            padding: 40px 20px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.1);
+        }
+
+        .screen::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                rgba(0, 255, 0, 0.03) 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            border-radius: 8px;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 0 100%;
+            }
+        }
+
+        .text-container {
+            display: inline-block;
+            position: relative;
+        }
+
+        .text {
+            font-size: 80px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #fff,
+                0 0 20px #0f0,
+                0 0 30px #0f0,
+                0 0 40px #0f0;
+            color: #ffffff;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
         }
 
         .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 72px;
-            background-color: #ffffff;
-            margin-left: 5px;
-            vertical-align: bottom;
-            animation: blink 1s infinite;
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 80px;
+            background-color: #0f0;
+            box-shadow: 
+                0 0 5px #0f0,
+                0 0 10px #0f0,
+                0 0 15px #0f0;
+            animation: blink 0.8s infinite;
+        }
+
+        .cursor.typing {
+            animation: typing-blink 0.5s infinite;
         }
 
         @keyframes blink {
@@ -51,122 +116,218 @@
             }
         }
 
-        .text {
-            font-size: 72px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        @keyframes typing-blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
         }
 
-        .completed .cursor {
-            animation: none;
-            opacity: 0.5;
-            background-color: #00ff00;
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .char {
+            display: inline-block;
+            opacity: 0;
+            animation: charAppear 0.1s forwards;
+        }
+
+        @keyframes charAppear {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Эффект загрузки */
+        .loading {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #0f0;
+            opacity: 0.7;
+        }
+
+        .loading::after {
+            content: "";
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ""; }
+            40% { content: "."; }
+            60% { content: ".."; }
+            80%, 100% { content: "..."; }
         }
 
         /* Адаптивность */
         @media (max-width: 768px) {
             .text {
-                font-size: 48px;
-                letter-spacing: 4px;
+                font-size: 50px;
+                letter-spacing: 8px;
             }
+            
             .cursor {
-                height: 48px;
+                height: 50px;
+                width: 10px;
+            }
+            
+            .terminal {
+                padding: 20px;
+            }
+            
+            .screen {
+                padding: 30px 15px;
             }
         }
 
         @media (max-width: 480px) {
             .text {
                 font-size: 36px;
-                letter-spacing: 2px;
+                letter-spacing: 4px;
             }
+            
             .cursor {
                 height: 36px;
-            }
-            .terminal {
-                padding: 20px;
+                width: 8px;
+                right: -12px;
             }
         }
     </style>
 </head>
 <body>
     <div class="terminal">
-        <div class="text" id="text"></div>
-        <div class="cursor" id="cursor"></div>
+        <div class="screen">
+            <div class="text-container">
+                <div class="text" id="text"></div>
+                <div class="cursor" id="cursor"></div>
+            </div>
+            <div class="loading">Загрузка системы</div>
+        </div>
     </div>
+
+    <audio id="typeSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-typing-1386.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="enterSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-keyboard-click-1127.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="startSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-sci-fi-startup-2897.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const textElement = document.getElementById('text');
             const cursorElement = document.getElementById('cursor');
-            const fullText = "Главная";
-            let currentText = "";
-            let index = 0;
+            const fullText = "ГЛАВНАЯ";
+            const typeSound = document.getElementById('typeSound');
+            const enterSound = document.getElementById('enterSound');
+            const startSound = document.getElementById('startSound');
             
-            // Создаем аудио контекст для звуков печатания (опционально)
-            let audioContext;
-            let clickSound;
-            
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            } catch (e) {
-                console.log("Web Audio API не поддерживается");
+            // Предзагрузка звуков
+            function preloadAudio() {
+                typeSound.load();
+                enterSound.load();
+                startSound.load();
             }
             
-            function playClickSound() {
-                if (!audioContext) return;
-                
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 800 + Math.random() * 400;
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-            }
+            preloadAudio();
             
-            function typeCharacter() {
-                if (index < fullText.length) {
-                    currentText += fullText.charAt(index);
-                    textElement.textContent = currentText;
-                    
-                    // Воспроизводим звук печатания
-                    playClickSound();
-                    
-                    index++;
-                    
-                    // Случайная задержка для реалистичного эффекта
-                    const delay = Math.random() * 120 + 80; // от 80 до 200 мс
-                    setTimeout(typeCharacter, delay);
-                } else {
-                    // Завершаем печать
-                    cursorElement.parentElement.classList.add('completed');
-                    
-                    // Через 3 секунды начинаем заново
-                    setTimeout(resetTyping, 3000);
+            // Функция воспроизведения звука с клонированием для быстрого повторения
+            function playSound(audioElement, volume = 0.5) {
+                try {
+                    const soundClone = audioElement.cloneNode();
+                    soundClone.volume = volume;
+                    soundClone.currentTime = 0;
+                    soundClone.play().catch(e => console.log("Звук не воспроизведён:", e));
+                } catch(e) {
+                    console.log("Ошибка воспроизведения звука:", e);
                 }
             }
             
-            function resetTyping() {
-                currentText = "";
-                index = 0;
-                textElement.textContent = "";
-                cursorElement.parentElement.classList.remove('completed');
+            // Начинаем с загрузочного звука
+            setTimeout(() => {
+                playSound(startSound, 0.3);
+            }, 500);
+            
+            // Функция печатания текста
+            function typeText() {
+                cursorElement.classList.add('typing');
                 
-                // Начинаем печатать снова через 1 секунду
-                setTimeout(typeCharacter, 1000);
+                let delay = 1000; // Задержка перед началом печати
+                
+                // Печатаем каждую букву
+                for(let i = 0; i < fullText.length; i++) {
+                    setTimeout(() => {
+                        // Создаем span для буквы
+                        const charSpan = document.createElement('span');
+                        charSpan.className = 'char';
+                        charSpan.textContent = fullText[i];
+                        textElement.appendChild(charSpan);
+                        
+                        // Воспроизводим звук печатания
+                        playSound(typeSound, 0.2);
+                        
+                        // Если это последняя буква
+                        if(i === fullText.length - 1) {
+                            setTimeout(() => {
+                                cursorElement.classList.remove('typing');
+                                playSound(enterSound, 0.3);
+                                
+                                // Запускаем заново через 3 секунды
+                                setTimeout(resetAndType, 3000);
+                            }, 300);
+                        }
+                    }, delay + (i * 150)); // 150ms между буквами
+                }
             }
             
-            // Начинаем печатать с небольшой задержкой
-            setTimeout(typeCharacter, 1000);
+            // Сброс и повтор
+            function resetAndType() {
+                textElement.innerHTML = '';
+                setTimeout(typeText, 500);
+            }
+            
+            // Начинаем печатать
+            setTimeout(typeText, 2000);
+            
+            // Добавляем интерактивность
+            document.addEventListener('click', function() {
+                playSound(enterSound, 0.3);
+                
+                // Быстрое мигание при клике
+                cursorElement.style.animation = 'none';
+                setTimeout(() => {
+                    cursorElement.style.animation = '';
+                }, 100);
+            });
+            
+            // Случайные звуковые эффекты фона
+            setInterval(() => {
+                if(Math.random() > 0.7) {
+                    playSound(typeSound, 0.1);
+                }
+            }, 5000);
+            
+            // Эффект мерцания текста
+            setInterval(() => {
+                const text = document.querySelector('.text');
+                if(text && Math.random() > 0.8) {
+                    text.style.opacity = '0.8';
+                    setTimeout(() => {
+                        text.style.opacity = '1';
+                    }, 50);
+                }
+            }, 2000);
         });
     </script>
 </body>
