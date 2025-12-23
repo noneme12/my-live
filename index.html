@@ -12,232 +12,183 @@
         }
 
         body {
-            background-color: #000000;
-            color: #ffffff;
+            background: #000;
+            color: #f00;
             font-family: 'Courier New', monospace;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            overflow: hidden;
-            cursor: none;
+            justify-content: center;
+            overflow-x: hidden;
         }
 
-        .terminal {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .screen {
-            background: rgba(20, 0, 0, 0.9);
-            border: 2px solid #ff0000;
+        /* Стили для фотографии */
+        .header-image {
+            width: 300px;
+            height: auto;
+            margin-bottom: 40px;
+            border: 3px solid #f00;
             border-radius: 10px;
-            padding: 40px 20px;
-            position: relative;
             box-shadow: 
-                0 0 50px rgba(255, 0, 0, 0.2),
-                0 0 100px rgba(255, 0, 0, 0.1),
-                inset 0 0 30px rgba(255, 0, 0, 0.1);
+                0 0 20px rgba(255, 0, 0, 0.5),
+                0 0 40px rgba(255, 0, 0, 0.3),
+                0 0 60px rgba(255, 0, 0, 0.2);
+            animation: imageGlow 2s infinite alternate;
         }
 
-        .screen::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                rgba(255, 0, 0, 0.03) 50%,
-                rgba(0, 0, 0, 0.1) 50%
-            );
-            background-size: 100% 4px;
-            pointer-events: none;
-            border-radius: 8px;
-            animation: scan 8s linear infinite;
-        }
-
-        .screen::after {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, 
-                #ff0000, #ff3333, #ff0000, #ff3333, #ff0000);
-            border-radius: 12px;
-            z-index: -1;
-            animation: borderGlow 3s linear infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes borderGlow {
-            0% {
-                filter: hue-rotate(0deg);
-            }
-            100% {
-                filter: hue-rotate(360deg);
-            }
-        }
-
-        @keyframes scan {
-            0% {
-                background-position: 0 0;
-            }
-            100% {
-                background-position: 0 100%;
-            }
-        }
-
-        .text-container {
-            display: inline-block;
-            position: relative;
-        }
-
-        .text {
-            font-size: 80px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 12px;
-            text-shadow: 
-                0 0 5px #fff,
-                0 0 10px #ff0000,
-                0 0 15px #ff0000,
-                0 0 20px #ff0000,
-                0 0 30px #ff0000,
-                0 0 40px #ff0000,
-                0 0 50px #ff0000,
-                0 0 60px #ff0000;
-            color: #ffffff;
-            opacity: 0;
-            animation: fadeIn 0.5s forwards, textGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes textGlow {
+        @keyframes imageGlow {
             from {
-                text-shadow: 
-                    0 0 5px #fff,
-                    0 0 10px #ff0000,
-                    0 0 15px #ff0000,
-                    0 0 20px #ff0000,
-                    0 0 30px #ff0000;
+                box-shadow: 
+                    0 0 20px rgba(255, 0, 0, 0.5),
+                    0 0 40px rgba(255, 0, 0, 0.3);
             }
             to {
-                text-shadow: 
-                    0 0 10px #fff,
-                    0 0 20px #ff0000,
-                    0 0 30px #ff0000,
-                    0 0 40px #ff0000,
-                    0 0 50px #ff0000,
-                    0 0 60px #ff0000,
-                    0 0 70px #ff0000;
+                box-shadow: 
+                    0 0 30px rgba(255, 0, 0, 0.8),
+                    0 0 60px rgba(255, 0, 0, 0.5),
+                    0 0 90px rgba(255, 0, 0, 0.3);
             }
         }
 
-        .cursor {
+        /* Контейнер с текстом */
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: bold;
+            letter-spacing: 15px;
+            text-transform: uppercase;
+            position: relative;
+            margin-bottom: 20px;
+            text-shadow: 
+                0 0 10px #f00,
+                0 0 20px #f00,
+                0 0 30px #f00;
+            animation: pulse 3s infinite alternate;
+        }
+
+        /* Эффект печатания */
+        h1::after {
+            content: "█";
             position: absolute;
-            right: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 15px;
-            height: 80px;
-            background: linear-gradient(45deg, #ff0000, #ff3333, #ff0000);
+            animation: blink 0.7s infinite;
+            text-shadow: 
+                0 0 10px #f00,
+                0 0 20px #f00;
+        }
+
+        /* Анимация для текста */
+        .typing-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .typing-text::after {
+            content: "";
+            position: absolute;
+            right: -15px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #f00;
+            animation: typingCursor 4s steps(7) infinite,
+                       blink 0.7s infinite;
             box-shadow: 
-                0 0 5px #ff0000,
-                0 0 10px #ff0000,
-                0 0 15px #ff0000,
-                0 0 20px #ff0000;
-            animation: blink 0.8s infinite, cursorPulse 2s infinite;
-            border-radius: 2px;
+                0 0 10px #f00,
+                0 0 20px #f00;
         }
 
-        .cursor.typing {
-            animation: typing-blink 0.5s infinite, cursorPulse 1s infinite;
-        }
-
-        @keyframes cursorPulse {
-            0%, 100% {
-                box-shadow: 
-                    0 0 5px #ff0000,
-                    0 0 10px #ff0000,
-                    0 0 15px #ff0000;
-            }
-            50% {
-                box-shadow: 
-                    0 0 10px #ff0000,
-                    0 0 20px #ff0000,
-                    0 0 30px #ff0000;
-            }
+        @keyframes typingCursor {
+            0% { right: -15px; }
+            14.28% { right: 55px; }
+            28.57% { right: 125px; }
+            42.85% { right: 195px; }
+            57.14% { right: 265px; }
+            71.42% { right: 335px; }
+            85.71% { right: 405px; }
+            100% { right: 475px; opacity: 0; }
         }
 
         @keyframes blink {
-            0%, 50% {
-                opacity: 1;
-            }
-            51%, 100% {
-                opacity: 0.3;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        @keyframes typing-blink {
-            0%, 100% {
-                opacity: 1;
+        @keyframes pulse {
+            from {
+                text-shadow: 
+                    0 0 10px #f00,
+                    0 0 20px #f00,
+                    0 0 30px #f00;
             }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes fadeIn {
             to {
-                opacity: 1;
+                text-shadow: 
+                    0 0 20px #f00,
+                    0 0 40px #f00,
+                    0 0 60px #f00;
             }
         }
 
-        .char {
-            display: inline-block;
-            opacity: 0;
-            animation: charAppear 0.1s forwards;
-        }
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-image {
+                width: 250px;
+                margin-bottom: 30px;
+            }
 
-        @keyframes charAppear {
-            to {
-                opacity: 1;
+            h1 {
+                font-size: 48px;
+                letter-spacing: 10px;
+            }
+
+            .typing-text::after {
+                right: -10px;
+            }
+
+            @keyframes typingCursor {
+                0% { right: -10px; }
+                14.28% { right: 35px; }
+                28.57% { right: 80px; }
+                42.85% { right: 125px; }
+                57.14% { right: 170px; }
+                71.42% { right: 215px; }
+                85.71% { right: 260px; }
+                100% { right: 305px; opacity: 0; }
             }
         }
 
-        /* Эффект загрузки */
-        .loading {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            color: #ff0000;
-            opacity: 0.7;
-            text-shadow: 
-                0 0 5px #ff0000,
-                0 0 10px #ff0000;
-            letter-spacing: 2px;
+        @media (max-width: 480px) {
+            .header-image {
+                width: 200px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-size: 36px;
+                letter-spacing: 5px;
+            }
+
+            .typing-text::after {
+                right: -8px;
+            }
+
+            @keyframes typingCursor {
+                0% { right: -8px; }
+                14.28% { right: 25px; }
+                28.57% { right: 58px; }
+                42.85% { right: 91px; }
+                57.14% { right: 124px; }
+                71.42% { right: 157px; }
+                85.71% { right: 190px; }
+                100% { right: 223px; opacity: 0; }
+            }
         }
 
-        .loading::after {
-            content: "";
-            animation: dots 1.5s infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: ""; }
-            40% { content: "."; }
-            60% { content: ".."; }
-            80%, 100% { content: "..."; }
-        }
-
-        /* Красные частицы */
+        /* Красные частицы на фоне */
         .particles {
             position: fixed;
             top: 0;
@@ -250,109 +201,47 @@
 
         .particle {
             position: absolute;
-            background: radial-gradient(circle, rgba(255,0,0,0.8) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,0,0,0.6) 0%, transparent 70%);
             border-radius: 50%;
-            animation: float 20s infinite linear;
+            animation: float 15s infinite linear;
         }
 
         @keyframes float {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
             10% { opacity: 0.3; }
             90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .text {
-                font-size: 50px;
-                letter-spacing: 8px;
-            }
-            
-            .cursor {
-                height: 50px;
-                width: 10px;
-                right: -15px;
-            }
-            
-            .terminal {
-                padding: 20px;
-            }
-            
-            .screen {
-                padding: 30px 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .text {
-                font-size: 36px;
-                letter-spacing: 4px;
-            }
-            
-            .cursor {
-                height: 36px;
-                width: 8px;
-                right: -10px;
-            }
-            
-            .screen {
-                padding: 20px 10px;
-            }
+            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
-    <div class="terminal">
-        <div class="screen">
-            <div class="text-container">
-                <div class="text" id="text"></div>
-                <div class="cursor" id="cursor"></div>
-            </div>
-            <div class="loading">Загрузка системы</div>
-        </div>
+    <!-- Фотография сверху по центру -->
+    <img src="https://64.media.tumblr.com/e98ae218a806136992c656b616d6258b/fb7d99842bde320e-5f/s250x400/b5fb50503a090739d087a91559f6fbb652c56118.pnj" 
+         alt="Фотография" 
+         class="header-image">
+
+    <!-- Контейнер с текстом -->
+    <div class="container">
+        <h1 class="typing-text">ГЛАВНАЯ</h1>
     </div>
 
-    <audio id="typeSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-typing-1386.mp3" type="audio/mpeg">
-    </audio>
-    
-    <audio id="enterSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-keyboard-click-1127.mp3" type="audio/mpeg">
-    </audio>
-    
-    <audio id="startSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-sci-fi-startup-2897.mp3" type="audio/mpeg">
-    </audio>
-
-    <audio id="redAlert" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Частицы на фоне -->
+    <div class="particles" id="particles"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const textElement = document.getElementById('text');
-            const cursorElement = document.getElementById('cursor');
-            const fullText = "ГЛАВНАЯ";
-            const typeSound = document.getElementById('typeSound');
-            const enterSound = document.getElementById('enterSound');
-            const startSound = document.getElementById('startSound');
-            const redAlert = document.getElementById('redAlert');
-            
             // Создаем красные частицы
             function createParticles() {
                 const particlesContainer = document.getElementById('particles');
-                const particleCount = 30;
+                const particleCount = 20;
                 
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.classList.add('particle');
                     
-                    const size = Math.random() * 100 + 20;
+                    const size = Math.random() * 80 + 20;
                     const posX = Math.random() * 100;
-                    const duration = Math.random() * 20 + 10;
+                    const duration = Math.random() * 15 + 10;
                     const delay = Math.random() * 5;
                     
                     particle.style.width = `${size}px`;
@@ -369,159 +258,61 @@
             
             createParticles();
             
-            // Предзагрузка звуков
-            function preloadAudio() {
-                typeSound.load();
-                enterSound.load();
-                startSound.load();
-                redAlert.load();
-            }
-            
-            preloadAudio();
-            
-            // Функция воспроизведения звука
-            function playSound(audioElement, volume = 0.5) {
-                try {
-                    const soundClone = audioElement.cloneNode();
-                    soundClone.volume = volume;
-                    soundClone.currentTime = 0;
-                    soundClone.play().catch(e => console.log("Звук не воспроизведён:", e));
-                } catch(e) {
-                    console.log("Ошибка воспроизведения звука:", e);
-                }
-            }
-            
-            // Начинаем с тревожного красного звука
-            setTimeout(() => {
-                playSound(redAlert, 0.3);
-                playSound(startSound, 0.2);
-                
-                // Эффект вспышки экрана
-                const screen = document.querySelector('.screen');
-                screen.style.boxShadow = '0 0 100px rgba(255, 0, 0, 0.8)';
-                setTimeout(() => {
-                    screen.style.boxShadow = '';
-                }, 300);
-            }, 500);
-            
-            // Функция печатания текста
-            function typeText() {
-                cursorElement.classList.add('typing');
-                
-                let delay = 1000;
-                
-                for(let i = 0; i < fullText.length; i++) {
-                    setTimeout(() => {
-                        const charSpan = document.createElement('span');
-                        charSpan.className = 'char';
-                        charSpan.textContent = fullText[i];
-                        textElement.appendChild(charSpan);
-                        
-                        // Воспроизводим звук печатания
-                        playSound(typeSound, 0.2);
-                        
-                        // Эффект вспышки при появлении буквы
-                        if (Math.random() > 0.5) {
-                            charSpan.style.textShadow = '0 0 30px #ff0000';
-                            setTimeout(() => {
-                                charSpan.style.textShadow = '';
-                            }, 200);
-                        }
-                        
-                        if(i === fullText.length - 1) {
-                            setTimeout(() => {
-                                cursorElement.classList.remove('typing');
-                                playSound(enterSound, 0.3);
-                                
-                                // Финал - мощная красная вспышка
-                                setTimeout(() => {
-                                    document.body.style.backgroundColor = '#ff0000';
-                                    setTimeout(() => {
-                                        document.body.style.backgroundColor = '#000000';
-                                    }, 100);
-                                }, 500);
-                                
-                                setTimeout(resetAndType, 3000);
-                            }, 300);
-                        }
-                    }, delay + (i * 150));
-                }
-            }
-            
-            // Сброс и повтор
-            function resetAndType() {
-                textElement.innerHTML = '';
-                setTimeout(typeText, 500);
-                
-                // Рандомные красные вспышки
-                setTimeout(() => {
-                    document.querySelector('.text').style.textShadow = '0 0 100px #ff0000';
-                    setTimeout(() => {
-                        document.querySelector('.text').style.textShadow = '';
-                    }, 200);
-                }, 1000);
-            }
-            
-            // Начинаем печатать
-            setTimeout(typeText, 2000);
-            
-            // Добавляем интерактивность
-            document.addEventListener('click', function() {
-                playSound(enterSound, 0.3);
-                
-                cursorElement.style.animation = 'none';
-                setTimeout(() => {
-                    cursorElement.style.animation = '';
-                }, 100);
-                
-                // Эффект клика
-                document.body.style.backgroundColor = '#330000';
-                setTimeout(() => {
-                    document.body.style.backgroundColor = '#000000';
-                }, 100);
-            });
-            
-            // Случайные красные вспышки и звуки
+            // Добавляем случайные частицы каждые 5 секунд
             setInterval(() => {
-                if(Math.random() > 0.7) {
-                    playSound(typeSound, 0.1);
+                createParticles();
+            }, 5000);
+            
+            // Эффект пульсации для фотографии
+            const image = document.querySelector('.header-image');
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    image.style.transform = 'scale(1.05)';
+                    image.style.filter = 'brightness(1.2)';
                     
-                    const text = document.querySelector('.text');
-                    if(text) {
-                        text.style.opacity = '0.8';
-                        setTimeout(() => {
-                            text.style.opacity = '1';
-                        }, 100);
-                    }
-                }
-                
-                // Редкие мощные вспышки
-                if(Math.random() > 0.9) {
-                    document.body.style.backgroundColor = '#660000';
                     setTimeout(() => {
-                        document.body.style.backgroundColor = '#000000';
-                    }, 50);
-                    playSound(redAlert, 0.1);
+                        image.style.transform = 'scale(1)';
+                        image.style.filter = 'brightness(1)';
+                    }, 200);
                 }
             }, 3000);
             
-            // Эффект пульсации текста
-            setInterval(() => {
-                const text = document.querySelector('.text');
-                if(text) {
-                    text.style.transform = 'scale(1.01)';
+            // Звуковой эффект при клике
+            document.addEventListener('click', function() {
+                try {
+                    // Простой звук клика через Web Audio API
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 400;
+                    oscillator.type = 'sine';
+                    gainNode.gain.value = 0.1;
+                    
+                    oscillator.start();
                     setTimeout(() => {
-                        text.style.transform = 'scale(1)';
-                    }, 300);
+                        oscillator.stop();
+                    }, 100);
+                    
+                    // Вспышка при клике
+                    document.body.style.backgroundColor = '#330000';
+                    setTimeout(() => {
+                        document.body.style.backgroundColor = '#000000';
+                    }, 100);
+                    
+                } catch(e) {
+                    console.log("Аудио не поддерживается");
                 }
-            }, 5000);
+            });
             
-            // Добавляем случайные частицы
+            // Автоматическая перезагрузка анимации печатания
             setInterval(() => {
-                if(Math.random() > 0.8) {
-                    createParticles();
-                }
-            }, 5000);
+                const typingCursor = document.querySelector('.typing-text::after');
+                // Анимация автоматически перезапускается благодаря infinite
+            }, 4000);
         });
     </script>
 </body>
