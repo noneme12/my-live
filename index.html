@@ -2,218 +2,58 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>BRAIN-FOR WEB v2.1.1 FIXED</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Anime Radmir Stats</title>
 <style>
-:root{
-  --bg:#0c0f18;
-  --panel:#121629;
-  --side:#0f1324;
-  --item:#191e35;
-  --item-hover:#232a4a;
-  --input:#171c33;
-  --border:#2c3260;
-  --text:#ffffff;
-  --muted:#9aa0c8;
+body {
+  background: linear-gradient(120deg,#0f0c29,#302b63,#24243e);
+  font-family: "Segoe UI", sans-serif;
+  color: #fff;
+  text-align: center;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Inter,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+.card {
+  background: rgba(0,0,0,.4);
+  border-radius: 20px;
+  padding: 20px;
+  width: 300px;
+  margin: 20px auto;
+  box-shadow: 0 0 30px #ff69b4;
 }
-
-/* FLOAT */
-#bf-open{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  width:68px;height:68px;
-  border-radius:50%;
-  border:none;
-  cursor:pointer;
-  font-size:28px;
-  color:#fff;
-  background:linear-gradient(135deg,#ff3c9e,#7b2cff);
-  box-shadow:0 15px 45px rgba(0,0,0,.45);
-  z-index:9999;
+.counter {
+  font-size: 32px;
+  font-weight: bold;
 }
-
-/* MODAL */
-#bf-modal{position:fixed;inset:0;display:none;z-index:10000}
-#bf-modal.active{display:block}
-#bf-bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
-
-#bf-window{
-  position:absolute;
-  left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:1100px;
-  max-width:96%;
-  height:720px;
-  background:var(--panel);
-  border-radius:18px;
-  display:flex;
-  overflow:hidden;
-}
-
-/* SIDEBAR */
-#bf-left{
-  width:300px;
-  background:var(--side);
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-}
-.bf-tpl{
-  background:var(--item);
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:10px;
-  cursor:pointer;
-}
-.bf-tpl:hover{background:var(--item-hover)}
-
-/* CONTENT */
-#bf-right{
-  flex:1;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-input,textarea,select{
-  width:100%;
-  background:var(--input);
-  border:1px solid var(--border);
-  color:var(--text);
-  border-radius:12px;
-  padding:14px;
-}
-textarea{
-  flex:1;
-  resize:none;
-  font-family:Consolas,monospace;
-}
-
-/* BUTTONS */
-.bf-row{display:flex;gap:10px}
-.bf-btn{
-  flex:1;
-  border:none;
-  border-radius:12px;
-  padding:14px;
-  font-weight:700;
-  cursor:pointer;
-  color:#fff;
-  background:linear-gradient(135deg,#ff3c9e,#7b2cff);
-}
-.bf-btn.gray{background:#2b325c}
-.bf-btn.red{background:#b92a2a}
-.bf-btn.green{background:#22aa77}
 </style>
 </head>
-
 <body>
 
-<button id="bf-open">🧠</button>
+<h1>🌸 L.Danlen ❤️</h1>
 
-<div id="bf-modal">
-  <div id="bf-bg"></div>
+<div class="card">
+  <div>Всего ЖБ</div>
+  <div id="total" class="counter">0</div>
+</div>
 
-  <div id="bf-window">
-    <div id="bf-left">
-      <h3>📄 Шаблоны</h3>
-      <div id="bf-tpls"></div>
-      <button class="bf-btn gray" id="bf-add">➕ Новый шаблон</button>
-    </div>
+<div class="card">
+  <div>✅ Одобрено</div>
+  <div id="approved" class="counter">0</div>
+</div>
 
-    <div id="bf-right">
-      <input id="bf-title" placeholder="Заголовок (авто)">
-      <select id="bf-category">
-        <option value="nosost">❌ Не сост</option>
-        <option value="gos">🏛 Гос</option>
-        <option value="crim">🔫 Крим</option>
-      </select>
-
-      <textarea id="bf-editor" placeholder="Текст жалобы (BBCode)"></textarea>
-
-      <div class="bf-row">
-        <button class="bf-btn" id="bf-copy">📋</button>
-        <button class="bf-btn green" id="bf-forum">➡</button>
-        <button class="bf-btn red" id="bf-close">✖</button>
-      </div>
-    </div>
-  </div>
+<div class="card">
+  <div>⏳ В ожидании</div>
+  <div id="pending" class="counter">0</div>
 </div>
 
 <script>
-/* ===== ELEMENTS ===== */
-const modal = document.getElementById('bf-modal');
-const openBtn = document.getElementById('bf-open');
-const closeBtn = document.getElementById('bf-close');
-const bg = document.getElementById('bf-bg');
+async function loadStats() {
+  const res = await fetch("http://localhost:3000/api/stats");
+  const data = await res.json();
 
-openBtn.onclick = () => modal.classList.add('active');
-closeBtn.onclick = () => modal.classList.remove('active');
-bg.onclick = () => modal.classList.remove('active');
-
-/* ===== TEMPLATES ===== */
-const KEY='BF_TEMPLATES_FIXED';
-if(!localStorage.getItem(KEY)){
-  localStorage.setItem(KEY,JSON.stringify([
-    {name:'ЖБ: Оскорбления',text:`Ник нарушителя:\nНарушение: Оскорбления\nДоказательства:`}
-  ]));
+  document.getElementById("total").innerText = data.total;
+  document.getElementById("approved").innerText = data.approved;
+  document.getElementById("pending").innerText = data.pending;
 }
-
-const list=document.getElementById('bf-tpls');
-const editor=document.getElementById('bf-editor');
-const title=document.getElementById('bf-title');
-
-function render(){
-  list.innerHTML='';
-  JSON.parse(localStorage.getItem(KEY)).forEach(t=>{
-    const d=document.createElement('div');
-    d.className='bf-tpl';
-    d.textContent=t.name;
-    d.onclick=()=>{
-      editor.value=t.text;
-      autoTitle();
-    };
-    list.appendChild(d);
-  });
-}
-render();
-
-/* ===== AUTO TITLE ===== */
-function autoTitle(){
-  const t=editor.value;
-  const nick=(t.match(/Ник нарушителя:\s*(.+)/i)||[])[1]||'';
-  const viol=(t.match(/Нарушение:\s*(.+)/i)||[])[1]||'';
-  title.value=[nick,viol].filter(Boolean).join(' | ');
-}
-editor.addEventListener('input',autoTitle);
-
-/* ===== COPY ===== */
-document.getElementById('bf-copy').onclick=()=>{
-  navigator.clipboard.writeText(title.value+'\n\n'+editor.value);
-};
-
-/* ===== SEND ===== */
-document.getElementById('bf-forum').onclick=()=>{
-  if(!editor.value.trim()) return alert('Пусто');
-  localStorage.setItem('BF_TRANSFER',JSON.stringify({
-    title:title.value,
-    text:editor.value
-  }));
-  window.open(
-    'https://forum.radmir.games/forums/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B-%D0%BD%D0%B0-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%BE%D0%B2-%D0%BD%D0%B5-%D1%81%D0%BE%D1%81%D1%82-%D0%B2-%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F%D1%85.194/create-thread',
-    '_blank'
-  );
-};
+setInterval(loadStats, 30000);
+loadStats();
 </script>
 
 </body>
