@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная</title>
+    <title>ФОР - Форумный отряд радмира</title>
     <style>
         * {
             margin: 0;
@@ -25,7 +25,7 @@
 
         /* Стили для фотографии */
         .header-image {
-            width: 300px;
+            width: 320px;
             height: auto;
             margin-bottom: 40px;
             border: 3px solid #f00;
@@ -71,6 +71,17 @@
             animation: pulse 3s infinite alternate;
         }
 
+        .subtitle {
+            font-size: 28px;
+            letter-spacing: 3px;
+            margin-top: 10px;
+            color: #ff6666;
+            text-shadow: 
+                0 0 5px #f00,
+                0 0 10px #f00;
+            opacity: 0.9;
+        }
+
         /* Эффект печатания */
         h1::after {
             content: "█";
@@ -95,7 +106,7 @@
             width: 2px;
             height: 100%;
             background: #f00;
-            animation: typingCursor 4s steps(7) infinite,
+            animation: typingCursor 4s steps(3) infinite,
                        blink 0.7s infinite;
             box-shadow: 
                 0 0 10px #f00,
@@ -104,13 +115,9 @@
 
         @keyframes typingCursor {
             0% { right: -15px; }
-            14.28% { right: 55px; }
-            28.57% { right: 125px; }
-            42.85% { right: 195px; }
-            57.14% { right: 265px; }
-            71.42% { right: 335px; }
-            85.71% { right: 405px; }
-            100% { right: 475px; opacity: 0; }
+            33% { right: 55px; }
+            66% { right: 125px; }
+            100% { right: 195px; opacity: 0; }
         }
 
         @keyframes blink {
@@ -133,6 +140,32 @@
             }
         }
 
+        /* Анимация для подзаголовка */
+        .subtitle-typing {
+            position: relative;
+            display: inline-block;
+        }
+
+        .subtitle-typing::after {
+            content: "";
+            position: absolute;
+            right: -8px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #ff6666;
+            animation: subtitleCursor 6s steps(20) infinite,
+                       blink 0.7s infinite;
+            box-shadow: 
+                0 0 5px #ff6666,
+                0 0 10px #ff6666;
+        }
+
+        @keyframes subtitleCursor {
+            0% { right: -8px; }
+            100% { right: 380px; opacity: 0; }
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             .header-image {
@@ -145,19 +178,29 @@
                 letter-spacing: 10px;
             }
 
+            .subtitle {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+
             .typing-text::after {
                 right: -10px;
             }
 
             @keyframes typingCursor {
                 0% { right: -10px; }
-                14.28% { right: 35px; }
-                28.57% { right: 80px; }
-                42.85% { right: 125px; }
-                57.14% { right: 170px; }
-                71.42% { right: 215px; }
-                85.71% { right: 260px; }
-                100% { right: 305px; opacity: 0; }
+                33% { right: 35px; }
+                66% { right: 80px; }
+                100% { right: 125px; opacity: 0; }
+            }
+
+            .subtitle-typing::after {
+                right: -6px;
+            }
+
+            @keyframes subtitleCursor {
+                0% { right: -6px; }
+                100% { right: 250px; opacity: 0; }
             }
         }
 
@@ -172,19 +215,29 @@
                 letter-spacing: 5px;
             }
 
+            .subtitle {
+                font-size: 16px;
+                letter-spacing: 1px;
+            }
+
             .typing-text::after {
                 right: -8px;
             }
 
             @keyframes typingCursor {
                 0% { right: -8px; }
-                14.28% { right: 25px; }
-                28.57% { right: 58px; }
-                42.85% { right: 91px; }
-                57.14% { right: 124px; }
-                71.42% { right: 157px; }
-                85.71% { right: 190px; }
-                100% { right: 223px; opacity: 0; }
+                33% { right: 25px; }
+                66% { right: 58px; }
+                100% { right: 91px; opacity: 0; }
+            }
+
+            .subtitle-typing::after {
+                right: -4px;
+            }
+
+            @keyframes subtitleCursor {
+                0% { right: -4px; }
+                100% { right: 180px; opacity: 0; }
             }
         }
 
@@ -212,21 +265,44 @@
             90% { opacity: 0.3; }
             100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
         }
+
+        /* Дополнительные эффекты */
+        .motto {
+            font-size: 18px;
+            margin-top: 30px;
+            color: #ff9999;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+            letter-spacing: 1px;
+            font-style: italic;
+            opacity: 0.8;
+            max-width: 600px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
     <!-- Фотография сверху по центру -->
     <img src="https://64.media.tumblr.com/e98ae218a806136992c656b616d6258b/fb7d99842bde320e-5f/s250x400/b5fb50503a090739d087a91559f6fbb652c56118.pnj" 
-         alt="Фотография" 
+         alt="ФОР - Форумный отряд радмира" 
          class="header-image">
 
     <!-- Контейнер с текстом -->
     <div class="container">
-        <h1 class="typing-text">ГЛАВНАЯ</h1>
+        <h1 class="typing-text">ФОР</h1>
+        <div class="subtitle subtitle-typing">Форумный отряд радмира</div>
+        <div class="motto">Защищаем. Объединяем. Действуем. Вместе мы сила!</div>
     </div>
 
     <!-- Частицы на фоне -->
     <div class="particles" id="particles"></div>
+
+    <audio id="typeSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-typing-1386.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="enterSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-keyboard-click-1127.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -258,6 +334,43 @@
             
             createParticles();
             
+            // Загружаем звуки
+            const typeSound = document.getElementById('typeSound');
+            const enterSound = document.getElementById('enterSound');
+            
+            function preloadAudio() {
+                typeSound.load();
+                enterSound.load();
+            }
+            
+            preloadAudio();
+            
+            // Функция воспроизведения звука
+            function playSound(audioElement, volume = 0.3) {
+                try {
+                    const soundClone = audioElement.cloneNode();
+                    soundClone.volume = volume;
+                    soundClone.currentTime = 0;
+                    soundClone.play().catch(e => console.log("Звук не воспроизведён"));
+                } catch(e) {
+                    console.log("Ошибка воспроизведения звука");
+                }
+            }
+            
+            // Звук печатания при загрузке
+            setTimeout(() => {
+                playSound(typeSound, 0.2);
+            }, 1000);
+            
+            setTimeout(() => {
+                playSound(typeSound, 0.2);
+            }, 1500);
+            
+            setTimeout(() => {
+                playSound(typeSound, 0.2);
+                playSound(enterSound, 0.3);
+            }, 2000);
+            
             // Добавляем случайные частицы каждые 5 секунд
             setInterval(() => {
                 createParticles();
@@ -274,45 +387,40 @@
                         image.style.transform = 'scale(1)';
                         image.style.filter = 'brightness(1)';
                     }, 200);
+                    
+                    // Тихий звук при пульсации
+                    if (Math.random() > 0.5) {
+                        playSound(typeSound, 0.1);
+                    }
                 }
             }, 3000);
             
             // Звуковой эффект при клике
             document.addEventListener('click', function() {
-                try {
-                    // Простой звук клика через Web Audio API
-                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.value = 400;
-                    oscillator.type = 'sine';
-                    gainNode.gain.value = 0.1;
-                    
-                    oscillator.start();
-                    setTimeout(() => {
-                        oscillator.stop();
-                    }, 100);
-                    
-                    // Вспышка при клике
-                    document.body.style.backgroundColor = '#330000';
-                    setTimeout(() => {
-                        document.body.style.backgroundColor = '#000000';
-                    }, 100);
-                    
-                } catch(e) {
-                    console.log("Аудио не поддерживается");
-                }
+                playSound(enterSound, 0.3);
+                
+                // Вспышка при клике
+                document.body.style.backgroundColor = '#330000';
+                setTimeout(() => {
+                    document.body.style.backgroundColor = '#000000';
+                }, 100);
             });
             
             // Автоматическая перезагрузка анимации печатания
             setInterval(() => {
-                const typingCursor = document.querySelector('.typing-text::after');
-                // Анимация автоматически перезапускается благодаря infinite
+                playSound(typeSound, 0.1);
             }, 4000);
+            
+            // Эффект для подзаголовка
+            const subtitle = document.querySelector('.subtitle');
+            setInterval(() => {
+                if (Math.random() > 0.8) {
+                    subtitle.style.textShadow = '0 0 15px #ff0000';
+                    setTimeout(() => {
+                        subtitle.style.textShadow = '';
+                    }, 300);
+                }
+            }, 5000);
         });
     </script>
 </body>
