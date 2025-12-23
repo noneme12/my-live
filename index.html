@@ -17,7 +17,6 @@
     box-sizing: border-box;
 }
 
-/* BODY */
 body {
     background: #000;
     color: #fff;
@@ -53,7 +52,6 @@ body {
     padding: 0 40px;
 }
 
-/* HOME BUTTON */
 .home-btn {
     position: absolute;
     left: 40px;
@@ -62,20 +60,14 @@ body {
     color: #fff;
     font-size: 16px;
     font-weight: 500;
-    letter-spacing: 0.2px;
     cursor: pointer;
     opacity: 0.85;
 }
 
-.home-btn:hover {
-    opacity: 1;
-}
+.home-btn:hover { opacity: 1; }
 
-/* LOGO */
 .logo img {
     width: 90px;
-    height: auto;
-    display: block;
     opacity: 0.95;
 }
 
@@ -99,6 +91,35 @@ body {
     50% { transform: translate(-50%,12px) rotate(-45deg); }
 }
 
+/* PONY */
+.pony {
+    position: absolute;
+    bottom: 75px;            /* рядом со стрелкой */
+    left: 50%;
+    width: 70px;
+    transform: translateX(140px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 6;
+}
+
+@keyframes ponyWalk {
+    0% {
+        transform: translateX(160px);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    50% {
+        transform: translateX(-160px);
+        opacity: 1;
+    }
+    90% { opacity: 0; }
+    100% {
+        transform: translateX(-200px);
+        opacity: 0;
+    }
+}
+
 /* CONTENT */
 .container {
     min-height: 100vh;
@@ -114,34 +135,16 @@ body {
 
 .subtitle {
     font-size: 24px;
-    font-weight: 400;
     opacity: 0.8;
 }
 
 /* ADAPTIVE */
 @media (max-width: 768px) {
-    .header {
-        height: 70px;
-        padding: 0 20px;
-    }
-
-    .home-btn {
-        left: 20px;
-        font-size: 14px;
-    }
-
-    .logo img {
-        width: 70px;
-    }
-
-    .container h1 {
-        font-size: 42px;
-        letter-spacing: 6px;
-    }
-
-    .subtitle {
-        font-size: 18px;
-    }
+    .home-btn { left: 20px; font-size: 14px; }
+    .logo img { width: 70px; }
+    .container h1 { font-size: 42px; letter-spacing: 6px; }
+    .subtitle { font-size: 18px; }
+    .pony { width: 55px; }
 }
 </style>
 </head>
@@ -153,13 +156,20 @@ body {
     <!-- HEADER -->
     <div class="header">
         <button class="home-btn" onclick="location.reload()">Главная</button>
-
         <div class="logo">
             <img src="https://64.media.tumblr.com/e98ae218a806136992c656b616d6258b/fb7d99842bde320e-5f/s250x400/b5fb50503a090739d087a91559f6fbb652c56118.pnj" alt="ФОР">
         </div>
     </div>
 
+    <!-- ARROW -->
     <div class="scroll-down" onclick="scrollToContent()"></div>
+
+    <!-- PONY -->
+    <img
+      src="https://static.wikia.nocookie.net/librarytwilightsparkle/images/a/a0/%D0%A2%D0%B2%D0%B0%D0%B9%D0%BA%D0%B0.png/revision/latest?cb=20150614123448&path-prefix=ru"
+      alt="pony"
+      class="pony"
+    >
 </div>
 
 <div class="container">
@@ -172,7 +182,19 @@ function scrollToContent() {
     document.querySelector('.container')
         .scrollIntoView({ behavior: 'smooth' });
 }
+
+/* pony animation every 5 seconds */
+const pony = document.querySelector('.pony');
+
+function playPony() {
+    pony.style.animation = 'none';
+    pony.offsetHeight; // reset
+    pony.style.animation = 'ponyWalk 2.5s ease-in-out';
+}
+
+setInterval(playPony, 5000);
 </script>
 
 </body>
 </html>
+
