@@ -2,215 +2,212 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>RADMIR — Wednesday Style</title>
+<title>RADMIR — Wednesday Dark</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#0b0b14;
-  --bg2:#121224;
-  --violet:#7b5cff;
+  --bg:#05050a;
+  --bg2:#0b0b14;
+  --violet:#6b4cff;
   --violet2:#b48cff;
-  --pink:#ff79c6;
+  --blood:#7a1f3d;
   --text:#e6e6f0;
-  --muted:#9a9ab5;
-  --glass:rgba(255,255,255,0.06);
+  --muted:#8c8ca8;
+  --glass:rgba(255,255,255,.05);
 }
 
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Inter,system-ui;
   background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(123,92,255,.15), transparent),
-    radial-gradient(800px 400px at 10% 10%, rgba(255,121,198,.12), transparent),
+    radial-gradient(1000px 500px at 80% -10%, rgba(107,76,255,.15), transparent),
+    radial-gradient(700px 400px at 20% 10%, rgba(122,31,61,.15), transparent),
     linear-gradient(180deg,var(--bg),var(--bg2));
   color:var(--text);
+  overflow-x:hidden;
 }
 
-/* ===== HEADER ===== */
+/* ===== FILM GRAIN ===== */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.09'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:999;
+}
+
+/* ===== HERO ===== */
 header{
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  text-align:center;
   position:relative;
   overflow:hidden;
 }
 
-header::after{
-  content:"";
+/* ===== FOG ===== */
+.fog{
   position:absolute;
   inset:0;
   background:
-    repeating-linear-gradient(
-      180deg,
-      rgba(255,255,255,.03) 0px,
-      rgba(255,255,255,.03) 1px,
-      transparent 2px,
-      transparent 4px
-    );
+    radial-gradient(circle at 30% 70%, rgba(255,255,255,.05), transparent 60%),
+    radial-gradient(circle at 70% 30%, rgba(255,255,255,.04), transparent 60%);
+  animation:fogMove 35s infinite alternate;
   pointer-events:none;
 }
 
-.hero{
-  max-width:900px;
-  padding:40px;
+@keyframes fogMove{
+  from{transform:translateX(-30px)}
+  to{transform:translateX(30px)}
 }
 
-.hero h1{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(36px,6vw,72px);
-  margin:0;
-  letter-spacing:1px;
-  text-shadow:0 0 30px rgba(123,92,255,.5);
+/* ===== RAIN ===== */
+#rain{
+  position:absolute;
+  inset:0;
 }
 
-.hero h1 span{
-  color:var(--violet2);
+/* ===== CHARACTER ===== */
+.character{
+  width:320px;
+  height:520px;
+  background:
+    radial-gradient(circle at 50% 30%, #111 0%, #05050a 60%);
+  border-radius:160px 160px 120px 120px;
+  position:relative;
+  box-shadow:
+    0 0 60px rgba(107,76,255,.35),
+    0 0 120px rgba(122,31,61,.25);
+  z-index:2;
 }
 
-.hero p{
-  max-width:600px;
-  margin:20px auto 40px;
-  color:var(--muted);
-  font-size:18px;
-}
-
-.hero .line{
-  width:120px;
-  height:2px;
-  background:linear-gradient(90deg,transparent,var(--violet),transparent);
-  margin:30px auto;
-}
-
-/* ===== BUTTONS ===== */
-.btns{
+/* ===== EYES ===== */
+.eyes{
+  position:absolute;
+  top:160px;
+  left:50%;
+  transform:translateX(-50%);
   display:flex;
-  gap:16px;
-  justify-content:center;
-  flex-wrap:wrap;
+  gap:42px;
 }
 
-.btn{
-  padding:14px 26px;
-  border-radius:14px;
-  text-decoration:none;
-  color:#fff;
-  font-weight:600;
-  letter-spacing:.5px;
-  background:linear-gradient(135deg,var(--violet),var(--pink));
-  box-shadow:0 0 30px rgba(123,92,255,.4);
-  transition:.3s;
+.eye{
+  width:18px;
+  height:18px;
+  background:var(--violet2);
+  border-radius:50%;
+  box-shadow:
+    0 0 18px var(--violet2),
+    0 0 35px rgba(180,140,255,.7);
+  position:relative;
+  transition:transform .1s;
 }
 
-.btn.alt{
-  background:transparent;
-  border:1px solid rgba(123,92,255,.4);
-  box-shadow:none;
+.eye::after{
+  content:"";
+  position:absolute;
+  inset:4px;
+  background:#000;
+  border-radius:50%;
 }
 
-.btn:hover{
-  transform:translateY(-3px) scale(1.02);
-  box-shadow:0 0 45px rgba(123,92,255,.7);
+/* blink */
+@keyframes blink{
+  0%,90%,100%{transform:scaleY(1)}
+  92%,96%{transform:scaleY(0.1)}
 }
 
-/* ===== SECTIONS ===== */
-section{
-  padding:100px 20px;
+.eye{
+  animation:blink 7s infinite;
+}
+.eye:nth-child(2){
+  animation-delay:3.5s;
 }
 
-.section-title{
-  text-align:center;
-  margin-bottom:60px;
-}
-
-.section-title h2{
-  font-family:"Playfair Display",serif;
-  font-size:42px;
-  margin:0;
-}
-
-.section-title p{
-  color:var(--muted);
-  margin-top:12px;
-}
-
-/* ===== CARDS ===== */
-.grid{
-  max-width:1100px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
-}
-
-.card{
-  background:var(--glass);
-  border-radius:22px;
-  padding:28px;
+/* ===== PROFILE CARD ===== */
+.profile{
+  position:absolute;
+  right:6%;
+  background:rgba(0,0,0,.6);
   border:1px solid rgba(255,255,255,.08);
-  backdrop-filter:blur(12px);
-  box-shadow:0 0 40px rgba(0,0,0,.4);
-  transition:.4s;
+  border-radius:22px;
+  padding:26px;
+  width:280px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 0 50px rgba(0,0,0,.7);
+  z-index:3;
 }
 
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 0 60px rgba(123,92,255,.35);
-}
-
-.card h3{
-  margin-top:0;
+.profile h1{
+  margin:0;
   font-family:"Playfair Display",serif;
   color:var(--violet2);
 }
 
-.card p{
+.profile p{
   color:var(--muted);
-  line-height:1.6;
+  font-size:14px;
+  margin:10px 0 18px;
 }
 
-/* ===== STATS ===== */
 .stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:24px;
-  max-width:900px;
-  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:18px;
 }
 
-.stat{
+.stats div{
   text-align:center;
 }
 
-.stat .num{
-  font-size:48px;
-  font-weight:700;
-  color:var(--violet2);
-  text-shadow:0 0 25px rgba(123,92,255,.6);
-}
-
-.stat span{
+.stats strong{
   display:block;
-  color:var(--muted);
-  margin-top:8px;
+  font-size:22px;
 }
 
-/* ===== FOOTER ===== */
-footer{
-  padding:60px 20px;
-  text-align:center;
+.stats span{
+  font-size:12px;
   color:var(--muted);
-  border-top:1px solid rgba(255,255,255,.06);
 }
 
-footer strong{
+.profile a{
+  display:inline-block;
+  margin-top:10px;
+  color:#ff79c6;
+  text-decoration:none;
+  font-weight:600;
+}
+
+/* ===== TITLE ===== */
+.title{
+  position:absolute;
+  left:6%;
+  max-width:360px;
+  z-index:3;
+}
+
+.title h2{
+  font-family:"Playfair Display",serif;
+  font-size:54px;
+  margin:0;
+  text-shadow:0 0 40px rgba(107,76,255,.6);
+}
+
+.title span{
   color:var(--violet2);
+}
+
+.title p{
+  color:var(--muted);
+  margin-top:14px;
+  line-height:1.6;
 }
 </style>
 </head>
@@ -218,85 +215,105 @@ footer strong{
 <body>
 
 <header>
-  <div class="hero">
-    <h1>RADMIR<br><span>Wednesday</span> Style</h1>
-    <div class="line"></div>
-    <p>
-      Тёмная эстетика. Холодный разум.  
-      Аналитика, порядок и контроль — без лишних эмоций.
-    </p>
+  <canvas id="rain"></canvas>
+  <div class="fog"></div>
 
-    <div class="btns">
-      <a href="https://forum.radmir.games" class="btn">Перейти на форум</a>
-      <a href="#about" class="btn alt">О проекте</a>
+  <div class="title">
+    <h2>RADMIR<br><span>Wednesday</span></h2>
+    <p>
+      Холодный контроль.  
+      Тьма. Аналитика. Порядок без эмоций.
+    </p>
+  </div>
+
+  <div class="character">
+    <div class="eyes">
+      <div class="eye"></div>
+      <div class="eye"></div>
     </div>
+  </div>
+
+  <div class="profile">
+    <h1>L-Danlen ❤️</h1>
+    <p>Контроль • Аналитика • Холод</p>
+
+    <div class="stats">
+      <div><strong id="p-total">—</strong><span>ЖБ</span></div>
+      <div><strong id="p-approved">—</strong><span>Одобрено</span></div>
+      <div><strong id="p-rate">—%</strong><span>Эффект</span></div>
+    </div>
+
+    <a href="https://forum.radmir.games/members/l-danlen%E2%9D%A4%EF%B8%8F.739860/" target="_blank">
+      Профиль →
+    </a>
   </div>
 </header>
 
-<section id="about">
-  <div class="section-title">
-    <h2>О Radmir</h2>
-    <p>Строгий порядок в хаосе</p>
-  </div>
+<script>
+/* ===== RAIN ===== */
+const canvas = document.getElementById("rain");
+const ctx = canvas.getContext("2d");
 
-  <div class="grid">
-    <div class="card">
-      <h3>🕷 Атмосфера</h3>
-      <p>
-        Radmir — это место, где важна дисциплина, логика и контроль.
-        Стиль Уэнсдей подчёркивает холодный интеллект и порядок.
-      </p>
-    </div>
+function resize(){
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+}
+resize();
+addEventListener("resize",resize);
 
-    <div class="card">
-      <h3>⚖️ Справедливость</h3>
-      <p>
-        Каждая жалоба — это анализ фактов.
-        Никаких эмоций. Только правила и доказательства.
-      </p>
-    </div>
+let drops = Array.from({length:220},()=>({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  l:Math.random()*20+10,
+  s:Math.random()*5+4
+}));
 
-    <div class="card">
-      <h3>🩸 Контроль</h3>
-      <p>
-        Система держится на тех, кто следит за порядком.
-        Тишина. Холод. Результат.
-      </p>
-    </div>
-  </div>
-</section>
+function rain(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="rgba(180,140,255,.35)";
+  ctx.lineWidth=1;
 
-<section>
-  <div class="section-title">
-    <h2>Цифры</h2>
-    <p>Сухая статистика. Самая честная.</p>
-  </div>
+  drops.forEach(d=>{
+    ctx.beginPath();
+    ctx.moveTo(d.x,d.y);
+    ctx.lineTo(d.x,d.y+d.l);
+    ctx.stroke();
+    d.y+=d.s;
+    if(d.y>canvas.height){
+      d.y=-20;
+      d.x=Math.random()*canvas.width;
+    }
+  });
+  requestAnimationFrame(rain);
+}
+rain();
 
-  <div class="stats">
-    <div class="stat">
-      <div class="num">24/7</div>
-      <span>Активность</span>
-    </div>
+/* ===== EYES FOLLOW CURSOR ===== */
+const eyes=document.querySelectorAll(".eye");
+addEventListener("mousemove",e=>{
+  eyes.forEach(eye=>{
+    const r=eye.getBoundingClientRect();
+    const x=(e.clientX-(r.left+r.width/2))/25;
+    const y=(e.clientY-(r.top+r.height/2))/25;
+    eye.style.transform=`translate(${x}px,${y}px)`;
+  });
+});
 
-    <div class="stat">
-      <div class="num">100%</div>
-      <span>Фокус</span>
-    </div>
+/* ===== PROFILE STATS (BACKEND READY) ===== */
+const API="https://YOUR-BACKEND.onrender.com/api/stats";
 
-    <div class="stat">
-      <div class="num">∞</div>
-      <span>Холодный разум</span>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>
-    © Radmir • Wednesday Style  
-    <br>
-    <strong>Silence is power.</strong>
-  </p>
-</footer>
+async function loadStats(){
+  try{
+    const r=await fetch(API);
+    const d=await r.json();
+    p-total.textContent=d.total;
+    p-approved.textContent=d.approved;
+    p-rate.textContent=Math.round(d.approved/d.total*100);
+  }catch(e){}
+}
+loadStats();
+setInterval(loadStats,60000);
+</script>
 
 </body>
 </html>
