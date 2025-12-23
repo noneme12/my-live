@@ -16,7 +16,6 @@ body {
     background: #000;
     color: #fff;
     font-family: Arial, sans-serif;
-    overflow-x: hidden;
 }
 
 /* HERO */
@@ -29,6 +28,7 @@ body {
     position: relative;
 }
 
+/* затемнение */
 .hero::after {
     content: "";
     position: absolute;
@@ -36,20 +36,21 @@ body {
     background: rgba(0,0,0,0.6);
 }
 
-/* TOP UI */
-.top-ui {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    width: 100%;
+/* HEADER */
+.header {
+    position: relative;
     z-index: 10;
+    height: 80px;
+    display: flex;
+    align-items: center;       /* <<< ВАЖНО: одинаковая высота */
+    justify-content: center;
+    padding: 0 40px;
 }
 
 /* HOME BUTTON */
 .home-btn {
     position: absolute;
     left: 40px;
-    top: 0;
     background: none;
     border: none;
     color: #fff;
@@ -62,16 +63,11 @@ body {
     opacity: 1;
 }
 
-/* LOGO — ВЕРНУЛИ НА МЕСТО */
-.top-logo {
-    display: flex;
-    justify-content: center;
-    margin-top: 60px; /* <<< ключевое */
-}
-
-.top-logo img {
+/* LOGO */
+.logo img {
     width: 90px;
     height: auto;
+    display: block;
     opacity: 0.95;
 }
 
@@ -102,10 +98,9 @@ body {
     text-align: center;
 }
 
-.container h1 {
+h1 {
     font-size: 64px;
     letter-spacing: 12px;
-    margin-bottom: 20px;
 }
 
 .subtitle {
@@ -115,20 +110,21 @@ body {
 
 /* ADAPTIVE */
 @media (max-width: 768px) {
+    .header {
+        height: 70px;
+        padding: 0 20px;
+    }
+
     .home-btn {
         left: 20px;
         font-size: 14px;
     }
 
-    .top-logo {
-        margin-top: 50px;
-    }
-
-    .top-logo img {
+    .logo img {
         width: 70px;
     }
 
-    .container h1 {
+    h1 {
         font-size: 42px;
         letter-spacing: 6px;
     }
@@ -144,10 +140,11 @@ body {
 
 <div class="hero">
 
-    <div class="top-ui">
+    <!-- HEADER -->
+    <div class="header">
         <button class="home-btn" onclick="location.reload()">Главная</button>
 
-        <div class="top-logo">
+        <div class="logo">
             <img src="https://64.media.tumblr.com/e98ae218a806136992c656b616d6258b/fb7d99842bde320e-5f/s250x400/b5fb50503a090739d087a91559f6fbb652c56118.pnj" alt="ФОР">
         </div>
     </div>
