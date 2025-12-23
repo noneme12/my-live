@@ -3,661 +3,2284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контроль уровня опасности</title>
+    <title>Список "Справедливец"</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #0a0a0a;
-            color: #e0e0e0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            line-height: 1.6;
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(120, 0, 0, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(120, 0, 0, 0.1) 0%, transparent 20%);
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
 
+        /* Анимированный фон */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(100px); }
+            50% { transform: translateY(-50px) translateX(-100px); }
+            75% { transform: translateY(100px) translateX(50px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        /* Контейнер */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            background: rgba(20, 20, 40, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-out;
         }
 
-        /* Шапка и навигация */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Хедер */
         header {
-            background-color: #111;
-            border-bottom: 2px solid #8B0000;
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+            background: linear-gradient(to right, rgba(10, 10, 35, 0.9), rgba(30, 20, 60, 0.9));
+            padding: 60px 40px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(74, 123, 255, 0.3);
         }
 
-        .header-container {
+        .header-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(74, 123, 255, 0.4), transparent 70%);
+            border-radius: 50%;
+            top: -150px;
+            right: -100px;
+            animation: glowPulse 4s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 20px rgba(74, 123, 255, 0.7);
+            animation: titleGlow 3s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 10px rgba(74, 123, 255, 0.5); }
+            100% { text-shadow: 0 0 25px rgba(74, 123, 255, 0.9), 0 0 35px rgba(74, 123, 255, 0.5); }
+        }
+
+        .title-icon {
+            color: #ff4757;
+            margin-right: 15px;
+            animation: spin 10s infinite linear;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            line-height: 1.8;
+        }
+
+        .alert-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 71, 87, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 71, 87, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 71, 87, 0.5); }
+        }
+
+        /* Элементы управления */
+        .controls {
+            padding: 25px 40px;
+            background: rgba(30, 30, 60, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .logo {
+        .stats {
             display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-icon {
-            color: #8B0000;
-            font-size: 28px;
-            background-color: rgba(139, 0, 0, 0.1);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-text h1 {
-            color: #fff;
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .logo-text p {
-            color: #aaa;
-            font-size: 14px;
-        }
-
-        /* Меню */
-        nav ul {
-            display: flex;
-            list-style: none;
             gap: 30px;
         }
 
-        nav a {
-            color: #e0e0e0;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        nav a:hover {
-            background-color: rgba(139, 0, 0, 0.2);
-            color: #ff4d4d;
-        }
-
-        nav a.active {
-            background-color: rgba(139, 0, 0, 0.3);
-            color: #ff4d4d;
-            border-left: 3px solid #8B0000;
-        }
-
-        /* Основной контент */
-        .dashboard {
-            margin-top: 40px;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .dashboard-header h2 {
-            color: #fff;
-            font-size: 28px;
+        .stat-item {
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .dashboard-header h2 i {
-            color: #8B0000;
-        }
-
-        /* Карточки статуса */
-        .status-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .status-card {
-            background-color: #151515;
-            border-radius: 8px;
-            padding: 25px;
-            border: 1px solid #333;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .status-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(139, 0, 0, 0.2);
-        }
-
-        .status-card.severe {
-            border-top: 4px solid #ff0000;
-        }
-
-        .status-card.moderate {
-            border-top: 4px solid #ff8c00;
-        }
-
-        .status-card.minor {
-            border-top: 4px solid #00aa00;
-        }
-
-        .status-card .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .status-card h3 {
-            font-size: 18px;
-            color: #fff;
-        }
-
-        .status-card .card-icon {
-            font-size: 24px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .status-card.severe .card-icon {
-            background-color: rgba(255, 0, 0, 0.1);
-            color: #ff0000;
-        }
-
-        .status-card.moderate .card-icon {
-            background-color: rgba(255, 140, 0, 0.1);
-            color: #ff8c00;
-        }
-
-        .status-card.minor .card-icon {
-            background-color: rgba(0, 170, 0, 0.1);
-            color: #00aa00;
-        }
-
-        .status-card .card-value {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .status-card.severe .card-value {
-            color: #ff0000;
-        }
-
-        .status-card.moderate .card-value {
-            color: #ff8c00;
-        }
-
-        .status-card.minor .card-value {
-            color: #00aa00;
-        }
-
-        .status-card .card-description {
+            font-size: 16px;
             color: #aaa;
-            font-size: 14px;
-            line-height: 1.5;
+            transition: all 0.3s;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
         }
 
-        /* Панель управления уровнем опасности */
-        .control-panel {
-            background-color: #151515;
-            border-radius: 8px;
-            padding: 30px;
-            margin-top: 30px;
-            border: 1px solid #333;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .control-panel h3 {
+        .stat-item:hover {
+            background: rgba(74, 123, 255, 0.2);
             color: #fff;
-            font-size: 22px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            transform: translateY(-3px);
         }
 
-        .control-panel h3 i {
-            color: #8B0000;
-        }
-
-        .alert-message {
-            background-color: rgba(139, 0, 0, 0.15);
-            border: 1px solid #8B0000;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .alert-message i {
-            color: #ff4d4d;
+        .stat-item i {
+            color: #4a7bff;
             font-size: 20px;
         }
 
-        .alert-message p {
-            color: #e0e0e0;
-            font-size: 16px;
+        .stat-value {
+            font-weight: 700;
+            color: #fff;
+            font-size: 24px;
+            margin-left: 5px;
         }
 
-        .level-selector {
-            margin: 30px 0;
-        }
-
-        .level-selector p {
-            color: #aaa;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .level-options {
+        .search-filter {
             display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        #searchInput {
+            padding: 14px 20px;
+            border: 2px solid rgba(74, 123, 255, 0.3);
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            width: 300px;
+            transition: all 0.3s;
+            background: rgba(10, 10, 30, 0.8);
+            color: white;
+            font-size: 16px;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: #4a7bff;
+            box-shadow: 0 0 20px rgba(74, 123, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        #searchInput::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #statusFilter {
+            padding: 14px 20px;
+            border: 2px solid rgba(74, 123, 255, 0.3);
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            background: rgba(10, 10, 30, 0.8);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        #statusFilter:focus {
+            outline: none;
+            border-color: #4a7bff;
+            box-shadow: 0 0 20px rgba(74, 123, 255, 0.5);
+        }
+
+        /* Основной контент */
+        main {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(74, 123, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-shadow: 0 0 10px rgba(74, 123, 255, 0.5);
+        }
+
+        .section-title i {
+            color: #ff4757;
+            margin-right: 10px;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sort-btn {
+            background: rgba(74, 123, 255, 0.2);
+            border: 1px solid rgba(74, 123, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            font-weight: 600;
+        }
+
+        .sort-btn:hover {
+            background: rgba(74, 123, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 123, 255, 0.3);
+        }
+
+        .sort-btn.active {
+            background: linear-gradient(45deg, #4a7bff, #6c5ce7);
+            box-shadow: 0 0 20px rgba(74, 123, 255, 0.5);
+        }
+
+        /* Карточки персон */
+        .person-list {
+            margin-bottom: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+            gap: 25px;
+        }
+
+        @media (max-width: 1200px) {
+            .person-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .person-card {
+            background: linear-gradient(145deg, rgba(30, 30, 60, 0.9), rgba(20, 20, 40, 0.9));
+            border-radius: 18px;
+            padding: 30px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: cardAppear 0.6s ease-out;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .person-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff4757, #4a7bff, #6c5ce7);
+        }
+
+        .person-card.severe::before {
+            background: linear-gradient(90deg, #ff4757, #ff3838);
+        }
+
+        .person-card.moderate::before {
+            background: linear-gradient(90deg, #ffa502, #ff7f00);
+        }
+
+        .person-card.minor::before {
+            background: linear-gradient(90deg, #2ed573, #1dd1a1);
+        }
+
+        .person-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: rgba(74, 123, 255, 0.5);
+        }
+
+        .person-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .person-info {
+            display: flex;
+            align-items: center;
             gap: 20px;
             flex-wrap: wrap;
         }
 
-        .level-option {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .level-option input {
-            display: none;
-        }
-
-        .level-option label {
-            display: block;
-            background-color: #222;
-            border: 2px solid #333;
-            border-radius: 6px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .level-option label:hover {
-            background-color: #2a2a2a;
-        }
-
-        .level-option input:checked + label {
-            border-color: #8B0000;
-            background-color: rgba(139, 0, 0, 0.1);
-        }
-
-        .level-option .level-icon {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .level-option.severe label .level-icon {
-            color: #ff0000;
-        }
-
-        .level-option.moderate label .level-icon {
-            color: #ff8c00;
-        }
-
-        .level-option.minor label .level-icon {
-            color: #00aa00;
-        }
-
-        .level-option .level-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #fff;
-        }
-
-        .level-option .level-desc {
-            font-size: 14px;
-            color: #aaa;
-        }
-
-        /* Кнопки действий */
-        .action-buttons {
-            display: flex;
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .btn {
-            padding: 14px 30px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .person-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background-color: #8B0000;
             color: white;
-            flex: 2;
+            font-weight: 800;
+            font-size: 32px;
+            box-shadow: 0 0 30px rgba(106, 17, 203, 0.7);
+            position: relative;
+            overflow: hidden;
+            animation: avatarGlow 3s infinite alternate;
         }
 
-        .btn-primary:hover {
-            background-color: #a30000;
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4);
+        @keyframes avatarGlow {
+            0% { box-shadow: 0 0 20px rgba(106, 17, 203, 0.7); }
+            100% { box-shadow: 0 0 40px rgba(106, 17, 203, 0.9); }
         }
 
-        .btn-secondary {
-            background-color: #333;
-            color: #e0e0e0;
-            flex: 1;
+        .person-avatar.severe {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
         }
 
-        .btn-secondary:hover {
-            background-color: #444;
+        .person-avatar.moderate {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+        }
+
+        .person-avatar.minor {
+            background: linear-gradient(135deg, #1dd1a1, #10ac84);
+        }
+
+        .person-name-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .person-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .person-alias {
+            font-size: 16px;
+            color: #aaa;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .person-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .person-tag {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: tagPulse 2s infinite;
+        }
+
+        @keyframes tagPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .person-tag.severe {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+            color: white;
+        }
+
+        .person-tag.moderate {
+            background: linear-gradient(45deg, #ffa502, #ff7f00);
+            color: white;
+        }
+
+        .person-tag.minor {
+            background: linear-gradient(45deg, #2ed573, #1dd1a1);
+            color: white;
+        }
+
+        .person-tag.status {
+            background: linear-gradient(45deg, #3742fa, #5352ed);
+            color: white;
+        }
+
+        .person-meta {
+            display: flex;
+            gap: 25px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            font-size: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+            transition: all 0.3s;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .meta-item:hover {
+            background: rgba(74, 123, 255, 0.1);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .meta-item i {
+            color: #4a7bff;
+            font-size: 18px;
+        }
+
+        .person-description {
+            font-size: 16px;
+            color: #ddd;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #4a7bff;
+        }
+
+        .person-offenses {
+            margin-top: 25px;
+            position: relative;
+        }
+
+        .offense-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+        }
+
+        .offense-title i {
+            color: #ff4757;
+            animation: shake 2s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .offense-list {
+            list-style-type: none;
+        }
+
+        .offense-item {
+            font-size: 15px;
+            color: #ddd;
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .offense-item:hover {
+            background: rgba(255, 71, 87, 0.05);
+            padding-left: 40px;
+            color: #fff;
+        }
+
+        .offense-item:before {
+            content: "⚡";
+            color: #ff4757;
+            font-weight: bold;
+            position: absolute;
+            left: 10px;
+            font-size: 20px;
+            animation: flash 1s infinite;
+        }
+
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .person-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .action-btn.details {
+            background: linear-gradient(45deg, #4a7bff, #6c5ce7);
+            color: white;
+        }
+
+        .action-btn.details:hover {
+            background: linear-gradient(45deg, #3742fa, #5352ed);
+            box-shadow: 0 10px 25px rgba(74, 123, 255, 0.5);
+        }
+
+        .action-btn.report {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+            color: white;
+        }
+
+        .action-btn.report:hover {
+            background: linear-gradient(45deg, #ff3838, #ff1e1e);
+            box-shadow: 0 10px 25px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Секция контактов с Google Form */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.9), rgba(40, 40, 80, 0.9));
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(74, 123, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .contact-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(74, 123, 255, 0.7);
+        }
+
+        .contact-title i {
+            color: #4a7bff;
+            margin-right: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .contact-text {
+            font-size: 18px;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.8;
+        }
+
+        .google-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(74, 123, 255, 0.2);
+        }
+
+        .google-form-frame {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .privacy-notice {
+            font-size: 13px;
+            color: #aaa;
+            margin-top: 30px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
         }
 
         /* Футер */
         footer {
-            margin-top: 60px;
-            padding: 20px 0;
-            border-top: 1px solid #333;
+            padding: 40px;
             text-align: center;
-            color: #777;
+            color: #aaa;
+            font-size: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(20, 20, 40, 0.9);
+        }
+
+        .tilda-notice {
+            margin-top: 15px;
             font-size: 14px;
         }
 
-        footer a {
-            color: #8B0000;
+        .tilda-link {
+            color: #4a7bff;
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        footer a:hover {
-            text-decoration: underline;
+        .tilda-link:hover {
+            color: #6c5ce7;
+            text-shadow: 0 0 10px rgba(74, 123, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            border: 2px solid rgba(74, 123, 255, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-100px) scale(0.8); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 32px;
+            cursor: pointer;
+            color: #ff4757;
+            background: none;
+            border: none;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 71, 87, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(74, 123, 255, 0.7);
+        }
+
+        /* Анимации для загрузки */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 30, 0.9);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(74, 123, 255, 0.3);
+            border-top: 8px solid #4a7bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loader-text {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(74, 123, 255, 0.7);
+        }
+
+        /* Админ панель */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 4000;
+            color: white;
+            padding: 40px;
+            overflow-y: auto;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #4a7bff;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .admin-tab {
+            padding: 12px 25px;
+            background: rgba(74, 123, 255, 0.2);
+            border: 1px solid rgba(74, 123, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .admin-tab:hover {
+            background: rgba(74, 123, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .admin-tab.active {
+            background: linear-gradient(45deg, #4a7bff, #6c5ce7);
+            box-shadow: 0 0 20px rgba(74, 123, 255, 0.5);
+        }
+
+        .admin-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            min-height: 500px;
+        }
+
+        @media (max-width: 992px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .admin-section {
+            background: rgba(20, 20, 40, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .admin-section h3 {
+            color: #4a7bff;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(74, 123, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .message-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4a7bff;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .message-text {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .admin-form input,
+        .admin-form textarea,
+        .admin-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(74, 123, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-form textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .admin-form button {
+            background: linear-gradient(45deg, #4a7bff, #6c5ce7);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .admin-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(74, 123, 255, 0.5);
+        }
+
+        /* Скрытая кнопка админа */
+        .admin-access-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(74, 123, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(74, 123, 255, 0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+
+        .admin-access-btn:hover {
+            background: rgba(74, 123, 255, 0.4);
+            transform: scale(1.1);
         }
 
         /* Адаптивность */
         @media (max-width: 768px) {
-            .header-container {
+            .container {
+                border-radius: 15px;
+            }
+
+            header, main, footer, .controls {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .controls {
                 flex-direction: column;
-                gap: 20px;
+                align-items: flex-start;
             }
-            
-            nav ul {
+
+            .search-filter {
+                width: 100%;
                 flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
             }
-            
-            .dashboard-header {
+
+            #searchInput {
+                width: 100%;
+            }
+
+            .person-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .person-tags {
+                margin-top: 15px;
+            }
+
+            .contact-section {
+                padding: 30px;
+            }
+
+            .person-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .person-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .section-title {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
-            
-            .level-options {
-                flex-direction: column;
+
+            .section-controls {
+                width: 100%;
+                justify-content: flex-start;
             }
-            
-            .action-buttons {
-                flex-direction: column;
+
+            .admin-panel {
+                padding: 20px;
+            }
+
+            .admin-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div class="logo-text">
-                    <h1>Контроль уровня опасности</h1>
-                    <p>noneme12.github.io</p>
-                </div>
+    <!-- Анимированный фон -->
+    <div class="animated-bg" id="animatedBg"></div>
+
+    <!-- Лоадер -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <div class="loader-text">Загрузка данных...</div>
+    </div>
+
+    <!-- Админ панель -->
+    <div class="admin-panel" id="adminPanel">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="admin-header">
+                <h2 style="color: #4a7bff;">🔐 Админ-панель управления сайтом</h2>
+                <button onclick="closeAdminPanel()" style="background: #ff4757; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-times"></i> Закрыть панель
+                </button>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="active"><i class="fas fa-home"></i>Главная</a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i>Мониторинг</a></li>
-                    <li><a href="#"><i class="fas fa-history"></i>История</a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i>Настройки</a></li>
-                    <li><a href="#"><i class="fas fa-question-circle"></i>Помощь</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-        <div class="dashboard">
-            <div class="dashboard-header">
-                <h2><i class="fas fa-exclamation-triangle"></i>Панель управления системой безопасности</h2>
-                <div class="current-status">
-                    <div class="status-indicator moderate">
-                        <span style="color: #ff8c00; font-weight: bold;">
-                            <i class="fas fa-exclamation-circle"></i> Текущий уровень: moderate
-                        </span>
-                    </div>
-                </div>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="switchAdminTab('messages')">
+                    <i class="fas fa-envelope"></i> Сообщения
+                </button>
+                <button class="admin-tab" onclick="switchAdminTab('users')">
+                    <i class="fas fa-users"></i> Управление пользователями
+                </button>
+                <button class="admin-tab" onclick="switchAdminTab('add')">
+                    <i class="fas fa-plus"></i> Добавить пользователя
+                </button>
+                <button class="admin-tab" onclick="switchAdminTab('settings')">
+                    <i class="fas fa-cog"></i> Настройки
+                </button>
             </div>
-
-            <div class="status-cards">
-                <div class="status-card severe">
-                    <div class="card-header">
-                        <h3>Высокая опасность</h3>
-                        <div class="card-icon">
-                            <i class="fas fa-radiation"></i>
-                        </div>
+            
+            <div class="admin-content">
+                <!-- Сообщения -->
+                <div class="admin-section" id="messagesTab">
+                    <h3><i class="fas fa-inbox"></i> Полученные сообщения</h3>
+                    <div id="messagesList">
+                        <!-- Сообщения будут здесь -->
                     </div>
-                    <div class="card-value">12</div>
-                    <div class="card-description">Количество активных инцидентов высокой опасности в системе</div>
                 </div>
-
-                <div class="status-card moderate">
-                    <div class="card-header">
-                        <h3>Средняя опасность</h3>
-                        <div class="card-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">24</div>
-                    <div class="card-description">Предупреждения и инциденты средней опасности</div>
-                </div>
-
-                <div class="status-card minor">
-                    <div class="card-header">
-                        <h3>Низкая опасность</h3>
-                        <div class="card-icon">
-                            <i class="fas fa-info-circle"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">47</div>
-                    <div class="card-description">Заметки и незначительные события в системе</div>
-                </div>
-            </div>
-
-            <div class="control-panel">
-                <h3><i class="fas fa-sliders-h"></i>Управление уровнем опасности</h3>
                 
-                <div class="alert-message">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <p>Введите новый уровень опасности (severe/moderate/minor):</p>
+                <!-- Управление пользователями -->
+                <div class="admin-section" id="usersTab" style="display: none;">
+                    <h3><i class="fas fa-edit"></i> Редактирование пользователей</h3>
+                    <div id="usersList">
+                        <!-- Список пользователей для редактирования -->
+                    </div>
                 </div>
-
-                <div class="level-selector">
-                    <p>Выберите уровень опасности:</p>
-                    <div class="level-options">
-                        <div class="level-option severe">
-                            <input type="radio" id="severe" name="danger-level" value="severe">
-                            <label for="severe">
-                                <div class="level-icon">
-                                    <i class="fas fa-radiation"></i>
-                                </div>
-                                <div class="level-name">SEVERE</div>
-                                <div class="level-desc">Критический уровень опасности. Требуется немедленное вмешательство.</div>
-                            </label>
+                
+                <!-- Добавление пользователя -->
+                <div class="admin-section" id="addTab" style="display: none;">
+                    <h3><i class="fas fa-user-plus"></i> Добавить нового пользователя</h3>
+                    <form class="admin-form" id="addUserForm">
+                        <input type="text" id="adminUserName" placeholder="Имя пользователя *" required>
+                        <input type="text" id="adminUserAlias" placeholder="Псевдоним / описание">
+                        <textarea id="adminUserDescription" placeholder="Описание нарушений *" required></textarea>
+                        <textarea id="adminUserOffenses" placeholder="Список нарушений (каждое с новой строки)"></textarea>
+                        
+                        <select id="adminUserSeverity" required>
+                            <option value="">Выберите уровень опасности *</option>
+                            <option value="severe">🔴 Высокая опасность</option>
+                            <option value="moderate">🟡 Средняя опасность</option>
+                            <option value="minor">🟢 Низкая опасность</option>
+                        </select>
+                        
+                        <input type="url" id="adminUserPhoto" placeholder="URL фото (необязательно)">
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 20px;">
+                            <button type="submit" style="background: linear-gradient(45deg, #2ed573, #1dd1a1);">
+                                <i class="fas fa-plus"></i> Добавить пользователя
+                            </button>
+                            <button type="button" onclick="addSampleUser()" style="background: linear-gradient(45deg, #ffa502, #ff7f00);">
+                                <i class="fas fa-magic"></i> Добавить пример
+                            </button>
                         </div>
-
-                        <div class="level-option moderate">
-                            <input type="radio" id="moderate" name="danger-level" value="moderate" checked>
-                            <label for="moderate">
-                                <div class="level-icon">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </div>
-                                <div class="level-name">MODERATE</div>
-                                <div class="level-desc">Средний уровень опасности. Требуется повышенное внимание.</div>
-                            </label>
+                    </form>
+                </div>
+                
+                <!-- Настройки -->
+                <div class="admin-section" id="settingsTab" style="display: none;">
+                    <h3><i class="fas fa-tools"></i> Настройки системы</h3>
+                    <div style="display: grid; gap: 25px;">
+                        <div>
+                            <h4 style="color: #4a7bff; margin-bottom: 15px;">📊 Экспорт данных</h4>
+                            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                <button onclick="exportMessages()" style="background: linear-gradient(45deg, #4a7bff, #6c5ce7); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; flex: 1; min-width: 200px;">
+                                    <i class="fas fa-download"></i> Экспорт сообщений
+                                </button>
+                                <button onclick="exportUsers()" style="background: linear-gradient(45deg, #ffa502, #ff7f00); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; flex: 1; min-width: 200px;">
+                                    <i class="fas fa-users"></i> Экспорт пользователей
+                                </button>
+                                <button onclick="exportAllData()" style="background: linear-gradient(45deg, #2ed573, #1dd1a1); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; flex: 1; min-width: 200px;">
+                                    <i class="fas fa-database"></i> Экспорт всех данных
+                                </button>
+                            </div>
                         </div>
-
-                        <div class="level-option minor">
-                            <input type="radio" id="minor" name="danger-level" value="minor">
-                            <label for="minor">
-                                <div class="level-icon">
-                                    <i class="fas fa-info-circle"></i>
-                                </div>
-                                <div class="level-name">MINOR</div>
-                                <div class="level-desc">Низкий уровень опасности. Система работает в штатном режиме.</div>
-                            </label>
+                        
+                        <div>
+                            <h4 style="color: #4a7bff; margin-bottom: 15px;">🗑️ Очистка данных</h4>
+                            <div style="display: flex; gap: 15px;">
+                                <button onclick="clearAllMessages()" style="background: linear-gradient(45deg, #ff4757, #ff3838); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; flex: 1;">
+                                    <i class="fas fa-trash"></i> Очистить все сообщения
+                                </button>
+                                <button onclick="clearAllUsers()" style="background: linear-gradient(45deg, #ff6b81, #ff4757); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; flex: 1;">
+                                    <i class="fas fa-user-slash"></i> Очистить всех пользователей
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: #4a7bff; margin-bottom: 15px;">🔧 Системная информация</h4>
+                            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px;">
+                                <p>📅 Дата последнего обновления: <span id="lastUpdateDate"></span></p>
+                                <p>👥 Всего пользователей в списке: <span id="totalUsersCount"></span></p>
+                                <p>📨 Всего сообщений: <span id="totalMessagesCount"></span></p>
+                                <p>💾 Использовано памяти: <span id="storageUsage"></span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="action-buttons">
-                    <button class="btn btn-primary" id="confirm-btn">
-                        <i class="fas fa-check-circle"></i>OK
-                    </button>
-                    <button class="btn btn-secondary" id="cancel-btn">
-                        <i class="fas fa-times-circle"></i>Скасувати
-                    </button>
-                </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="container">
-        <p>Система контроля уровня опасности &copy; 2023 noneme12.github.io | Версия 2.1.4</p>
-        <p>Все данные защищены. Несанкционированный доступ запрещен.</p>
-    </footer>
+    <!-- Кнопка доступа к админке -->
+    <button class="admin-access-btn" onclick="showAdminPanel()" title="Доступ к админ-панели">
+        <i class="fas fa-eye"></i>
+    </button>
+
+    <div class="container">
+        <header>
+            <div class="header-glow"></div>
+            <h1><i class="fas fa-gavel title-icon"></i> Список "Справедливец"</h1>
+            <p class="subtitle">
+                Список людей замеченных за антиФОРовской деятельностью, дискредитирующей и клевещущей участников объединения.
+            </p>
+            <div class="alert-badge">
+                <i class="fas fa-exclamation-triangle"></i> АКТИВНЫЙ МОНИТОРИНГ
+            </div>
+        </header>
+
+        <div class="controls">
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span>Всего в списке: <span class="stat-value" id="totalCount">2</span></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Активных: <span class="stat-value" id="activeCount">2</span></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-history"></i>
+                    <span>Обновлено: <span class="stat-value" id="updateDate">Сегодня</span></span>
+                </div>
+            </div>
+            
+            <div class="search-filter">
+                <input type="text" id="searchInput" placeholder="🔍 Поиск по имени или описанию...">
+                <select id="statusFilter">
+                    <option value="all">📋 Все статусы</option>
+                    <option value="severe">🔴 Высокая опасность</option>
+                    <option value="moderate">🟡 Средняя опасность</option>
+                    <option value="minor">🟢 Низкая опасность</option>
+                </select>
+                <button class="sort-btn" id="soundToggle">
+                    <i class="fas fa-volume-up"></i> Звук
+                </button>
+            </div>
+        </div>
+
+        <main>
+            <section class="person-list" id="personListContainer">
+                <div class="section-title">
+                    <span><i class="fas fa-skull-crossbones"></i> Неисправимые</span>
+                    <div class="section-controls">
+                        <button class="sort-btn active" data-sort="date">📅 По дате</button>
+                        <button class="sort-btn" data-sort="severity">⚠️ По опасности</button>
+                        <button class="sort-btn" data-sort="name">🔤 По имени</button>
+                        <button class="sort-btn" id="addDemoBtn">
+                            <i class="fas fa-plus"></i> Демо
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Карточки пользователей будут добавляться сюда через JavaScript -->
+            </section>
+
+            <section class="contact-section">
+                <h3 class="contact-title"><i class="fas fa-comments"></i> Свяжитесь с нами по любым вопросам</h3>
+                <p class="contact-text">
+                    Мы всегда рады обратной связи, будь то негатив или позитив. Сообщите о новом нарушителе или предоставьте дополнительную информацию.
+                </p>
+                
+                <div class="google-form-container">
+                    <iframe class="google-form-frame" 
+                            src="https://docs.google.com/forms/d/e/1FAIpQLSf2iOLB7fWwG3gr8jkC_IHhObEL6Td4scQmOwBO7bhtUj1O3Q/viewform?embedded=true"
+                            frameborder="0" 
+                            marginheight="0" 
+                            marginwidth="0">
+                        Загрузка формы...
+                    </iframe>
+                </div>
+                
+                <p class="privacy-notice">
+                    <i class="fas fa-shield-alt"></i> Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c политикой конфиденциальности
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>This site was made on Tilda — a website builder that helps to create a website without any code</p>
+                <p class="tilda-notice">
+                    <a href="https://tilda.cc/?utm_source=public&utm_medium=link&utm_campaign=spravedlivec" target="_blank" class="tilda-link">
+                        <i class="fas fa-external-link-alt"></i> Create a website
+                    </a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Модальное окно для деталей пользователя -->
+    <div class="modal" id="personModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title" id="modalPersonName"></h3>
+            <div id="modalPersonContent"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для сообщения о нарушении -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeReportModal()">&times;</button>
+            <h3 class="modal-title">Сообщить о нарушении</h3>
+            <div id="reportModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Аудио элементы -->
+    <audio id="soundAlert" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundWarning" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-958.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundInfo" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundSuccess" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        // Обработка выбора уровня опасности
-        const levelOptions = document.querySelectorAll('.level-option input');
-        const confirmBtn = document.getElementById('confirm-btn');
-        const cancelBtn = document.getElementById('cancel-btn');
-        const currentStatus = document.querySelector('.current-status .status-indicator');
-        
-        // Функция обновления текущего статуса
-        function updateCurrentStatus(level) {
-            let statusText, statusColor, statusIcon;
+        // ===================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====================
+        let soundEnabled = true;
+        let demoAdded = false;
+        let allMessages = [];
+        let allUsers = [];
+        let currentAdminTab = 'messages';
+
+        // ===================== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Показать лоадер
+            showLoader();
             
-            switch(level) {
-                case 'severe':
-                    statusText = 'severe';
-                    statusColor = '#ff0000';
-                    statusIcon = 'fa-radiation';
-                    break;
-                case 'moderate':
-                    statusText = 'moderate';
-                    statusColor = '#ff8c00';
-                    statusIcon = 'fa-exclamation-circle';
-                    break;
-                case 'minor':
-                    statusText = 'minor';
-                    statusColor = '#00aa00';
-                    statusIcon = 'fa-info-circle';
-                    break;
+            // Создать анимированный фон
+            createParticles();
+            
+            // Загрузить данные из localStorage
+            loadAllData();
+            
+            // Инициализировать поиск и фильтры
+            initSearch();
+            
+            // Инициализировать сортировку
+            initSorting();
+            
+            // Инициализировать звуковой тоггл
+            initSoundToggle();
+            
+            // Инициализировать демо-кнопку
+            initDemoButton();
+            
+            // Установить дату обновления
+            setUpdateDate();
+            
+            // Скрыть лоадер
+            setTimeout(hideLoader, 1500);
+            
+            // Запустить анимацию входа
+            animateEntrance();
+        });
+
+        // ===================== ФУНКЦИИ ДЛЯ ФОНА И АНИМАЦИЙ =====================
+        function createParticles() {
+            const bg = document.getElementById('animatedBg');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 100 + 20;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 30 + 20;
+                const delay = Math.random() * 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.opacity = Math.random() * 0.1 + 0.05;
+                
+                bg.appendChild(particle);
+            }
+        }
+
+        function animateEntrance() {
+            const container = document.querySelector('.container');
+            container.style.animation = 'fadeIn 1s ease-out';
+        }
+
+        function showLoader() {
+            document.getElementById('loader').style.display = 'flex';
+        }
+
+        function hideLoader() {
+            document.getElementById('loader').style.display = 'none';
+        }
+
+        // ===================== ФУНКЦИИ ДЛЯ ЗАГРУЗКИ И СОХРАНЕНИЯ ДАННЫХ =====================
+        function loadAllData() {
+            // Загружаем сообщения
+            const savedMessages = localStorage.getItem('spravedlivec_messages');
+            allMessages = savedMessages ? JSON.parse(savedMessages) : [];
+            
+            // Загружаем пользователей
+            const savedUsers = localStorage.getItem('spravedlivec_users');
+            allUsers = savedUsers ? JSON.parse(savedUsers) : [];
+            
+            // Если нет пользователей, добавляем демо-данные
+            if (allUsers.length === 0) {
+                addDemoUsers();
             }
             
-            currentStatus.innerHTML = `<span style="color: ${statusColor}; font-weight: bold;">
-                <i class="fas ${statusIcon}"></i> Текущий уровень: ${statusText}
-            </span>`;
+            // Отображаем пользователей
+            renderUsers();
             
-            // Показываем уведомление
-            showNotification(`Уровень опасности изменен на: ${statusText}`);
+            // Обновляем статистику
+            updateStats();
         }
-        
-        // Функция показа уведомления
-        function showNotification(message) {
-            // Создаем элемент уведомления
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <div style="position: fixed; top: 100px; right: 20px; background-color: #151515; 
-                border-left: 4px solid #8B0000; padding: 15px 20px; border-radius: 4px; 
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000; min-width: 300px;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-check-circle" style="color: #8B0000;"></i>
-                        <span>${message}</span>
+
+        function saveAllData() {
+            localStorage.setItem('spravedlivec_messages', JSON.stringify(allMessages));
+            localStorage.setItem('spravedlivec_users', JSON.stringify(allUsers));
+        }
+
+        function addDemoUsers() {
+            allUsers = [
+                {
+                    id: 1,
+                    name: 'Горбун',
+                    alias: 'многочисленные ФА',
+                    description: 'Регулярные оскорбления членов объединения, поддержка оскорблений в адрес членов объединения, попытка слива членов объединения, поддержка слива членов объединения.',
+                    offenses: [
+                        'Регулярные оскорбления членов объединения',
+                        'Поддержка оскорблений в адрес членов объединения',
+                        'Попытка слива членов объединения',
+                        'Поддержка слива членов объединения',
+                        'Распространение ложной информации о ФОР',
+                        'Создание фейковых аккаунтов для провокаций',
+                        'Попытка внедрения в ряды объединения',
+                        'Координация антиФОРовской деятельности'
+                    ],
+                    severity: 'severe',
+                    date: '15.10.2023',
+                    active: true,
+                    photo: null
+                },
+                {
+                    id: 2,
+                    name: 'Daniel_Benzo',
+                    alias: 'бывший участник',
+                    description: 'Поддержка антиФОРовской деятельности, бросание в трудную минуту, насмехательство и дискредитация, помощь врагу приведшей к срыву жалобы.',
+                    offenses: [
+                        'Поддержка антиФОРовской деятельности',
+                        'Бросание в трудную минуту',
+                        'Насмехательство и дискредитация',
+                        'Помощь врагу приведшей к срыву жалобы',
+                        'Распространение внутренней информации'
+                    ],
+                    severity: 'moderate',
+                    date: '05.11.2023',
+                    active: true,
+                    photo: null
+                }
+            ];
+            
+            saveAllData();
+        }
+
+        // ===================== ФУНКЦИИ ДЛЯ ОТОБРАЖЕНИЯ ПОЛЬЗОВАТЕЛЕЙ =====================
+        function renderUsers() {
+            const container = document.getElementById('personListContainer');
+            
+            // Очищаем контейнер, кроме заголовка
+            const title = container.querySelector('.section-title');
+            container.innerHTML = '';
+            container.appendChild(title);
+            
+            // Добавляем карточки пользователей
+            allUsers.forEach(user => {
+                const userCard = createUserCard(user);
+                container.appendChild(userCard);
+            });
+            
+            updateStats();
+        }
+
+        function createUserCard(user) {
+            const card = document.createElement('div');
+            card.className = `person-card ${user.severity}`;
+            card.dataset.severity = user.severity;
+            card.dataset.date = user.date;
+            card.dataset.userId = user.id;
+            
+            const severityText = {
+                'severe': '🔴 Высокая опасность',
+                'moderate': '🟡 Средняя опасность', 
+                'minor': '🟢 Низкая опасность'
+            };
+            
+            const avatarContent = user.photo 
+                ? `<img src="${user.photo}" alt="${user.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`
+                : user.name.charAt(0);
+            
+            card.innerHTML = `
+                <div class="person-header">
+                    <div class="person-info">
+                        <div class="person-avatar ${user.severity}">${avatarContent}</div>
+                        <div class="person-name-container">
+                            <div class="person-name">${user.name}</div>
+                            <div class="person-alias">${user.alias || 'нет описания'}</div>
+                        </div>
                     </div>
+                    <div class="person-tags">
+                        <span class="person-tag ${user.severity}">${severityText[user.severity]}</span>
+                        <span class="person-tag status">${user.active ? '📝 В списке' : '👁 Наблюдение'}</span>
+                    </div>
+                </div>
+                
+                <div class="person-meta">
+                    <div class="meta-item">
+                        <i class="far fa-calendar"></i>
+                        <span>Добавлен: ${user.date}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Нарушений: ${user.offenses ? user.offenses.length : 0}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Активность: ${user.active ? 'Активен' : 'Не активен'}</span>
+                    </div>
+                </div>
+                
+                <div class="person-description">
+                    <i class="fas fa-info-circle" style="color: #4a7bff; margin-right: 10px;"></i>
+                    ${user.description || 'Описание отсутствует.'}
+                </div>
+                
+                ${user.offenses && user.offenses.length > 0 ? `
+                <div class="person-offenses">
+                    <div class="offense-title">
+                        <i class="fas fa-radiation-alt"></i>
+                        Нарушения
+                    </div>
+                    <ul class="offense-list">
+                        ${user.offenses.map(offense => `<li class="offense-item">${offense}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                <div class="person-actions">
+                    <button class="action-btn details" onclick="showPersonDetails(${user.id})">
+                        <i class="fas fa-search"></i> Подробнее
+                    </button>
+                    <button class="action-btn report" onclick="reportNewInfo('${user.name}')">
+                        <i class="fas fa-flag"></i> Сообщить
+                    </button>
                 </div>
             `;
             
-            document.body.appendChild(notification);
-            
-            // Удаляем уведомление через 3 секунды
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
+            return card;
         }
-        
-        // Обработка клика по кнопке подтверждения
-        confirmBtn.addEventListener('click', () => {
-            const selectedLevel = document.querySelector('input[name="danger-level"]:checked').value;
-            updateCurrentStatus(selectedLevel);
-        });
-        
-        // Обработка клика по кнопке отмены
-        cancelBtn.addEventListener('click', () => {
-            // Сбрасываем выбор на moderate (текущий уровень)
-            document.getElementById('moderate').checked = true;
-            showNotification('Изменения отменены. Уровень опасности не изменен.');
-        });
-        
-        // Инициализация - moderate выбран по умолчанию
-        document.getElementById('moderate').checked = true;
-        
-        // Добавляем интерактивность для выбора уровней
-        levelOptions.forEach(option => {
-            option.addEventListener('change', function() {
-                // Убираем предыдущие выделения
-                document.querySelectorAll('.level-option label').forEach(label => {
-                    label.style.boxShadow = 'none';
-                });
+
+        // ===================== ФУНКЦИИ ПОИСКА И СОРТИРОВКИ =====================
+        function initSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            
+            searchInput.addEventListener('input', filterPersons);
+            statusFilter.addEventListener('change', filterPersons);
+        }
+
+        function filterPersons() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            document.querySelectorAll('.person-card').forEach(card => {
+                const personName = card.querySelector('.person-name').textContent.toLowerCase();
+                const personAlias = card.querySelector('.person-alias').textContent.toLowerCase();
+                const personDescription = card.querySelector('.person-description').textContent.toLowerCase();
+                const personSeverity = card.dataset.severity;
                 
-                // Подсвечиваем выбранный вариант
-                if (this.checked) {
-                    const label = this.nextElementSibling;
-                    label.style.boxShadow = '0 0 0 2px #8B0000';
+                const matchesSearch = personName.includes(searchTerm) || 
+                                     personAlias.includes(searchTerm) || 
+                                     personDescription.includes(searchTerm);
+                
+                const matchesStatus = statusFilter === 'all' || personSeverity === statusFilter;
+                
+                if (matchesSearch && matchesStatus) {
+                    card.style.display = 'block';
+                    card.classList.add('animate__animated', 'animate__fadeIn');
+                    setTimeout(() => {
+                        card.classList.remove('animate__animated', 'animate__fadeIn');
+                    }, 500);
+                } else {
+                    card.style.display = 'none';
                 }
             });
-        });
+            
+            updateStats();
+            
+            if (searchTerm.length > 0) {
+                playSound('info');
+            }
+        }
+
+        function initSorting() {
+            const sortButtons = document.querySelectorAll('.sort-btn[data-sort]');
+            sortButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                    
+                    sortButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    sortPersons(this.dataset.sort);
+                    
+                    if (soundEnabled) playSound('info');
+                });
+            });
+        }
+
+        function sortPersons(sortBy) {
+            const container = document.getElementById('personListContainer');
+            const cards = Array.from(container.querySelectorAll('.person-card:not([style*="display: none"])'));
+            
+            cards.sort((a, b) => {
+                switch(sortBy) {
+                    case 'name':
+                        const nameA = a.querySelector('.person-name').textContent.toLowerCase();
+                        const nameB = b.querySelector('.person-name').textContent.toLowerCase();
+                        return nameA.localeCompare(nameB);
+                    
+                    case 'severity':
+                        const severityOrder = { severe: 0, moderate: 1, minor: 2 };
+                        const severityA = severityOrder[a.dataset.severity] || 3;
+                        const severityB = severityOrder[b.dataset.severity] || 3;
+                        return severityA - severityB;
+                    
+                    case 'date':
+                    default:
+                        const dateA = new Date(a.dataset.date.split('.').reverse().join('-'));
+                        const dateB = new Date(b.dataset.date.split('.').reverse().join('-'));
+                        return dateB - dateA;
+                }
+            });
+            
+            cards.forEach(card => {
+                container.appendChild(card);
+                card.classList.add('animate__animated', 'animate__fadeIn');
+                setTimeout(() => {
+                    card.classList.remove('animate__animated', 'animate__fadeIn');
+                }, 500);
+            });
+        }
+
+        // ===================== ФУНКЦИИ СТАТИСТИКИ =====================
+        function updateStats() {
+            const visibleCards = document.querySelectorAll('.person-card:not([style*="display: none"])').length;
+            document.getElementById('totalCount').textContent = visibleCards;
+            document.getElementById('activeCount').textContent = visibleCards;
+            
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(value => {
+                value.classList.add('animate__animated', 'animate__pulse');
+                setTimeout(() => {
+                    value.classList.remove('animate__animated', 'animate__pulse');
+                }, 500);
+            });
+        }
+
+        function setUpdateDate() {
+            const now = new Date();
+            const options = { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            const dateStr = now.toLocaleDateString('ru-RU', options);
+            document.getElementById('updateDate').textContent = dateStr;
+        }
+
+        // ===================== ФУНКЦИИ ЗВУКА =====================
+        function initSoundToggle() {
+            const soundToggle = document.getElementById('soundToggle');
+            soundToggle.addEventListener('click', function() {
+                soundEnabled = !soundEnabled;
+                
+                if (soundEnabled) {
+                    this.innerHTML = '<i class="fas fa-volume-up"></i> Звук ВКЛ';
+                    this.style.background = 'linear-gradient(45deg, #4a7bff, #6c5ce7)';
+                    playSound('info');
+                } else {
+                    this.innerHTML = '<i class="fas fa-volume-mute"></i> Звук ВЫКЛ';
+                    this.style.background = 'linear-gradient(45deg, #666, #444)';
+                }
+            });
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            
+            const soundMap = {
+                'alert': document.getElementById('soundAlert'),
+                'warning': document.getElementById('soundWarning'),
+                'info': document.getElementById('soundInfo'),
+                'success': document.getElementById('soundSuccess')
+            };
+            
+            if (soundMap[type]) {
+                soundMap[type].currentTime = 0;
+                soundMap[type].play().catch(e => console.log("Audio play failed:", e));
+            }
+        }
+
+        // ===================== ДЕМО-РЕЖИМ =====================
+        function initDemoButton() {
+            const addDemoBtn = document.getElementById('addDemoBtn');
+            addDemoBtn.addEventListener('click', function() {
+                if (!demoAdded) {
+                    addDemoUser();
+                    demoAdded = true;
+                    this.innerHTML = '<i class="fas fa-check"></i> Демо добавлено';
+                    this.style.background = 'linear-gradient(45deg, #2ed573, #1dd1a1)';
+                    playSound('success');
+                } else {
+                    playSound('warning');
+                }
+            });
+        }
+
+        function addDemoUser() {
+            const demoUser = {
+                id: Date.now(),
+                name: 'Критик',
+                alias: 'неоднозначный участник',
+                description: 'Неоднозначные высказывания о деятельности объединения, критика без предложения альтернатив. Возможен конструктивный диалог.',
+                offenses: [
+                    'Публичная критика методов объединения',
+                    'Сомнения в эффективности ФОР',
+                    'Пассивное сопротивление инициативам',
+                    'Распространение скептицизма среди новичков'
+                ],
+                severity: 'minor',
+                date: new Date().toLocaleDateString('ru-RU'),
+                active: true,
+                photo: null
+            };
+            
+            allUsers.push(demoUser);
+            saveAllData();
+            renderUsers();
+            
+            setTimeout(() => {
+                const newCard = document.querySelector(`[data-user-id="${demoUser.id}"]`);
+                if (newCard) {
+                    newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 300);
+        }
+
+        // ===================== МОДАЛЬНЫЕ ОКНА =====================
+        function showPersonDetails(userId) {
+            playSound('info');
+            
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+            
+            const modal = document.getElementById('personModal');
+            const modalPersonName = document.getElementById('modalPersonName');
+            const modalPersonContent = document.getElementById('modalPersonContent');
+            
+            modalPersonName.textContent = user.name;
+            
+            const severityText = {
+                'severe': '🔴 ВЫСОКАЯ ОПАСНОСТЬ',
+                'moderate': '🟡 СРЕДНЯЯ ОПАСНОСТЬ', 
+                'minor': '🟢 НИЗКАЯ ОПАСНОСТЬ'
+            };
+            
+            const severityColor = {
+                'severe': '#ff4757',
+                'moderate': '#ffa502', 
+                'minor': '#2ed573'
+            };
+            
+            modalPersonContent.innerHTML = `
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div class="person-avatar ${user.severity}" style="margin: 0 auto; width: 120px; height: 120px; font-size: 48px;">
+                        ${user.photo ? `<img src="${user.photo}" alt="${user.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : user.name.charAt(0)}
+                    </div>
+                </div>
+                
+                <div class="person-meta" style="background: rgba(${user.severity === 'severe' ? '255,71,87' : user.severity === 'moderate' ? '255,165,2' : '46,213,115'}, 0.1);">
+                    <div class="meta-item">
+                        <i class="far fa-calendar"></i>
+                        <span><strong>Добавлен:</strong> ${user.date}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span><strong>Уровень опасности:</strong> ${severityText[user.severity]}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-user-friends"></i>
+                        <span><strong>Статус:</strong> ${user.active ? 'Активный' : 'Не активен'}</span>
+                    </div>
+                </div>
+                
+                <div style="margin: 30px 0;">
+                    <h4 style="color: ${severityColor[user.severity]}; margin-bottom: 15px; border-bottom: 2px solid rgba(${user.severity === 'severe' ? '255,71,87' : user.severity === 'moderate' ? '255,165,2' : '46,213,115'}, 0.3); padding-bottom: 10px;">
+                        <i class="fas fa-info-circle"></i> Описание
+                    </h4>
+                    <p style="color: #ddd; line-height: 1.8; font-size: 16px;">
+                        ${user.description || 'Описание отсутствует.'}
+                    </p>
+                </div>
+                
+                ${user.offenses && user.offenses.length > 0 ? `
+                <div style="margin: 30px 0;">
+                    <h4 style="color: ${severityColor[user.severity]}; margin-bottom: 15px; border-bottom: 2px solid rgba(${user.severity === 'severe' ? '255,71,87' : user.severity === 'moderate' ? '255,165,2' : '46,213,115'}, 0.3); padding-bottom: 10px;">
+                        <i class="fas fa-ban"></i> Нарушения (${user.offenses.length})
+                    </h4>
+                    <ul style="color: #ddd; line-height: 1.8; font-size: 16px; padding-left: 20px;">
+                        ${user.offenses.map(offense => `<li style="margin-bottom: 10px;">${offense}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                <div style="margin: 30px 0; padding: 20px; background: rgba(${user.severity === 'severe' ? '255,71,87' : user.severity === 'moderate' ? '255,165,2' : '46,213,115'}, 0.05); border-radius: 12px; border-left: 4px solid ${severityColor[user.severity]};">
+                    <h4 style="color: ${severityColor[user.severity]}; margin-bottom: 15px;">
+                        <i class="fas fa-exclamation-triangle"></i> Рекомендации
+                    </h4>
+                    <p style="color: #ddd; line-height: 1.8; font-size: 16px;">
+                        ${user.severity === 'severe' 
+                            ? 'Избегать любых контактов. Не вступать в полемику. Любую информацию, исходящую от данного индивидуума, считать заведомо ложной.' 
+                            : user.severity === 'moderate'
+                            ? 'Любую информацию перепроверять через надежные источники. Ограничить доступ к внутренним каналам коммуникации.'
+                            : 'Наблюдать за активностью. Возможен конструктивный диалог при изменении тональности высказываний.'
+                        }
+                    </p>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function reportNewInfo(personName) {
+            playSound('warning');
+            
+            const modal = document.getElementById('reportModal');
+            const modalContent = document.getElementById('reportModalContent');
+            
+            modalContent.innerHTML = `
+                <p style="color: #ddd; margin-bottom: 20px; text-align: center;">
+                    Для сообщения о нарушении со стороны <strong>${personName}</strong> 
+                    используйте форму обратной связи ниже.
+                </p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf2iOLB7fWwG3gr8jkC_IHhObEL6Td4scQmOwBO7bhtUj1O3Q/viewform?usp=pp_url&entry.1234567890=${encodeURIComponent(personName)}" 
+                       target="_blank" 
+                       style="background: linear-gradient(45deg, #4a7bff, #6c5ce7); color: white; padding: 15px 30px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; font-size: 16px;">
+                        <i class="fas fa-external-link-alt"></i> Перейти к форме жалобы
+                    </a>
+                </div>
+                
+                <p style="color: #aaa; font-size: 14px; text-align: center;">
+                    Форма откроется в новой вкладке. Укажите имя нарушителя в соответствующем поле формы.
+                </p>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button onclick="closeReportModal()" style="background: #666; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">
+                        <i class="fas fa-times"></i> Закрыть
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('personModal');
+            modal.style.animation = 'modalFadeIn 0.3s ease-out reverse';
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.animation = 'modalFadeIn 0.3s ease-out';
+            }, 300);
+        }
+
+        function closeReportModal() {
+            const modal = document.getElementById('reportModal');
+            modal.style.animation = 'modalFadeIn 0.3s ease-out reverse';
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.animation = 'modalFadeIn 0.3s ease-out';
+            }, 300);
+        }
+
+        // Закрытие модальных окон при клике вне их
+        window.onclick = function(event) {
+            const personModal = document.getElementById('personModal');
+            const reportModal = document.getElementById('reportModal');
+            
+            if (event.target === personModal) closeModal();
+            if (event.target === reportModal) closeReportModal();
+        }
+
+        // ===================== АДМИН ПАНЕЛЬ =====================
+        function showAdminPanel() {
+            const password = prompt('Введите пароль для доступа к админ-панели:');
+            if (password === 'admin123') {
+                loadAllData();
+                renderAdminPanel();
+                document.getElementById('adminPanel').style.display = 'block';
+                updateSystemInfo();
+            } else {
+                alert('⚠️ Неверный пароль!');
+            }
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        function switchAdminTab(tabName) {
+            currentAdminTab = tabName;
+            
+            // Обновляем активные табы
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.admin-tab[onclick="switchAdminTab('${tabName}')"]`).classList.add('active');
+            
+            // Показываем выбранный контент
+            document.getElementById('messagesTab').style.display = tabName === 'messages' ? 'block' : 'none';
+            document.getElementById('usersTab').style.display = tabName === 'users' ? 'block' : 'none';
+            document.getElementById('addTab').style.display = tabName === 'add' ? 'block' : 'none';
+            document.getElementById('settingsTab').style.display = tabName === 'settings' ? 'block' : 'none';
+            
+            // Обновляем контент таба
+            if (tabName === 'messages') {
+                renderMessagesList();
+            } else if (tabName === 'users') {
+                renderUsersListForEdit();
+            }
+        }
+
+        function renderAdminPanel() {
+            renderMessagesList();
+            
+            // Инициализируем форму добавления пользователя
+            document.getElementById('addUserForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNewUserFromForm();
+            });
+        }
+
+        function renderMessagesList() {
+            const container = document.getElementById('messagesList');
+            
+            if (allMessages.length === 0) {
+                container.innerHTML = '<p style="color: #aaa; text-align: center; padding: 40px;">Нет полученных сообщений</p>';
+                return;
+            }
+            
+            let html = '';
+            allMessages.forEach(msg => {
+                html += `
+                    <div class="message-item">
+                        <div class="message-header">
+                            <span><i class="fas fa-user"></i> ${msg.name || 'Аноним'}</span>
+                            <span><i class="far fa-clock"></i> ${msg.date || 'Неизвестно'}</span>
+                        </div>
+                        <div class="message-text">
+                            <strong>Тема:</strong> ${msg.subject || 'Без темы'}<br>
+                            <strong>Сообщение:</strong> ${msg.message}
+                        </div>
+                        <div class="message-actions">
+                            <button onclick="deleteMessage(${msg.id})" style="background: rgba(255,71,87,0.2); color: #ff4757; border: 1px solid #ff4757; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                <i class="fas fa-trash"></i> Удалить
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function renderUsersListForEdit() {
+            const container = document.getElementById('usersList');
+            
+            if (allUsers.length === 0) {
+                container.innerHTML = '<p style="color: #aaa; text-align: center; padding: 40px;">Нет пользователей в списке</p>';
+                return;
+            }
+            
+            let html = '<div style="display: grid; gap: 15px;">';
+            allUsers.forEach(user => {
+                html += `
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border-left: 4px solid ${user.severity === 'severe' ? '#ff4757' : user.severity === 'moderate' ? '#ffa502' : '#2ed573'};">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h4 style="color: #fff; margin: 0;">${user.name}</h4>
+                            <div style="display: flex; gap: 10px;">
+                                <button onclick="editUser(${user.id})" style="background: rgba(74,123,255,0.2); color: #4a7bff; border: 1px solid #4a7bff; padding: 8px 15px; border-radius: 6px; cursor: pointer;">
+                                    <i class="fas fa-edit"></i> Редактировать
+                                </button>
+                                <button onclick="deleteUser(${user.id})" style="background: rgba(255,71,87,0.2); color: #ff4757; border: 1px solid #ff4757; padding: 8px 15px; border-radius: 6px; cursor: pointer;">
+                                    <i class="fas fa-trash"></i> Удалить
+                                </button>
+                            </div>
+                        </div>
+                        <p style="color: #aaa; margin: 0;">${user.alias || 'Нет описания'} | ${user.severity === 'severe' ? '🔴 Высокая опасность' : user.severity === 'moderate' ? '🟡 Средняя опасность' : '🟢 Низкая опасность'}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+
+        function deleteMessage(messageId) {
+            if (confirm('Вы уверены, что хотите удалить это сообщение?')) {
+                allMessages = allMessages.filter(msg => msg.id !== messageId);
+                saveAllData();
+                renderMessagesList();
+                playSound('success');
+            }
+        }
+
+        function addNewUserFromForm() {
+            const name = document.getElementById('adminUserName').value.trim();
+            const alias = document.getElementById('adminUserAlias').value.trim();
+            const description = document.getElementById('adminUserDescription').value.trim();
+            const offensesText = document.getElementById('adminUserOffenses').value.trim();
+            const severity = document.getElementById('adminUserSeverity').value;
+            const photo = document.getElementById('adminUserPhoto').value.trim();
+            
+            if (!name || !description || !severity) {
+                alert('Пожалуйста, заполните все обязательные поля (отмечены *)');
+                return;
+            }
+            
+            const offenses = offensesText ? offensesText.split('\n').filter(line => line.trim()) : [];
+            
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                alias: alias,
+                description: description,
+                offenses: offenses,
+                severity: severity,
+                date: new Date().toLocaleDateString('ru-RU'),
+                active: true,
+                photo: photo || null
+            };
+            
+            allUsers.push(newUser);
+            saveAllData();
+            renderUsers();
+            
+            // Очищаем форму
+            document.getElementById('addUserForm').reset();
+            
+            // Показываем уведомление
+            alert('✅ Пользователь добавлен в список!');
+            playSound('success');
+            
+            // Переключаемся на список пользователей
+            switchAdminTab('users');
+        }
+
+        function addSampleUser() {
+            const sampleUsers = [
+                {
+                    name: 'Предатель',
+                    alias: 'бывший соратник',
+                    description: 'Использовал доверие сообщества для личной выгоды, передавал конфиденциальную информацию третьим лицам.',
+                    offenses: ['Нарушение конфиденциальности', 'Использование служебного положения', 'Распространение внутренней информации'],
+                    severity: 'severe'
+                },
+                {
+                    name: 'Провокатор',
+                    alias: 'скрытый агент',
+                    description: 'Создает искусственные конфликты внутри объединения, манипулирует мнением участников.',
+                    offenses: ['Создание искусственных конфликтов', 'Психологические манипуляции', 'Распространение дезинформации'],
+                    severity: 'moderate'
+                }
+            ];
+            
+            const sample = sampleUsers[Math.floor(Math.random() * sampleUsers.length)];
+            
+            document.getElementById('adminUserName').value = sample.name;
+            document.getElementById('adminUserAlias').value = sample.alias;
+            document.getElementById('adminUserDescription').value = sample.description;
+            document.getElementById('adminUserOffenses').value = sample.offenses.join('\n');
+            document.getElementById('adminUserSeverity').value = sample.severity;
+            
+            playSound('info');
+        }
+
+        function editUser(userId) {
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+            
+            const newName = prompt('Введите новое имя:', user.name);
+            if (!newName) return;
+            
+            const newAlias = prompt('Введите новый псевдоним:', user.alias || '');
+            const newDescription = prompt('Введите новое описание:', user.description || '');
+            const newSeverity = prompt('Введите новый уровень опасности (severe/moderate/minor):', user.severity);
+            
+            if (newSeverity && !['severe', 'moderate', 'minor'].includes(newSeverity)) {
+                alert('Неверный уровень опасности! Используйте: severe, moderate или minor');
+                return;
+            }
+            
+            user.name = newName;
+            user.alias = newAlias;
+            if (newDescription) user.description = newDescription;
+            if (newSeverity) user.severity = newSeverity;
+            
+            saveAllData();
+            renderUsers();
+            renderUsersListForEdit();
+            
+            alert('✅ Пользователь обновлен!');
+            playSound('success');
+        }
+
+        function deleteUser(userId) {
+            if (confirm('Вы уверены, что хотите удалить этого пользователя из списка?')) {
+                allUsers = allUsers.filter(u => u.id !== userId);
+                saveAllData();
+                renderUsers();
+                renderUsersListForEdit();
+                
+                alert('✅ Пользователь удален!');
+                playSound('success');
+            }
+        }
+
+        // ===================== ЭКСПОРТ И ИМПОРТ ДАННЫХ =====================
+        function exportMessages() {
+            const dataStr = JSON.stringify(allMessages, null, 2);
+            downloadJSON(dataStr, 'spravedlivec_messages.json');
+            playSound('success');
+        }
+
+        function exportUsers() {
+            const dataStr = JSON.stringify(allUsers, null, 2);
+            downloadJSON(dataStr, 'spravedlivec_users.json');
+            playSound('success');
+        }
+
+        function exportAllData() {
+            const allData = {
+                messages: allMessages,
+                users: allUsers,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(allData, null, 2);
+            downloadJSON(dataStr, 'spravedlivec_all_data.json');
+            playSound('success');
+        }
+
+        function downloadJSON(dataStr, filename) {
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const link = document.createElement('a');
+            link.setAttribute('href', dataUri);
+            link.setAttribute('download', filename);
+            link.click();
+            
+            alert(`✅ Данные экспортированы в файл: ${filename}`);
+        }
+
+        function clearAllMessages() {
+            if (confirm('ВНИМАНИЕ! Вы собираетесь удалить ВСЕ сообщения. Это действие нельзя отменить. Продолжить?')) {
+                allMessages = [];
+                saveAllData();
+                renderMessagesList();
+                updateSystemInfo();
+                
+                alert('✅ Все сообщения удалены!');
+                playSound('success');
+            }
+        }
+
+        function clearAllUsers() {
+            if (confirm('ВНИМАНИЕ! Вы собираетесь удалить ВСЕХ пользователей из списка. Это действие нельзя отменить. Продолжить?')) {
+                allUsers = [];
+                saveAllData();
+                renderUsers();
+                renderUsersListForEdit();
+                updateSystemInfo();
+                
+                alert('✅ Все пользователи удалены!');
+                playSound('success');
+            }
+        }
+
+        function updateSystemInfo() {
+            document.getElementById('lastUpdateDate').textContent = new Date().toLocaleString('ru-RU');
+            document.getElementById('totalUsersCount').textContent = allUsers.length;
+            document.getElementById('totalMessagesCount').textContent = allMessages.length;
+            
+            // Расчет использования памяти
+            const dataSize = (localStorage.getItem('spravedlivec_messages') || '').length + 
+                           (localStorage.getItem('spravedlivec_users') || '').length;
+            const kb = (dataSize / 1024).toFixed(2);
+            document.getElementById('storageUsage').textContent = `${kb} KB`;
+        }
+
+        // ===================== ИНИЦИАЛИЗАЦИЯ СООБЩЕНИЙ ИЗ GOOGLE FORMS =====================
+        // Эта функция имитирует получение сообщений из Google Forms
+        // В реальном приложении здесь будет API вызов к Google Sheets
+        function simulateGoogleFormsMessages() {
+            // Это демо-сообщения для тестирования
+            const demoMessages = [
+                {
+                    id: Date.now() - 1000000,
+                    name: 'Анонимный источник',
+                    subject: 'Новый нарушитель',
+                    message: 'Обнаружен новый участник, распространяющий ложную информацию о ФОР. Имя: Скептик, активен в Telegram-чатах.',
+                    date: '25.12.2023, 14:30'
+                },
+                {
+                    id: Date.now() - 2000000,
+                    name: 'Участник ФОР',
+                    subject: 'Дополнительная информация о Горбуне',
+                    message: 'Горбун создал новый фейковый аккаунт @anti_for_bot в Telegram. Распространяет провокационные материалы.',
+                    date: '24.12.2023, 11:15'
+                }
+            ];
+            
+            // Добавляем демо-сообщения, если их еще нет
+            demoMessages.forEach(demoMsg => {
+                if (!allMessages.find(msg => msg.id === demoMsg.id)) {
+                    allMessages.push(demoMsg);
+                }
+            });
+            
+            saveAllData();
+            
+            // Если админ-панель открыта, обновляем список сообщений
+            if (document.getElementById('adminPanel').style.display === 'block' && currentAdminTab === 'messages') {
+                renderMessagesList();
+            }
+        }
+
+        // Запускаем симуляцию получения сообщений каждые 30 секунд
+        setInterval(simulateGoogleFormsMessages, 30000);
+        
+        // И сразу при загрузке
+        setTimeout(simulateGoogleFormsMessages, 5000);
     </script>
 </body>
 </html>
