@@ -19,7 +19,43 @@ body {
     color: #fff;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
-    cursor: default; /* обычная мышка */
+}
+
+/* TOP BAR */
+.top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* HOME BUTTON */
+.home-btn {
+    position: absolute;
+    left: 40px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.home-btn:hover {
+    opacity: 1;
+}
+
+/* LOGO */
+.top-logo img {
+    width: 85px;
+    height: auto;
+    opacity: 0.95;
 }
 
 /* HERO */
@@ -32,27 +68,12 @@ body {
     position: relative;
 }
 
-/* затемнение */
+/* DARK OVERLAY */
 .hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.55);
-}
-
-/* LOGO TOP CENTER */
-.top-logo {
-    position: absolute;
-    top: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-}
-
-.top-logo img {
-    width: 90px;
-    height: auto;
-    opacity: 0.95;
+    background: rgba(0,0,0,0.6);
 }
 
 /* SCROLL ARROW */
@@ -95,8 +116,13 @@ body {
 
 /* ADAPTIVE */
 @media (max-width: 768px) {
+    .home-btn {
+        left: 20px;
+        font-size: 14px;
+    }
+
     .top-logo img {
-        width: 70px;
+        width: 65px;
     }
 
     .container h1 {
@@ -115,8 +141,14 @@ body {
 
 <!-- HERO -->
 <div class="hero">
-    <div class="top-logo">
-        <img src="https://64.media.tumblr.com/e98ae218a806136992c656b616d6258b/fb7d99842bde320e-5f/s250x400/b5fb50503a090739d087a91559f6fbb652c56118.pnj" alt="ФОР">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <button class="home-btn" onclick="location.reload()">Главная</button>
+
+        <div class="top-logo">
+            <img src="https://64.media.tumblr.com/e98ae218a806136992c656b616d6258b/fb7d99842bde320e-5f/s250x400/b5fb50503a090739d087a91559f6fbb652c56118.pnj" alt="ФОР">
+        </div>
     </div>
 
     <div class="scroll-down" onclick="scrollToContent()"></div>
