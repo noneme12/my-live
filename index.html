@@ -2,59 +2,301 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Anime Radmir Stats</title>
+<title>RADMIR — Wednesday Style</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-body {
-  background: linear-gradient(120deg,#0f0c29,#302b63,#24243e);
-  font-family: "Segoe UI", sans-serif;
-  color: #fff;
-  text-align: center;
+:root{
+  --bg:#0b0b14;
+  --bg2:#121224;
+  --violet:#7b5cff;
+  --violet2:#b48cff;
+  --pink:#ff79c6;
+  --text:#e6e6f0;
+  --muted:#9a9ab5;
+  --glass:rgba(255,255,255,0.06);
 }
-.card {
-  background: rgba(0,0,0,.4);
-  border-radius: 20px;
-  padding: 20px;
-  width: 300px;
-  margin: 20px auto;
-  box-shadow: 0 0 30px #ff69b4;
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(123,92,255,.15), transparent),
+    radial-gradient(800px 400px at 10% 10%, rgba(255,121,198,.12), transparent),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+  color:var(--text);
 }
-.counter {
-  font-size: 32px;
-  font-weight: bold;
+
+/* ===== HEADER ===== */
+header{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+header::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255,255,255,.03) 0px,
+      rgba(255,255,255,.03) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  pointer-events:none;
+}
+
+.hero{
+  max-width:900px;
+  padding:40px;
+}
+
+.hero h1{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(36px,6vw,72px);
+  margin:0;
+  letter-spacing:1px;
+  text-shadow:0 0 30px rgba(123,92,255,.5);
+}
+
+.hero h1 span{
+  color:var(--violet2);
+}
+
+.hero p{
+  max-width:600px;
+  margin:20px auto 40px;
+  color:var(--muted);
+  font-size:18px;
+}
+
+.hero .line{
+  width:120px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--violet),transparent);
+  margin:30px auto;
+}
+
+/* ===== BUTTONS ===== */
+.btns{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.btn{
+  padding:14px 26px;
+  border-radius:14px;
+  text-decoration:none;
+  color:#fff;
+  font-weight:600;
+  letter-spacing:.5px;
+  background:linear-gradient(135deg,var(--violet),var(--pink));
+  box-shadow:0 0 30px rgba(123,92,255,.4);
+  transition:.3s;
+}
+
+.btn.alt{
+  background:transparent;
+  border:1px solid rgba(123,92,255,.4);
+  box-shadow:none;
+}
+
+.btn:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 0 45px rgba(123,92,255,.7);
+}
+
+/* ===== SECTIONS ===== */
+section{
+  padding:100px 20px;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+.section-title h2{
+  font-family:"Playfair Display",serif;
+  font-size:42px;
+  margin:0;
+}
+
+.section-title p{
+  color:var(--muted);
+  margin-top:12px;
+}
+
+/* ===== CARDS ===== */
+.grid{
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
+}
+
+.card{
+  background:var(--glass);
+  border-radius:22px;
+  padding:28px;
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+  box-shadow:0 0 40px rgba(0,0,0,.4);
+  transition:.4s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 60px rgba(123,92,255,.35);
+}
+
+.card h3{
+  margin-top:0;
+  font-family:"Playfair Display",serif;
+  color:var(--violet2);
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* ===== STATS ===== */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:24px;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.stat{
+  text-align:center;
+}
+
+.stat .num{
+  font-size:48px;
+  font-weight:700;
+  color:var(--violet2);
+  text-shadow:0 0 25px rgba(123,92,255,.6);
+}
+
+.stat span{
+  display:block;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  padding:60px 20px;
+  text-align:center;
+  color:var(--muted);
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+footer strong{
+  color:var(--violet2);
 }
 </style>
 </head>
+
 <body>
 
-<h1>🌸 L.Danlen ❤️</h1>
+<header>
+  <div class="hero">
+    <h1>RADMIR<br><span>Wednesday</span> Style</h1>
+    <div class="line"></div>
+    <p>
+      Тёмная эстетика. Холодный разум.  
+      Аналитика, порядок и контроль — без лишних эмоций.
+    </p>
 
-<div class="card">
-  <div>Всего ЖБ</div>
-  <div id="total" class="counter">0</div>
-</div>
+    <div class="btns">
+      <a href="https://forum.radmir.games" class="btn">Перейти на форум</a>
+      <a href="#about" class="btn alt">О проекте</a>
+    </div>
+  </div>
+</header>
 
-<div class="card">
-  <div>✅ Одобрено</div>
-  <div id="approved" class="counter">0</div>
-</div>
+<section id="about">
+  <div class="section-title">
+    <h2>О Radmir</h2>
+    <p>Строгий порядок в хаосе</p>
+  </div>
 
-<div class="card">
-  <div>⏳ В ожидании</div>
-  <div id="pending" class="counter">0</div>
-</div>
+  <div class="grid">
+    <div class="card">
+      <h3>🕷 Атмосфера</h3>
+      <p>
+        Radmir — это место, где важна дисциплина, логика и контроль.
+        Стиль Уэнсдей подчёркивает холодный интеллект и порядок.
+      </p>
+    </div>
 
-<script>
-async function loadStats() {
-  const res = await fetch("http://localhost:3000/api/stats");
-  const data = await res.json();
+    <div class="card">
+      <h3>⚖️ Справедливость</h3>
+      <p>
+        Каждая жалоба — это анализ фактов.
+        Никаких эмоций. Только правила и доказательства.
+      </p>
+    </div>
 
-  document.getElementById("total").innerText = data.total;
-  document.getElementById("approved").innerText = data.approved;
-  document.getElementById("pending").innerText = data.pending;
-}
-setInterval(loadStats, 30000);
-loadStats();
-</script>
+    <div class="card">
+      <h3>🩸 Контроль</h3>
+      <p>
+        Система держится на тех, кто следит за порядком.
+        Тишина. Холод. Результат.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">
+    <h2>Цифры</h2>
+    <p>Сухая статистика. Самая честная.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num">24/7</div>
+      <span>Активность</span>
+    </div>
+
+    <div class="stat">
+      <div class="num">100%</div>
+      <span>Фокус</span>
+    </div>
+
+    <div class="stat">
+      <div class="num">∞</div>
+      <span>Холодный разум</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>
+    © Radmir • Wednesday Style  
+    <br>
+    <strong>Silence is power.</strong>
+  </p>
+</footer>
 
 </body>
 </html>
