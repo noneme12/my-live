@@ -19,10 +19,10 @@ body {
     color: #fff;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
-    cursor: none; /* скрываем стандартную мышь */
+    cursor: default; /* обычная мышка */
 }
 
-/* HERO IMAGE */
+/* HERO */
 .hero {
     width: 100%;
     height: 100vh;
@@ -32,11 +32,27 @@ body {
     position: relative;
 }
 
+/* затемнение */
 .hero::after {
     content: "";
     position: absolute;
     inset: 0;
     background: rgba(0,0,0,0.55);
+}
+
+/* LOGO TOP CENTER */
+.top-logo {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+}
+
+.top-logo img {
+    width: 90px;
+    height: auto;
+    opacity: 0.95;
 }
 
 /* SCROLL ARROW */
@@ -66,7 +82,7 @@ body {
     text-align: center;
 }
 
-h1 {
+.container h1 {
     font-size: 64px;
     letter-spacing: 12px;
     margin-bottom: 20px;
@@ -77,46 +93,19 @@ h1 {
     opacity: 0.8;
 }
 
-/* CUSTOM CURSOR */
-.cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 14px;
-    height: 14px;
-    background: #fff;
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: transform 0.08s ease;
-    z-index: 9999;
-}
-
-.cursor-ring {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 36px;
-    height: 36px;
-    border: 2px solid rgba(255,255,255,0.5);
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s ease;
-    z-index: 9998;
-}
-
-/* MOBILE FIX */
+/* ADAPTIVE */
 @media (max-width: 768px) {
-    body {
-        cursor: auto;
+    .top-logo img {
+        width: 70px;
     }
-    .cursor, .cursor-ring {
-        display: none;
-    }
-    h1 {
+
+    .container h1 {
         font-size: 42px;
         letter-spacing: 6px;
+    }
+
+    .subtitle {
+        font-size: 18px;
     }
 }
 </style>
@@ -126,6 +115,10 @@ h1 {
 
 <!-- HERO -->
 <div class="hero">
+    <div class="top-logo">
+        <img src="https://64.media.tumblr.com/e98ae218a806136992c656b616d6258b/fb7d99842bde320e-5f/s250x400/b5fb50503a090739d087a91559f6fbb652c56118.pnj" alt="ФОР">
+    </div>
+
     <div class="scroll-down" onclick="scrollToContent()"></div>
 </div>
 
@@ -135,36 +128,11 @@ h1 {
     <div class="subtitle">Форумный отряд радмира</div>
 </div>
 
-<!-- CUSTOM CURSOR -->
-<div class="cursor"></div>
-<div class="cursor-ring"></div>
-
 <script>
-/* smooth scroll */
 function scrollToContent() {
     document.querySelector('.container')
         .scrollIntoView({ behavior: 'smooth' });
 }
-
-/* custom cursor */
-const cursor = document.querySelector('.cursor');
-const ring = document.querySelector('.cursor-ring');
-
-document.addEventListener('mousemove', e => {
-    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    ring.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-});
-
-/* click animation */
-document.addEventListener('mousedown', () => {
-    cursor.style.transform += ' scale(0.7)';
-    ring.style.transform += ' scale(1.3)';
-});
-
-document.addEventListener('mouseup', () => {
-    cursor.style.transform = cursor.style.transform.replace(' scale(0.7)', '');
-    ring.style.transform = ring.style.transform.replace(' scale(1.3)', '');
-});
 </script>
 
 </body>
