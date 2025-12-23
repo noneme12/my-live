@@ -2,11 +2,10 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>BRAIN-FOR WEB v1.0</title>
+<title>BRAIN-FOR WEB v1.1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== BASE ===== */
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
@@ -15,7 +14,7 @@ body{
 }
 h1{padding:20px}
 
-/* ===== FLOAT BUTTON ===== */
+/* FLOAT BUTTON */
 #bf-open{
   position:fixed;
   right:20px;
@@ -33,7 +32,7 @@ h1{padding:20px}
   z-index:9999;
 }
 
-/* ===== MODAL ===== */
+/* MODAL */
 #bf-modal{
   position:fixed;
   inset:0;
@@ -41,13 +40,11 @@ h1{padding:20px}
   z-index:10000;
 }
 #bf-modal.active{display:block}
-
 #bf-bg{
   position:absolute;
   inset:0;
   background:rgba(0,0,0,.7);
 }
-
 #bf-window{
   position:absolute;
   left:50%;
@@ -60,19 +57,15 @@ h1{padding:20px}
   border-radius:16px;
   display:flex;
   overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
 
-/* ===== LEFT ===== */
+/* LEFT */
 #bf-left{
   width:300px;
   background:#101018;
   padding:15px;
-  box-sizing:border-box;
   overflow-y:auto;
 }
-#bf-left h3{margin:0 0 10px}
-
 .bf-tpl{
   background:#1c1c26;
   border-radius:10px;
@@ -82,19 +75,17 @@ h1{padding:20px}
 }
 .bf-tpl:hover{background:#232334}
 
-/* ===== RIGHT ===== */
+/* RIGHT */
 #bf-right{
   flex:1;
   padding:15px;
-  box-sizing:border-box;
   display:flex;
   flex-direction:column;
   gap:10px;
 }
 
-input,textarea{
+input,textarea,select{
   width:100%;
-  box-sizing:border-box;
   background:#1b1b25;
   color:#fff;
   border:1px solid #333;
@@ -102,14 +93,14 @@ input,textarea{
   padding:12px;
   font-size:14px;
 }
-
 textarea{
   flex:1;
   resize:none;
   font-family:Consolas,monospace;
 }
 
-/* ===== BUTTONS ===== */
+/* BUTTONS */
+.bf-row{display:flex;gap:10px}
 .bf-btn{
   border:none;
   border-radius:10px;
@@ -119,16 +110,8 @@ textarea{
   color:#fff;
   background:linear-gradient(135deg,#ff2d95,#7f00ff);
 }
-.bf-btn.gray{
-  background:#2a2a3a;
-}
-.bf-btn.red{
-  background:#aa1d1d;
-}
-.bf-row{
-  display:flex;
-  gap:10px;
-}
+.bf-btn.gray{background:#2a2a3a}
+.bf-btn.red{background:#aa1d1d}
 </style>
 </head>
 
@@ -136,24 +119,28 @@ textarea{
 
 <h1>Мой сайт</h1>
 
-<!-- FLOAT BUTTON -->
 <button id="bf-open">🧠</button>
 
-<!-- MODAL -->
 <div id="bf-modal">
   <div id="bf-bg"></div>
 
   <div id="bf-window">
-    <!-- LEFT -->
     <div id="bf-left">
       <h3>📄 Шаблоны</h3>
       <div id="bf-tpls"></div>
       <button class="bf-btn gray" id="bf-add">➕ Добавить шаблон</button>
     </div>
 
-    <!-- RIGHT -->
     <div id="bf-right">
       <input id="bf-title" placeholder="Заголовок жалобы">
+
+      <!-- ВЫБОР КАТЕГОРИИ -->
+      <select id="bf-category">
+        <option value="nosost">❌ Не сост</option>
+        <option value="gos">🏛 Гос</option>
+        <option value="crim">🔫 Крим</option>
+      </select>
+
       <textarea id="bf-editor" placeholder="Текст жалобы (BBCode)"></textarea>
 
       <div class="bf-row">
@@ -166,10 +153,7 @@ textarea{
 </div>
 
 <script>
-/* ===== STORAGE ===== */
-const KEY = 'BF_TEMPLATES_V1';
-
-/* ===== DEFAULT TEMPLATES ===== */
+const KEY='BF_TEMPLATES_V1';
 if(!localStorage.getItem(KEY)){
   localStorage.setItem(KEY,JSON.stringify([
     {
@@ -193,18 +177,16 @@ if(!localStorage.getItem(KEY)){
   ]));
 }
 
-/* ===== ELEMENTS ===== */
-const modal = document.getElementById('bf-modal');
-const list  = document.getElementById('bf-tpls');
-const title = document.getElementById('bf-title');
-const editor= document.getElementById('bf-editor');
+const modal=document.getElementById('bf-modal');
+const list=document.getElementById('bf-tpls');
+const title=document.getElementById('bf-title');
+const editor=document.getElementById('bf-editor');
+const category=document.getElementById('bf-category');
 
-/* ===== OPEN / CLOSE ===== */
-document.getElementById('bf-open').onclick = ()=>modal.classList.add('active');
+document.getElementById('bf-open').onclick=()=>modal.classList.add('active');
 document.getElementById('bf-close').onclick=()=>modal.classList.remove('active');
-document.getElementById('bf-bg').onclick   =()=>modal.classList.remove('active');
+document.getElementById('bf-bg').onclick=()=>modal.classList.remove('active');
 
-/* ===== RENDER ===== */
 function render(){
   list.innerHTML='';
   JSON.parse(localStorage.getItem(KEY)).forEach(t=>{
@@ -220,7 +202,6 @@ function render(){
 }
 render();
 
-/* ===== ADD TEMPLATE ===== */
 document.getElementById('bf-add').onclick=()=>{
   const n=prompt('Название шаблона');
   if(!n)return;
@@ -232,24 +213,31 @@ document.getElementById('bf-add').onclick=()=>{
   render();
 };
 
-/* ===== COPY ===== */
 document.getElementById('bf-copy').onclick=()=>{
   navigator.clipboard.writeText(title.value+'\n\n'+editor.value);
   alert('Скопировано');
 };
 
-/* ===== SEND TO FORUM ===== */
 document.getElementById('bf-forum').onclick=()=>{
   if(!editor.value.trim()){
     alert('Текст пуст');
     return;
   }
+
+  const URLS={
+    nosost:'https://forum.radmir.games/forums/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B-%D0%BD%D0%B0-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%BE%D0%B2-%D0%BD%D0%B5-%D1%81%D0%BE%D1%81%D1%82-%D0%B2-%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F%D1%85.194/create-thread',
+    gos:'https://forum.radmir.games/forums/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B-%D0%BD%D0%B0-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%BE%D0%B2-%D1%81%D0%BE%D1%81%D1%82-%D0%B2-%D0%B3%D0%BE%D1%81-%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0%D1%85.195/create-thread',
+    crim:'https://forum.radmir.games/forums/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B-%D0%BD%D0%B0-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%BE%D0%B2-%D1%81%D0%BE%D1%81%D1%82-%D0%B2-%D0%BA%D1%80%D0%B8%D0%BC%D0%B8%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85-%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0%D1%85.196/create-thread'
+  };
+
   localStorage.setItem('BF_TRANSFER',JSON.stringify({
     title:title.value,
     text:editor.value,
+    category:category.value,
     time:Date.now()
   }));
-  window.open('https://forum.radmir.games/post-thread','_blank');
+
+  window.open(URLS[category.value],'_blank');
 };
 </script>
 
