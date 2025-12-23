@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ФОР</title>
 
+<!-- INTER FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 * {
     margin: 0;
@@ -12,10 +17,11 @@
     box-sizing: border-box;
 }
 
+/* BODY */
 body {
     background: #000;
     color: #fff;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 /* HERO */
@@ -42,7 +48,7 @@ body {
     z-index: 10;
     height: 80px;
     display: flex;
-    align-items: center;       /* <<< ВАЖНО: одинаковая высота */
+    align-items: center;
     justify-content: center;
     padding: 0 40px;
 }
@@ -55,8 +61,10 @@ body {
     border: none;
     color: #fff;
     font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
     cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
 .home-btn:hover {
@@ -98,13 +106,15 @@ body {
     text-align: center;
 }
 
-h1 {
+.container h1 {
     font-size: 64px;
+    font-weight: 600;
     letter-spacing: 12px;
 }
 
 .subtitle {
     font-size: 24px;
+    font-weight: 400;
     opacity: 0.8;
 }
 
@@ -124,7 +134,7 @@ h1 {
         width: 70px;
     }
 
-    h1 {
+    .container h1 {
         font-size: 42px;
         letter-spacing: 6px;
     }
