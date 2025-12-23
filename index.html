@@ -2,212 +2,145 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>RADMIR — Wednesday Dark</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wednesday Style</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#05050a;
-  --bg2:#0b0b14;
-  --violet:#6b4cff;
-  --violet2:#b48cff;
-  --blood:#7a1f3d;
-  --text:#e6e6f0;
-  --muted:#8c8ca8;
-  --glass:rgba(255,255,255,.05);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Inter,system-ui;
-  background:
-    radial-gradient(1000px 500px at 80% -10%, rgba(107,76,255,.15), transparent),
-    radial-gradient(700px 400px at 20% 10%, rgba(122,31,61,.15), transparent),
-    linear-gradient(180deg,var(--bg),var(--bg2));
-  color:var(--text);
-  overflow-x:hidden;
+body {
+    background: radial-gradient(circle at top, #1b0f2e, #050008);
+    color: #eaeaea;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
 }
 
-/* ===== FILM GRAIN ===== */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.09'/%3E%3C/svg%3E");
-  pointer-events:none;
-  z-index:999;
+/* HEADER */
+header {
+    padding: 30px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* ===== HERO ===== */
-header{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  overflow:hidden;
+.logo {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 36px;
+    color: #b88cff;
+    text-shadow: 0 0 15px rgba(184,140,255,.6);
 }
 
-/* ===== FOG ===== */
-.fog{
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 30% 70%, rgba(255,255,255,.05), transparent 60%),
-    radial-gradient(circle at 70% 30%, rgba(255,255,255,.04), transparent 60%);
-  animation:fogMove 35s infinite alternate;
-  pointer-events:none;
+nav a {
+    margin-left: 30px;
+    text-decoration: none;
+    color: #ccc;
+    font-weight: 500;
+    position: relative;
 }
 
-@keyframes fogMove{
-  from{transform:translateX(-30px)}
-  to{transform:translateX(30px)}
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: #b88cff;
+    transition: .3s;
 }
 
-/* ===== RAIN ===== */
-#rain{
-  position:absolute;
-  inset:0;
+nav a:hover::after {
+    width: 100%;
 }
 
-/* ===== CHARACTER ===== */
-.character{
-  width:320px;
-  height:520px;
-  background:
-    radial-gradient(circle at 50% 30%, #111 0%, #05050a 60%);
-  border-radius:160px 160px 120px 120px;
-  position:relative;
-  box-shadow:
-    0 0 60px rgba(107,76,255,.35),
-    0 0 120px rgba(122,31,61,.25);
-  z-index:2;
+/* HERO */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+    padding: 20px;
 }
 
-/* ===== EYES ===== */
-.eyes{
-  position:absolute;
-  top:160px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:42px;
+.hero h1 {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 64px;
+    color: #e7d6ff;
+    text-shadow: 0 0 25px rgba(184,140,255,.7);
+    animation: glow 3s infinite alternate;
 }
 
-.eye{
-  width:18px;
-  height:18px;
-  background:var(--violet2);
-  border-radius:50%;
-  box-shadow:
-    0 0 18px var(--violet2),
-    0 0 35px rgba(180,140,255,.7);
-  position:relative;
-  transition:transform .1s;
+.hero p {
+    margin-top: 20px;
+    font-size: 18px;
+    opacity: .85;
 }
 
-.eye::after{
-  content:"";
-  position:absolute;
-  inset:4px;
-  background:#000;
-  border-radius:50%;
+/* BUTTON */
+.btn {
+    margin-top: 35px;
+    display: inline-block;
+    padding: 14px 40px;
+    border: 1px solid #b88cff;
+    color: #b88cff;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: .3s;
 }
 
-/* blink */
-@keyframes blink{
-  0%,90%,100%{transform:scaleY(1)}
-  92%,96%{transform:scaleY(0.1)}
+.btn:hover {
+    background: #b88cff;
+    color: #000;
+    box-shadow: 0 0 25px rgba(184,140,255,.7);
 }
 
-.eye{
-  animation:blink 7s infinite;
-}
-.eye:nth-child(2){
-  animation-delay:3.5s;
+/* CARDS */
+.section {
+    padding: 80px 60px;
 }
 
-/* ===== PROFILE CARD ===== */
-.profile{
-  position:absolute;
-  right:6%;
-  background:rgba(0,0,0,.6);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:22px;
-  padding:26px;
-  width:280px;
-  backdrop-filter:blur(16px);
-  box-shadow:0 0 50px rgba(0,0,0,.7);
-  z-index:3;
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 30px;
 }
 
-.profile h1{
-  margin:0;
-  font-family:"Playfair Display",serif;
-  color:var(--violet2);
+.card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(184,140,255,.2);
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    transition: .3s;
 }
 
-.profile p{
-  color:var(--muted);
-  font-size:14px;
-  margin:10px 0 18px;
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px rgba(184,140,255,.3);
 }
 
-.stats{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:18px;
+.card h3 {
+    color: #b88cff;
+    margin-bottom: 10px;
 }
 
-.stats div{
-  text-align:center;
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 14px;
+    opacity: .6;
 }
 
-.stats strong{
-  display:block;
-  font-size:22px;
-}
-
-.stats span{
-  font-size:12px;
-  color:var(--muted);
-}
-
-.profile a{
-  display:inline-block;
-  margin-top:10px;
-  color:#ff79c6;
-  text-decoration:none;
-  font-weight:600;
-}
-
-/* ===== TITLE ===== */
-.title{
-  position:absolute;
-  left:6%;
-  max-width:360px;
-  z-index:3;
-}
-
-.title h2{
-  font-family:"Playfair Display",serif;
-  font-size:54px;
-  margin:0;
-  text-shadow:0 0 40px rgba(107,76,255,.6);
-}
-
-.title span{
-  color:var(--violet2);
-}
-
-.title p{
-  color:var(--muted);
-  margin-top:14px;
-  line-height:1.6;
+/* ANIMATION */
+@keyframes glow {
+    from { text-shadow: 0 0 10px rgba(184,140,255,.3); }
+    to { text-shadow: 0 0 30px rgba(184,140,255,1); }
 }
 </style>
 </head>
@@ -215,105 +148,43 @@ header{
 <body>
 
 <header>
-  <canvas id="rain"></canvas>
-  <div class="fog"></div>
-
-  <div class="title">
-    <h2>RADMIR<br><span>Wednesday</span></h2>
-    <p>
-      Холодный контроль.  
-      Тьма. Аналитика. Порядок без эмоций.
-    </p>
-  </div>
-
-  <div class="character">
-    <div class="eyes">
-      <div class="eye"></div>
-      <div class="eye"></div>
-    </div>
-  </div>
-
-  <div class="profile">
-    <h1>L-Danlen ❤️</h1>
-    <p>Контроль • Аналитика • Холод</p>
-
-    <div class="stats">
-      <div><strong id="p-total">—</strong><span>ЖБ</span></div>
-      <div><strong id="p-approved">—</strong><span>Одобрено</span></div>
-      <div><strong id="p-rate">—%</strong><span>Эффект</span></div>
-    </div>
-
-    <a href="https://forum.radmir.games/members/l-danlen%E2%9D%A4%EF%B8%8F.739860/" target="_blank">
-      Профиль →
-    </a>
-  </div>
+    <div class="logo">Wednesday</div>
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#">О нас</a>
+        <a href="#">Люди</a>
+        <a href="#">Контакты</a>
+    </nav>
 </header>
 
-<script>
-/* ===== RAIN ===== */
-const canvas = document.getElementById("rain");
-const ctx = canvas.getContext("2d");
+<section class="hero">
+    <div>
+        <h1>Тьма — мой стиль</h1>
+        <p>Холод. Разум. Контроль. Никаких эмоций.</p>
+        <a href="#" class="btn">Войти</a>
+    </div>
+</section>
 
-function resize(){
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-resize();
-addEventListener("resize",resize);
+<section class="section">
+    <div class="cards">
+        <div class="card">
+            <h3>Холодный разум</h3>
+            <p>Никакой жалости. Только логика и факты.</p>
+        </div>
+        <div class="card">
+            <h3>Тьма внутри</h3>
+            <p>Мы принимаем темную сторону.</p>
+        </div>
+        <div class="card">
+            <h3>Контроль</h3>
+            <p>Каждый шаг под наблюдением.</p>
+        </div>
+    </div>
+</section>
 
-let drops = Array.from({length:220},()=>({
-  x:Math.random()*canvas.width,
-  y:Math.random()*canvas.height,
-  l:Math.random()*20+10,
-  s:Math.random()*5+4
-}));
-
-function rain(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.strokeStyle="rgba(180,140,255,.35)";
-  ctx.lineWidth=1;
-
-  drops.forEach(d=>{
-    ctx.beginPath();
-    ctx.moveTo(d.x,d.y);
-    ctx.lineTo(d.x,d.y+d.l);
-    ctx.stroke();
-    d.y+=d.s;
-    if(d.y>canvas.height){
-      d.y=-20;
-      d.x=Math.random()*canvas.width;
-    }
-  });
-  requestAnimationFrame(rain);
-}
-rain();
-
-/* ===== EYES FOLLOW CURSOR ===== */
-const eyes=document.querySelectorAll(".eye");
-addEventListener("mousemove",e=>{
-  eyes.forEach(eye=>{
-    const r=eye.getBoundingClientRect();
-    const x=(e.clientX-(r.left+r.width/2))/25;
-    const y=(e.clientY-(r.top+r.height/2))/25;
-    eye.style.transform=`translate(${x}px,${y}px)`;
-  });
-});
-
-/* ===== PROFILE STATS (BACKEND READY) ===== */
-const API="https://YOUR-BACKEND.onrender.com/api/stats";
-
-async function loadStats(){
-  try{
-    const r=await fetch(API);
-    const d=await r.json();
-    p-total.textContent=d.total;
-    p-approved.textContent=d.approved;
-    p-rate.textContent=Math.round(d.approved/d.total*100);
-  }catch(e){}
-}
-loadStats();
-setInterval(loadStats,60000);
-</script>
+<footer>
+    © 2025 | Wednesday Style
+</footer>
 
 </body>
 </html>
