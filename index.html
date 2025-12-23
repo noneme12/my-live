@@ -14,53 +14,160 @@
         body {
             background-color: #000000;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', monospace;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            background: radial-gradient(circle at center, #111111 0%, #000000 70%);
         }
 
-        .main-text {
+        .terminal {
+            text-align: center;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 72px;
+            background-color: #ffffff;
+            margin-left: 5px;
+            vertical-align: bottom;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            51%, 100% {
+                opacity: 0;
+            }
+        }
+
+        .text {
             font-size: 72px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 8px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            animation: pulse 3s infinite alternate;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
         }
 
-        @keyframes pulse {
-            0% {
-                opacity: 0.7;
-                text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-            }
-            100% {
-                opacity: 1;
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            }
+        .completed .cursor {
+            animation: none;
+            opacity: 0.5;
+            background-color: #00ff00;
         }
 
-        /* Адаптивность для мобильных устройств */
+        /* Адаптивность */
         @media (max-width: 768px) {
-            .main-text {
+            .text {
                 font-size: 48px;
                 letter-spacing: 4px;
+            }
+            .cursor {
+                height: 48px;
             }
         }
 
         @media (max-width: 480px) {
-            .main-text {
+            .text {
                 font-size: 36px;
                 letter-spacing: 2px;
+            }
+            .cursor {
+                height: 36px;
+            }
+            .terminal {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="main-text">
-        Главная
+    <div class="terminal">
+        <div class="text" id="text"></div>
+        <div class="cursor" id="cursor"></div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textElement = document.getElementById('text');
+            const cursorElement = document.getElementById('cursor');
+            const fullText = "Главная";
+            let currentText = "";
+            let index = 0;
+            
+            // Создаем аудио контекст для звуков печатания (опционально)
+            let audioContext;
+            let clickSound;
+            
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.log("Web Audio API не поддерживается");
+            }
+            
+            function playClickSound() {
+                if (!audioContext) return;
+                
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800 + Math.random() * 400;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            }
+            
+            function typeCharacter() {
+                if (index < fullText.length) {
+                    currentText += fullText.charAt(index);
+                    textElement.textContent = currentText;
+                    
+                    // Воспроизводим звук печатания
+                    playClickSound();
+                    
+                    index++;
+                    
+                    // Случайная задержка для реалистичного эффекта
+                    const delay = Math.random() * 120 + 80; // от 80 до 200 мс
+                    setTimeout(typeCharacter, delay);
+                } else {
+                    // Завершаем печать
+                    cursorElement.parentElement.classList.add('completed');
+                    
+                    // Через 3 секунды начинаем заново
+                    setTimeout(resetTyping, 3000);
+                }
+            }
+            
+            function resetTyping() {
+                currentText = "";
+                index = 0;
+                textElement.textContent = "";
+                cursorElement.parentElement.classList.remove('completed');
+                
+                // Начинаем печатать снова через 1 секунду
+                setTimeout(typeCharacter, 1000);
+            }
+            
+            // Начинаем печатать с небольшой задержкой
+            setTimeout(typeCharacter, 1000);
+        });
+    </script>
 </body>
 </html>
