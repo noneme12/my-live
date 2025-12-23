@@ -1,427 +1,171 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ФОР - Форумный отряд радмира</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ФОР</title>
 
-        body {
-            background: #000;
-            color: #f00;
-            font-family: 'Courier New', monospace;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-        }
+<style>
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* Стили для фотографии */
-        .header-image {
-            width: 320px;
-            height: auto;
-            margin-bottom: 40px;
-            border: 3px solid #f00;
-            border-radius: 10px;
-            box-shadow: 
-                0 0 20px rgba(255, 0, 0, 0.5),
-                0 0 40px rgba(255, 0, 0, 0.3),
-                0 0 60px rgba(255, 0, 0, 0.2);
-            animation: imageGlow 2s infinite alternate;
-        }
+/* BODY */
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    cursor: none; /* скрываем стандартную мышь */
+}
 
-        @keyframes imageGlow {
-            from {
-                box-shadow: 
-                    0 0 20px rgba(255, 0, 0, 0.5),
-                    0 0 40px rgba(255, 0, 0, 0.3);
-            }
-            to {
-                box-shadow: 
-                    0 0 30px rgba(255, 0, 0, 0.8),
-                    0 0 60px rgba(255, 0, 0, 0.5),
-                    0 0 90px rgba(255, 0, 0, 0.3);
-            }
-        }
+/* HERO IMAGE */
+.hero {
+    width: 100%;
+    height: 100vh;
+    background-image: url("10d0e7eb-2054-42a7-82d5-0c05b2b56a12.png");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
 
-        /* Контейнер с текстом */
-        .container {
-            text-align: center;
-            padding: 20px;
-        }
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+}
 
-        h1 {
-            font-size: 72px;
-            font-weight: bold;
-            letter-spacing: 15px;
-            text-transform: uppercase;
-            position: relative;
-            margin-bottom: 20px;
-            text-shadow: 
-                0 0 10px #f00,
-                0 0 20px #f00,
-                0 0 30px #f00;
-            animation: pulse 3s infinite alternate;
-        }
+/* SCROLL ARROW */
+.scroll-down {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    border-left: 3px solid #fff;
+    border-bottom: 3px solid #fff;
+    transform: translateX(-50%) rotate(-45deg);
+    animation: bounce 2s infinite;
+    cursor: pointer;
+    z-index: 5;
+}
 
-        .subtitle {
-            font-size: 28px;
-            letter-spacing: 3px;
-            margin-top: 10px;
-            color: #ff6666;
-            text-shadow: 
-                0 0 5px #f00,
-                0 0 10px #f00;
-            opacity: 0.9;
-        }
+@keyframes bounce {
+    0%,100% { transform: translate(-50%,0) rotate(-45deg); }
+    50% { transform: translate(-50%,12px) rotate(-45deg); }
+}
 
-        /* Эффект печатания */
-        h1::after {
-            content: "█";
-            position: absolute;
-            animation: blink 0.7s infinite;
-            text-shadow: 
-                0 0 10px #f00,
-                0 0 20px #f00;
-        }
+/* CONTENT */
+.container {
+    min-height: 100vh;
+    padding: 120px 20px;
+    text-align: center;
+}
 
-        /* Анимация для текста */
-        .typing-text {
-            position: relative;
-            display: inline-block;
-        }
+h1 {
+    font-size: 64px;
+    letter-spacing: 12px;
+    margin-bottom: 20px;
+}
 
-        .typing-text::after {
-            content: "";
-            position: absolute;
-            right: -15px;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background: #f00;
-            animation: typingCursor 4s steps(3) infinite,
-                       blink 0.7s infinite;
-            box-shadow: 
-                0 0 10px #f00,
-                0 0 20px #f00;
-        }
+.subtitle {
+    font-size: 24px;
+    opacity: 0.8;
+}
 
-        @keyframes typingCursor {
-            0% { right: -15px; }
-            33% { right: 55px; }
-            66% { right: 125px; }
-            100% { right: 195px; opacity: 0; }
-        }
+/* CUSTOM CURSOR */
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s ease;
+    z-index: 9999;
+}
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+.cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease;
+    z-index: 9998;
+}
 
-        @keyframes pulse {
-            from {
-                text-shadow: 
-                    0 0 10px #f00,
-                    0 0 20px #f00,
-                    0 0 30px #f00;
-            }
-            to {
-                text-shadow: 
-                    0 0 20px #f00,
-                    0 0 40px #f00,
-                    0 0 60px #f00;
-            }
-        }
-
-        /* Анимация для подзаголовка */
-        .subtitle-typing {
-            position: relative;
-            display: inline-block;
-        }
-
-        .subtitle-typing::after {
-            content: "";
-            position: absolute;
-            right: -8px;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background: #ff6666;
-            animation: subtitleCursor 6s steps(20) infinite,
-                       blink 0.7s infinite;
-            box-shadow: 
-                0 0 5px #ff6666,
-                0 0 10px #ff6666;
-        }
-
-        @keyframes subtitleCursor {
-            0% { right: -8px; }
-            100% { right: 380px; opacity: 0; }
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .header-image {
-                width: 250px;
-                margin-bottom: 30px;
-            }
-
-            h1 {
-                font-size: 48px;
-                letter-spacing: 10px;
-            }
-
-            .subtitle {
-                font-size: 20px;
-                letter-spacing: 2px;
-            }
-
-            .typing-text::after {
-                right: -10px;
-            }
-
-            @keyframes typingCursor {
-                0% { right: -10px; }
-                33% { right: 35px; }
-                66% { right: 80px; }
-                100% { right: 125px; opacity: 0; }
-            }
-
-            .subtitle-typing::after {
-                right: -6px;
-            }
-
-            @keyframes subtitleCursor {
-                0% { right: -6px; }
-                100% { right: 250px; opacity: 0; }
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-image {
-                width: 200px;
-                margin-bottom: 20px;
-            }
-
-            h1 {
-                font-size: 36px;
-                letter-spacing: 5px;
-            }
-
-            .subtitle {
-                font-size: 16px;
-                letter-spacing: 1px;
-            }
-
-            .typing-text::after {
-                right: -8px;
-            }
-
-            @keyframes typingCursor {
-                0% { right: -8px; }
-                33% { right: 25px; }
-                66% { right: 58px; }
-                100% { right: 91px; opacity: 0; }
-            }
-
-            .subtitle-typing::after {
-                right: -4px;
-            }
-
-            @keyframes subtitleCursor {
-                0% { right: -4px; }
-                100% { right: 180px; opacity: 0; }
-            }
-        }
-
-        /* Красные частицы на фоне */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, rgba(255,0,0,0.6) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: float 15s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
-        }
-
-        /* Дополнительные эффекты */
-        .motto {
-            font-size: 18px;
-            margin-top: 30px;
-            color: #ff9999;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-            letter-spacing: 1px;
-            font-style: italic;
-            opacity: 0.8;
-            max-width: 600px;
-            line-height: 1.5;
-        }
-    </style>
+/* MOBILE FIX */
+@media (max-width: 768px) {
+    body {
+        cursor: auto;
+    }
+    .cursor, .cursor-ring {
+        display: none;
+    }
+    h1 {
+        font-size: 42px;
+        letter-spacing: 6px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <!-- Фотография сверху по центру -->
-    <img src="https://64.media.tumblr.com/e98ae218a806136992c656b616d6258b/fb7d99842bde320e-5f/s250x400/b5fb50503a090739d087a91559f6fbb652c56118.pnj" 
-         alt="ФОР - Форумный отряд радмира" 
-         class="header-image">
 
-    <!-- Контейнер с текстом -->
-    <div class="container">
-        <h1 class="typing-text">ФОР</h1>
-        <div class="subtitle subtitle-typing">Форумный отряд радмира</div>
-        <div class="motto">Защищаем. Объединяем. Действуем. Вместе мы сила!</div>
-    </div>
+<!-- HERO -->
+<div class="hero">
+    <div class="scroll-down" onclick="scrollToContent()"></div>
+</div>
 
-    <!-- Частицы на фоне -->
-    <div class="particles" id="particles"></div>
+<!-- CONTENT -->
+<div class="container">
+    <h1>ФОР</h1>
+    <div class="subtitle">Форумный отряд радмира</div>
+</div>
 
-    <audio id="typeSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-typing-1386.mp3" type="audio/mpeg">
-    </audio>
-    
-    <audio id="enterSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-keyboard-click-1127.mp3" type="audio/mpeg">
-    </audio>
+<!-- CUSTOM CURSOR -->
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Создаем красные частицы
-            function createParticles() {
-                const particlesContainer = document.getElementById('particles');
-                const particleCount = 20;
-                
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    
-                    const size = Math.random() * 80 + 20;
-                    const posX = Math.random() * 100;
-                    const duration = Math.random() * 15 + 10;
-                    const delay = Math.random() * 5;
-                    
-                    particle.style.width = `${size}px`;
-                    particle.style.height = `${size}px`;
-                    particle.style.left = `${posX}%`;
-                    particle.style.top = '100%';
-                    particle.style.animationDuration = `${duration}s`;
-                    particle.style.animationDelay = `${delay}s`;
-                    particle.style.opacity = Math.random() * 0.1 + 0.05;
-                    
-                    particlesContainer.appendChild(particle);
-                }
-            }
-            
-            createParticles();
-            
-            // Загружаем звуки
-            const typeSound = document.getElementById('typeSound');
-            const enterSound = document.getElementById('enterSound');
-            
-            function preloadAudio() {
-                typeSound.load();
-                enterSound.load();
-            }
-            
-            preloadAudio();
-            
-            // Функция воспроизведения звука
-            function playSound(audioElement, volume = 0.3) {
-                try {
-                    const soundClone = audioElement.cloneNode();
-                    soundClone.volume = volume;
-                    soundClone.currentTime = 0;
-                    soundClone.play().catch(e => console.log("Звук не воспроизведён"));
-                } catch(e) {
-                    console.log("Ошибка воспроизведения звука");
-                }
-            }
-            
-            // Звук печатания при загрузке
-            setTimeout(() => {
-                playSound(typeSound, 0.2);
-            }, 1000);
-            
-            setTimeout(() => {
-                playSound(typeSound, 0.2);
-            }, 1500);
-            
-            setTimeout(() => {
-                playSound(typeSound, 0.2);
-                playSound(enterSound, 0.3);
-            }, 2000);
-            
-            // Добавляем случайные частицы каждые 5 секунд
-            setInterval(() => {
-                createParticles();
-            }, 5000);
-            
-            // Эффект пульсации для фотографии
-            const image = document.querySelector('.header-image');
-            setInterval(() => {
-                if (Math.random() > 0.7) {
-                    image.style.transform = 'scale(1.05)';
-                    image.style.filter = 'brightness(1.2)';
-                    
-                    setTimeout(() => {
-                        image.style.transform = 'scale(1)';
-                        image.style.filter = 'brightness(1)';
-                    }, 200);
-                    
-                    // Тихий звук при пульсации
-                    if (Math.random() > 0.5) {
-                        playSound(typeSound, 0.1);
-                    }
-                }
-            }, 3000);
-            
-            // Звуковой эффект при клике
-            document.addEventListener('click', function() {
-                playSound(enterSound, 0.3);
-                
-                // Вспышка при клике
-                document.body.style.backgroundColor = '#330000';
-                setTimeout(() => {
-                    document.body.style.backgroundColor = '#000000';
-                }, 100);
-            });
-            
-            // Автоматическая перезагрузка анимации печатания
-            setInterval(() => {
-                playSound(typeSound, 0.1);
-            }, 4000);
-            
-            // Эффект для подзаголовка
-            const subtitle = document.querySelector('.subtitle');
-            setInterval(() => {
-                if (Math.random() > 0.8) {
-                    subtitle.style.textShadow = '0 0 15px #ff0000';
-                    setTimeout(() => {
-                        subtitle.style.textShadow = '';
-                    }, 300);
-                }
-            }, 5000);
-        });
-    </script>
+<script>
+/* smooth scroll */
+function scrollToContent() {
+    document.querySelector('.container')
+        .scrollIntoView({ behavior: 'smooth' });
+}
+
+/* custom cursor */
+const cursor = document.querySelector('.cursor');
+const ring = document.querySelector('.cursor-ring');
+
+document.addEventListener('mousemove', e => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    ring.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+});
+
+/* click animation */
+document.addEventListener('mousedown', () => {
+    cursor.style.transform += ' scale(0.7)';
+    ring.style.transform += ' scale(1.3)';
+});
+
+document.addEventListener('mouseup', () => {
+    cursor.style.transform = cursor.style.transform.replace(' scale(0.7)', '');
+    ring.style.transform = ring.style.transform.replace(' scale(1.3)', '');
+});
+</script>
+
 </body>
 </html>
