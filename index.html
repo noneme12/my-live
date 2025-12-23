@@ -2,31 +2,22 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>BRAIN-FOR WEB v2.1</title>
+<title>BRAIN-FOR WEB — Analytics</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 :root{
-  --bg:#0c0f18;
-  --panel:#121629;
-  --side:#0f1324;
-  --item:#191e35;
-  --item-hover:#232a4a;
-  --input:#171c33;
-  --border:#2c3260;
-  --text:#ffffff;
-  --muted:#9aa0c8;
-}
-:root.light{
-  --bg:#f3f4f7;
-  --panel:#ffffff;
-  --side:#f0f1f5;
-  --item:#e8eaf3;
-  --item-hover:#dfe3ff;
-  --input:#ffffff;
-  --border:#c7cbe6;
-  --text:#0e0f14;
-  --muted:#5c627a;
+  --bg:#0b0e14;
+  --panel:#121722;
+  --card:#151b2c;
+  --stroke:#222a40;
+  --accent:#ff2fa4;
+  --accent2:#7b2cff;
+  --green:#2dff9d;
+  --yellow:#ffd24d;
+  --red:#ff4d4d;
+  --text:#fff;
+  --muted:#8b93b6;
 }
 
 *{box-sizing:border-box}
@@ -37,109 +28,131 @@ body{
   color:var(--text);
 }
 
-/* FLOAT */
+/* FLOAT BTN */
 #bf-open{
   position:fixed;
   right:22px;
   bottom:22px;
-  width:68px;height:68px;
+  width:70px;
+  height:70px;
   border-radius:50%;
   border:none;
   cursor:pointer;
-  font-size:28px;
+  font-size:30px;
   color:#fff;
-  background:linear-gradient(135deg,#ff3c9e,#7b2cff);
-  box-shadow:0 15px 45px rgba(0,0,0,.45);
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 0 35px rgba(255,47,164,.5);
   z-index:9999;
 }
 
 /* MODAL */
 #bf-modal{position:fixed;inset:0;display:none;z-index:10000}
 #bf-modal.active{display:block}
-#bf-bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+#bf-bg{position:absolute;inset:0;background:rgba(0,0,0,.75)}
 
 #bf-window{
   position:absolute;
   left:50%;top:50%;
   transform:translate(-50%,-50%);
-  width:1100px;
+  width:1200px;
   max-width:96%;
-  height:720px;
+  height:760px;
   background:var(--panel);
-  border-radius:18px;
+  border-radius:20px;
   display:flex;
   overflow:hidden;
+  box-shadow:0 0 80px rgba(0,0,0,.8);
 }
 
 /* SIDEBAR */
 #bf-left{
   width:300px;
-  background:var(--side);
+  background:#0e1322;
   padding:18px;
   display:flex;
   flex-direction:column;
+  gap:12px;
 }
-#bf-left h3{margin:0 0 12px;font-size:16px;color:var(--muted)}
-
 .bf-tpl{
-  background:var(--item);
+  background:var(--card);
   padding:12px;
-  border-radius:12px;
-  margin-bottom:10px;
+  border-radius:14px;
+  border:1px solid var(--stroke);
   cursor:pointer;
-  transition:.15s;
+  transition:.2s;
 }
-.bf-tpl:hover{background:var(--item-hover);transform:translateY(-2px)}
+.bf-tpl:hover{
+  box-shadow:0 0 20px rgba(255,47,164,.25);
+  transform:translateY(-2px);
+}
 
 /* CONTENT */
 #bf-right{
   flex:1;
   padding:20px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:16px;
 }
 
+/* CARDS */
+.card{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:18px;
+  padding:16px;
+}
+.card h3{
+  margin:0 0 10px;
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* INPUTS */
 input,textarea,select{
   width:100%;
-  background:var(--input);
-  border:1px solid var(--border);
-  color:var(--text);
+  background:#0e1322;
+  border:1px solid var(--stroke);
+  color:#fff;
   border-radius:12px;
-  padding:14px;
-  font-size:14px;
+  padding:12px;
 }
 textarea{
-  flex:1;
+  height:140px;
   resize:none;
   font-family:Consolas,monospace;
 }
 
-/* TOP */
-#bf-top{display:flex;gap:10px}
-
 /* BUTTONS */
-.bf-row{display:flex;gap:10px}
-.bf-btn{
-  flex:1;
+.btn{
   border:none;
   border-radius:12px;
-  padding:14px;
+  padding:12px;
   font-weight:700;
   cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
   color:#fff;
-  background:linear-gradient(135deg,#ff3c9e,#7b2cff);
 }
-.bf-btn.gray{background:#2b325c}
-.bf-btn.red{background:#b92a2a}
-.bf-btn.green{background:#22aa77}
 
-/* FOOTER */
-#bf-footer{
+/* BARS */
+.bar{
+  height:10px;
+  border-radius:6px;
+  background:#1b2238;
+  overflow:hidden;
+}
+.bar span{
+  display:block;
+  height:100%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+}
+
+/* STATS */
+.stat{
   display:flex;
   justify-content:space-between;
-  font-size:12px;
-  color:var(--muted);
+  font-size:13px;
+  margin-bottom:6px;
 }
 </style>
 </head>
@@ -152,36 +165,60 @@ textarea{
   <div id="bf-bg"></div>
 
   <div id="bf-window">
+
+    <!-- LEFT -->
     <div id="bf-left">
-      <h3>📄 Шаблоны</h3>
-      <div id="bf-tpls"></div>
-      <button class="bf-btn gray" id="bf-add">➕ Новый шаблон</button>
+      <div class="bf-tpl">ЖБ: Оскорбления</div>
+      <div class="bf-tpl">ЖБ: DM / Убийство</div>
+      <div class="bf-tpl">ЖБ: НРП</div>
     </div>
 
+    <!-- RIGHT -->
     <div id="bf-right">
 
-      <div id="bf-top">
-        <input id="bf-title" placeholder="Заголовок (авто)">
-        <select id="bf-category">
-          <option value="nosost">❌ Не сост</option>
-          <option value="gos">🏛 Гос</option>
-          <option value="crim">🔫 Крим</option>
+      <!-- EDITOR -->
+      <div class="card">
+        <h3>✍️ Редактор жалобы</h3>
+        <input placeholder="Заголовок (Ник | Нарушение)">
+        <select>
+          <option>❌ Не сост</option>
+          <option>🏛 Гос</option>
+          <option>🔫 Крим</option>
         </select>
-        <button class="bf-btn gray" id="bf-theme">🌙</button>
+        <textarea placeholder="Текст жалобы"></textarea>
+        <button class="btn">➡ На форум</button>
       </div>
 
-      <textarea id="bf-editor" placeholder="Текст жалобы (BBCode)"></textarea>
+      <!-- ANALYTICS -->
+      <div class="card">
+        <h3>📊 Эффективность</h3>
 
-      <div class="bf-row">
-        <button class="bf-btn gray" id="bf-preview">👁</button>
-        <button class="bf-btn" id="bf-copy">📋</button>
-        <button class="bf-btn green" id="bf-forum">➡</button>
-        <button class="bf-btn red" id="bf-close">✖</button>
+        <div class="stat"><span>Создано ЖБ</span><b>8</b></div>
+        <div class="bar"><span style="width:80%"></span></div><br>
+
+        <div class="stat"><span>Отправлено</span><b>6</b></div>
+        <div class="bar"><span style="width:60%"></span></div><br>
+
+        <div class="stat"><span>По категориям</span></div>
+        <div class="stat">Не сост <b>3</b></div>
+        <div class="stat">Гос <b>2</b></div>
+        <div class="stat">Крим <b>3</b></div>
       </div>
 
-      <div id="bf-footer">
-        <div>Alt+M — открыть</div>
-        <div>BRAIN-FOR WEB v2.1</div>
+      <!-- ACTIVITY -->
+      <div class="card">
+        <h3>📈 Активность</h3>
+        <div class="bar"><span style="width:10%"></span></div><br>
+        <div class="bar"><span style="width:25%"></span></div><br>
+        <div class="bar"><span style="width:70%"></span></div>
+      </div>
+
+      <!-- TOP -->
+      <div class="card">
+        <h3>🏆 Топ нарушений</h3>
+        <div class="stat">Оскорбления <b>4</b></div>
+        <div class="stat">DM <b>3</b></div>
+        <div class="stat">НРП <b>1</b></div>
       </div>
 
     </div>
@@ -189,129 +226,8 @@ textarea{
 </div>
 
 <script>
-/* ===== THEME ===== */
-const root=document.documentElement;
-const savedTheme=localStorage.getItem('BF_THEME')||'dark';
-if(savedTheme==='light') root.classList.add('light');
-
-document.getElementById('bf-theme').onclick=()=>{
-  root.classList.toggle('light');
-  localStorage.setItem('BF_THEME',root.classList.contains('light')?'light':'dark');
-};
-
-/* ===== HOTKEY ===== */
-document.addEventListener('keydown',e=>{
-  if(e.altKey && e.key.toLowerCase()==='m'){
-    modal.classList.toggle('active');
-  }
-});
-
-/* ===== STORAGE ===== */
-const KEY='BF_TEMPLATES_V21';
-if(!localStorage.getItem(KEY)){
-  localStorage.setItem(KEY,JSON.stringify([
-    {name:'ЖБ: Оскорбления',text:`[CENTER][B]
-Мой ник:
-Ник нарушителя:
-Нарушение: Оскорбления
-Доказательства:
-[/B][/CENTER]`}
-  ]));
-}
-
-/* ===== ELEMENTS ===== */
-const modal=document.getElementById('bf-modal');
-const list=document.getElementById('bf-tpls');
-const title=document.getElementById('bf-title');
-const editor=document.getElementById('bf-editor');
-const category=document.getElementById('bf-category');
-
-/* ===== OPEN/CLOSE ===== */
-bf-open.onclick=()=>modal.classList.add('active');
-bf-close.onclick=bf-bg.onclick=()=>modal.classList.remove('active');
-
-/* ===== AUTOSAVE ===== */
-setInterval(()=>{
-  localStorage.setItem('BF_DRAFT',JSON.stringify({
-    title:title.value,
-    text:editor.value,
-    category:category.value
-  }));
-},2000);
-
-/* ===== RESTORE ===== */
-const draft=JSON.parse(localStorage.getItem('BF_DRAFT')||'null');
-if(draft){
-  title.value=draft.title||'';
-  editor.value=draft.text||'';
-  category.value=draft.category||'nosost';
-}
-
-/* ===== AUTO TITLE ===== */
-function autoTitle(){
-  const t=editor.value;
-  const nick=(t.match(/Ник нарушителя:\s*(.+)/i)||[])[1]||'';
-  const viol=(t.match(/Нарушение:\s*(.+)/i)||[])[1]||'';
-  if(nick||viol){
-    title.value=[nick,viol].filter(Boolean).join(' | ');
-  }
-}
-editor.addEventListener('input',autoTitle);
-
-/* ===== RENDER ===== */
-function render(){
-  list.innerHTML='';
-  JSON.parse(localStorage.getItem(KEY)).forEach(t=>{
-    const d=document.createElement('div');
-    d.className='bf-tpl';
-    d.textContent=t.name;
-    d.onclick=()=>{
-      editor.value=t.text;
-      autoTitle();
-    };
-    list.appendChild(d);
-  });
-}
-render();
-
-/* ===== ADD TEMPLATE ===== */
-bf-add.onclick=()=>{
-  const n=prompt('Название');
-  if(!n)return;
-  const t=prompt('Текст');
-  if(!t)return;
-  const arr=JSON.parse(localStorage.getItem(KEY));
-  arr.push({name:n,text:t});
-  localStorage.setItem(KEY,JSON.stringify(arr));
-  render();
-};
-
-/* ===== COPY ===== */
-bf-copy.onclick=()=>{
-  navigator.clipboard.writeText(title.value+'\n\n'+editor.value);
-};
-
-/* ===== PREVIEW ===== */
-bf-preview.onclick=()=>alert(editor.value);
-
-/* ===== SEND ===== */
-bf-forum.onclick=()=>{
-  if(!editor.value.trim())return alert('Пусто');
-
-  const URLS={
-    nosost:'https://forum.radmir.games/forums/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B-%D0%BD%D0%B0-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%BE%D0%B2-%D0%BD%D0%B5-%D1%81%D0%BE%D1%81%D1%82-%D0%B2-%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F%D1%85.194/create-thread',
-    gos:'https://forum.radmir.games/forums/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%BE%D0%B2-%D1%81%D0%BE%D1%81%D1%82-%D0%B2-%D0%B3%D0%BE%D1%81-%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0%D1%85.195/create-thread',
-    crim:'https://forum.radmir.games/forums/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B-%D0%BD%D0%B0-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%BE%D0%B2-%D1%81%D0%BE%D1%81%D1%82-%D0%B2-%D0%BA%D1%80%D0%B8%D0%BC%D0%B8%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85-%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0%D1%85.196/create-thread'
-  };
-
-  localStorage.setItem('BF_TRANSFER',JSON.stringify({
-    title:title.value,
-    text:editor.value,
-    time:Date.now()
-  }));
-
-  window.open(URLS[category.value],'_blank');
-};
+bf-open.onclick=()=>bf-modal.classList.add('active');
+bf-bg.onclick=()=>bf-modal.classList.remove('active');
 </script>
 
 </body>
