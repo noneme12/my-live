@@ -1,132 +1,257 @@
-<!-- 🧠 Brain FOR Floating Button -->
-<button id="bf-open">🧠</button>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>BRAIN-FOR WEB v1.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ===== BASE ===== */
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0f0f14;
+  color:#fff;
+}
+h1{padding:20px}
+
+/* ===== FLOAT BUTTON ===== */
 #bf-open{
-  position:fixed;right:20px;bottom:20px;z-index:9999;
-  width:60px;height:60px;border-radius:50%;
-  border:none;cursor:pointer;
-  font-size:24px;font-weight:bold;
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  font-size:26px;
+  font-weight:bold;
   color:#fff;
   background:linear-gradient(135deg,#ff2d95,#7f00ff);
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  box-shadow:0 12px 35px rgba(0,0,0,.45);
+  z-index:9999;
 }
-#bf-modal{position:fixed;inset:0;z-index:10000;display:none}
-#bf-modal.active{display:block}
-#bf-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
-#bf-win{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:900px;max-width:95%;height:600px;
-  background:#111;color:#fff;border-radius:14px;
-  display:flex;overflow:hidden;
-  font-family:Arial,sans-serif
-}
-#bf-left{width:280px;background:#161616;padding:15px;overflow:auto}
-#bf-right{flex:1;padding:15px;display:flex;flex-direction:column}
-.bf-btn{
-  background:linear-gradient(135deg,#ff2d95,#7f00ff);
-  border:none;border-radius:8px;
-  padding:10px;color:#fff;
-  cursor:pointer;font-weight:bold
-}
-.bf-list div{
-  background:#1f1f1f;padding:10px;
-  border-radius:8px;margin-bottom:8px;
-  cursor:pointer
-}
-input,textarea{
-  width:100%;background:#1c1c1c;color:#fff;
-  border:1px solid #333;border-radius:8px;
-  padding:10px
-}
-textarea{resize:none;flex:1}
-</style>
 
+/* ===== MODAL ===== */
+#bf-modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  z-index:10000;
+}
+#bf-modal.active{display:block}
+
+#bf-bg{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.7);
+}
+
+#bf-window{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:1000px;
+  max-width:95%;
+  height:650px;
+  background:#14141c;
+  border-radius:16px;
+  display:flex;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+/* ===== LEFT ===== */
+#bf-left{
+  width:300px;
+  background:#101018;
+  padding:15px;
+  box-sizing:border-box;
+  overflow-y:auto;
+}
+#bf-left h3{margin:0 0 10px}
+
+.bf-tpl{
+  background:#1c1c26;
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:10px;
+  cursor:pointer;
+}
+.bf-tpl:hover{background:#232334}
+
+/* ===== RIGHT ===== */
+#bf-right{
+  flex:1;
+  padding:15px;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+input,textarea{
+  width:100%;
+  box-sizing:border-box;
+  background:#1b1b25;
+  color:#fff;
+  border:1px solid #333;
+  border-radius:10px;
+  padding:12px;
+  font-size:14px;
+}
+
+textarea{
+  flex:1;
+  resize:none;
+  font-family:Consolas,monospace;
+}
+
+/* ===== BUTTONS ===== */
+.bf-btn{
+  border:none;
+  border-radius:10px;
+  padding:12px 14px;
+  font-weight:bold;
+  cursor:pointer;
+  color:#fff;
+  background:linear-gradient(135deg,#ff2d95,#7f00ff);
+}
+.bf-btn.gray{
+  background:#2a2a3a;
+}
+.bf-btn.red{
+  background:#aa1d1d;
+}
+.bf-row{
+  display:flex;
+  gap:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Мой сайт</h1>
+
+<!-- FLOAT BUTTON -->
+<button id="bf-open">🧠</button>
+
+<!-- MODAL -->
 <div id="bf-modal">
   <div id="bf-bg"></div>
-  <div id="bf-win">
+
+  <div id="bf-window">
+    <!-- LEFT -->
     <div id="bf-left">
       <h3>📄 Шаблоны</h3>
-      <div class="bf-list" id="bf-templates"></div>
-      <button class="bf-btn" id="bf-add">➕ Новый</button>
+      <div id="bf-tpls"></div>
+      <button class="bf-btn gray" id="bf-add">➕ Добавить шаблон</button>
     </div>
 
+    <!-- RIGHT -->
     <div id="bf-right">
       <input id="bf-title" placeholder="Заголовок жалобы">
       <textarea id="bf-editor" placeholder="Текст жалобы (BBCode)"></textarea>
 
-      <div style="display:flex;gap:10px;margin-top:10px">
+      <div class="bf-row">
         <button class="bf-btn" id="bf-copy">📋 Копировать</button>
         <button class="bf-btn" id="bf-forum">➡ На форум</button>
-        <button class="bf-btn" id="bf-close">✖ Закрыть</button>
+        <button class="bf-btn red" id="bf-close">✖ Закрыть</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-(function(){
-const TPL_KEY='BF_TEMPLATES';
-const templates=JSON.parse(localStorage.getItem(TPL_KEY)||'[]');
-if(!templates.length){
-  templates.push({
-    name:'ЖБ: Оскорбления',
-    text:`[CENTER][B]
+/* ===== STORAGE ===== */
+const KEY = 'BF_TEMPLATES_V1';
+
+/* ===== DEFAULT TEMPLATES ===== */
+if(!localStorage.getItem(KEY)){
+  localStorage.setItem(KEY,JSON.stringify([
+    {
+      name:'ЖБ: Оскорбления',
+      text:`[CENTER][B]
 Мой ник:
 Ник нарушителя:
 Нарушение: Оскорбления
 Доказательства:
 [/B][/CENTER]`
-  });
-  localStorage.setItem(TPL_KEY,JSON.stringify(templates));
+    },
+    {
+      name:'ЖБ: DM / Убийство',
+      text:`[CENTER][B]
+Мой ник:
+Ник нарушителя:
+Нарушение: DM / Убийство
+Доказательства:
+[/B][/CENTER]`
+    }
+  ]));
 }
 
-const modal=document.getElementById('bf-modal');
-document.getElementById('bf-open').onclick=()=>modal.classList.add('active');
-document.getElementById('bf-close').onclick=()=>modal.classList.remove('active');
-document.getElementById('bf-bg').onclick=()=>modal.classList.remove('active');
+/* ===== ELEMENTS ===== */
+const modal = document.getElementById('bf-modal');
+const list  = document.getElementById('bf-tpls');
+const title = document.getElementById('bf-title');
+const editor= document.getElementById('bf-editor');
 
-const list=document.getElementById('bf-templates');
+/* ===== OPEN / CLOSE ===== */
+document.getElementById('bf-open').onclick = ()=>modal.classList.add('active');
+document.getElementById('bf-close').onclick=()=>modal.classList.remove('active');
+document.getElementById('bf-bg').onclick   =()=>modal.classList.remove('active');
+
+/* ===== RENDER ===== */
 function render(){
   list.innerHTML='';
-  JSON.parse(localStorage.getItem(TPL_KEY)||'[]').forEach(t=>{
+  JSON.parse(localStorage.getItem(KEY)).forEach(t=>{
     const d=document.createElement('div');
+    d.className='bf-tpl';
     d.textContent=t.name;
     d.onclick=()=>{
-      document.getElementById('bf-editor').value=t.text;
-      document.getElementById('bf-title').value=t.name;
+      title.value=t.name;
+      editor.value=t.text;
     };
     list.appendChild(d);
   });
 }
 render();
 
+/* ===== ADD TEMPLATE ===== */
 document.getElementById('bf-add').onclick=()=>{
-  const name=prompt('Название шаблона');
-  if(!name)return;
-  const text=prompt('Текст шаблона');
-  if(!text)return;
-  templates.push({name,text});
-  localStorage.setItem(TPL_KEY,JSON.stringify(templates));
+  const n=prompt('Название шаблона');
+  if(!n)return;
+  const t=prompt('Текст шаблона');
+  if(!t)return;
+  const arr=JSON.parse(localStorage.getItem(KEY));
+  arr.push({name:n,text:t});
+  localStorage.setItem(KEY,JSON.stringify(arr));
   render();
 };
 
+/* ===== COPY ===== */
 document.getElementById('bf-copy').onclick=()=>{
-  navigator.clipboard.writeText(
-    document.getElementById('bf-title').value+'\n\n'+
-    document.getElementById('bf-editor').value
-  );
+  navigator.clipboard.writeText(title.value+'\n\n'+editor.value);
   alert('Скопировано');
 };
 
+/* ===== SEND TO FORUM ===== */
 document.getElementById('bf-forum').onclick=()=>{
-  const title=document.getElementById('bf-title').value;
-  const text=document.getElementById('bf-editor').value;
-  if(!text.trim())return alert('Пусто');
-  localStorage.setItem('BF_TRANSFER',JSON.stringify({title,text}));
+  if(!editor.value.trim()){
+    alert('Текст пуст');
+    return;
+  }
+  localStorage.setItem('BF_TRANSFER',JSON.stringify({
+    title:title.value,
+    text:editor.value,
+    time:Date.now()
+  }));
   window.open('https://forum.radmir.games/post-thread','_blank');
 };
-})();
 </script>
 
+</body>
+</html>
