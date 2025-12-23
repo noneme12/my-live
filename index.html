@@ -32,12 +32,15 @@
         }
 
         .screen {
-            background: rgba(10, 10, 10, 0.9);
-            border: 2px solid #333;
+            background: rgba(20, 0, 0, 0.9);
+            border: 2px solid #ff0000;
             border-radius: 10px;
             padding: 40px 20px;
             position: relative;
-            box-shadow: 0 0 50px rgba(0, 255, 0, 0.1);
+            box-shadow: 
+                0 0 50px rgba(255, 0, 0, 0.2),
+                0 0 100px rgba(255, 0, 0, 0.1),
+                inset 0 0 30px rgba(255, 0, 0, 0.1);
         }
 
         .screen::before {
@@ -48,13 +51,37 @@
             right: 0;
             bottom: 0;
             background: linear-gradient(
-                rgba(0, 255, 0, 0.03) 50%,
+                rgba(255, 0, 0, 0.03) 50%,
                 rgba(0, 0, 0, 0.1) 50%
             );
             background-size: 100% 4px;
             pointer-events: none;
             border-radius: 8px;
             animation: scan 8s linear infinite;
+        }
+
+        .screen::after {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #ff0000, #ff3333, #ff0000, #ff3333, #ff0000);
+            border-radius: 12px;
+            z-index: -1;
+            animation: borderGlow 3s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+            100% {
+                filter: hue-rotate(360deg);
+            }
         }
 
         @keyframes scan {
@@ -78,14 +105,37 @@
             letter-spacing: 12px;
             text-shadow: 
                 0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 15px #fff,
-                0 0 20px #0f0,
-                0 0 30px #0f0,
-                0 0 40px #0f0;
+                0 0 10px #ff0000,
+                0 0 15px #ff0000,
+                0 0 20px #ff0000,
+                0 0 30px #ff0000,
+                0 0 40px #ff0000,
+                0 0 50px #ff0000,
+                0 0 60px #ff0000;
             color: #ffffff;
             opacity: 0;
-            animation: fadeIn 0.5s forwards;
+            animation: fadeIn 0.5s forwards, textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from {
+                text-shadow: 
+                    0 0 5px #fff,
+                    0 0 10px #ff0000,
+                    0 0 15px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 30px #ff0000;
+            }
+            to {
+                text-shadow: 
+                    0 0 10px #fff,
+                    0 0 20px #ff0000,
+                    0 0 30px #ff0000,
+                    0 0 40px #ff0000,
+                    0 0 50px #ff0000,
+                    0 0 60px #ff0000,
+                    0 0 70px #ff0000;
+            }
         }
 
         .cursor {
@@ -95,16 +145,33 @@
             transform: translateY(-50%);
             width: 15px;
             height: 80px;
-            background-color: #0f0;
+            background: linear-gradient(45deg, #ff0000, #ff3333, #ff0000);
             box-shadow: 
-                0 0 5px #0f0,
-                0 0 10px #0f0,
-                0 0 15px #0f0;
-            animation: blink 0.8s infinite;
+                0 0 5px #ff0000,
+                0 0 10px #ff0000,
+                0 0 15px #ff0000,
+                0 0 20px #ff0000;
+            animation: blink 0.8s infinite, cursorPulse 2s infinite;
+            border-radius: 2px;
         }
 
         .cursor.typing {
-            animation: typing-blink 0.5s infinite;
+            animation: typing-blink 0.5s infinite, cursorPulse 1s infinite;
+        }
+
+        @keyframes cursorPulse {
+            0%, 100% {
+                box-shadow: 
+                    0 0 5px #ff0000,
+                    0 0 10px #ff0000,
+                    0 0 15px #ff0000;
+            }
+            50% {
+                box-shadow: 
+                    0 0 10px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 30px #ff0000;
+            }
         }
 
         @keyframes blink {
@@ -112,7 +179,7 @@
                 opacity: 1;
             }
             51%, 100% {
-                opacity: 0;
+                opacity: 0.3;
             }
         }
 
@@ -121,7 +188,7 @@
                 opacity: 1;
             }
             50% {
-                opacity: 0.3;
+                opacity: 0.5;
             }
         }
 
@@ -150,8 +217,12 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 14px;
-            color: #0f0;
+            color: #ff0000;
             opacity: 0.7;
+            text-shadow: 
+                0 0 5px #ff0000,
+                0 0 10px #ff0000;
+            letter-spacing: 2px;
         }
 
         .loading::after {
@@ -166,6 +237,31 @@
             80%, 100% { content: "..."; }
         }
 
+        /* Красные частицы */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,0,0,0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             .text {
@@ -176,6 +272,7 @@
             .cursor {
                 height: 50px;
                 width: 10px;
+                right: -15px;
             }
             
             .terminal {
@@ -196,12 +293,18 @@
             .cursor {
                 height: 36px;
                 width: 8px;
-                right: -12px;
+                right: -10px;
+            }
+            
+            .screen {
+                padding: 20px 10px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="particles" id="particles"></div>
+    
     <div class="terminal">
         <div class="screen">
             <div class="text-container">
@@ -224,6 +327,10 @@
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-sci-fi-startup-2897.mp3" type="audio/mpeg">
     </audio>
 
+    <audio id="redAlert" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const textElement = document.getElementById('text');
@@ -232,17 +339,47 @@
             const typeSound = document.getElementById('typeSound');
             const enterSound = document.getElementById('enterSound');
             const startSound = document.getElementById('startSound');
+            const redAlert = document.getElementById('redAlert');
+            
+            // Создаем красные частицы
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = 30;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    const size = Math.random() * 100 + 20;
+                    const posX = Math.random() * 100;
+                    const duration = Math.random() * 20 + 10;
+                    const delay = Math.random() * 5;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = '100%';
+                    particle.style.animationDuration = `${duration}s`;
+                    particle.style.animationDelay = `${delay}s`;
+                    particle.style.opacity = Math.random() * 0.1 + 0.05;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            createParticles();
             
             // Предзагрузка звуков
             function preloadAudio() {
                 typeSound.load();
                 enterSound.load();
                 startSound.load();
+                redAlert.load();
             }
             
             preloadAudio();
             
-            // Функция воспроизведения звука с клонированием для быстрого повторения
+            // Функция воспроизведения звука
             function playSound(audioElement, volume = 0.5) {
                 try {
                     const soundClone = audioElement.cloneNode();
@@ -254,21 +391,27 @@
                 }
             }
             
-            // Начинаем с загрузочного звука
+            // Начинаем с тревожного красного звука
             setTimeout(() => {
-                playSound(startSound, 0.3);
+                playSound(redAlert, 0.3);
+                playSound(startSound, 0.2);
+                
+                // Эффект вспышки экрана
+                const screen = document.querySelector('.screen');
+                screen.style.boxShadow = '0 0 100px rgba(255, 0, 0, 0.8)';
+                setTimeout(() => {
+                    screen.style.boxShadow = '';
+                }, 300);
             }, 500);
             
             // Функция печатания текста
             function typeText() {
                 cursorElement.classList.add('typing');
                 
-                let delay = 1000; // Задержка перед началом печати
+                let delay = 1000;
                 
-                // Печатаем каждую букву
                 for(let i = 0; i < fullText.length; i++) {
                     setTimeout(() => {
-                        // Создаем span для буквы
                         const charSpan = document.createElement('span');
                         charSpan.className = 'char';
                         charSpan.textContent = fullText[i];
@@ -277,17 +420,31 @@
                         // Воспроизводим звук печатания
                         playSound(typeSound, 0.2);
                         
-                        // Если это последняя буква
+                        // Эффект вспышки при появлении буквы
+                        if (Math.random() > 0.5) {
+                            charSpan.style.textShadow = '0 0 30px #ff0000';
+                            setTimeout(() => {
+                                charSpan.style.textShadow = '';
+                            }, 200);
+                        }
+                        
                         if(i === fullText.length - 1) {
                             setTimeout(() => {
                                 cursorElement.classList.remove('typing');
                                 playSound(enterSound, 0.3);
                                 
-                                // Запускаем заново через 3 секунды
+                                // Финал - мощная красная вспышка
+                                setTimeout(() => {
+                                    document.body.style.backgroundColor = '#ff0000';
+                                    setTimeout(() => {
+                                        document.body.style.backgroundColor = '#000000';
+                                    }, 100);
+                                }, 500);
+                                
                                 setTimeout(resetAndType, 3000);
                             }, 300);
                         }
-                    }, delay + (i * 150)); // 150ms между буквами
+                    }, delay + (i * 150));
                 }
             }
             
@@ -295,6 +452,14 @@
             function resetAndType() {
                 textElement.innerHTML = '';
                 setTimeout(typeText, 500);
+                
+                // Рандомные красные вспышки
+                setTimeout(() => {
+                    document.querySelector('.text').style.textShadow = '0 0 100px #ff0000';
+                    setTimeout(() => {
+                        document.querySelector('.text').style.textShadow = '';
+                    }, 200);
+                }, 1000);
             }
             
             // Начинаем печатать
@@ -304,30 +469,59 @@
             document.addEventListener('click', function() {
                 playSound(enterSound, 0.3);
                 
-                // Быстрое мигание при клике
                 cursorElement.style.animation = 'none';
                 setTimeout(() => {
                     cursorElement.style.animation = '';
                 }, 100);
+                
+                // Эффект клика
+                document.body.style.backgroundColor = '#330000';
+                setTimeout(() => {
+                    document.body.style.backgroundColor = '#000000';
+                }, 100);
             });
             
-            // Случайные звуковые эффекты фона
+            // Случайные красные вспышки и звуки
             setInterval(() => {
                 if(Math.random() > 0.7) {
                     playSound(typeSound, 0.1);
+                    
+                    const text = document.querySelector('.text');
+                    if(text) {
+                        text.style.opacity = '0.8';
+                        setTimeout(() => {
+                            text.style.opacity = '1';
+                        }, 100);
+                    }
+                }
+                
+                // Редкие мощные вспышки
+                if(Math.random() > 0.9) {
+                    document.body.style.backgroundColor = '#660000';
+                    setTimeout(() => {
+                        document.body.style.backgroundColor = '#000000';
+                    }, 50);
+                    playSound(redAlert, 0.1);
+                }
+            }, 3000);
+            
+            // Эффект пульсации текста
+            setInterval(() => {
+                const text = document.querySelector('.text');
+                if(text) {
+                    text.style.transform = 'scale(1.01)';
+                    setTimeout(() => {
+                        text.style.transform = 'scale(1)';
+                    }, 300);
                 }
             }, 5000);
             
-            // Эффект мерцания текста
+            // Добавляем случайные частицы
             setInterval(() => {
-                const text = document.querySelector('.text');
-                if(text && Math.random() > 0.8) {
-                    text.style.opacity = '0.8';
-                    setTimeout(() => {
-                        text.style.opacity = '1';
-                    }, 50);
+                if(Math.random() > 0.8) {
+                    createParticles();
                 }
-            }, 2000);
+            }, 5000);
         });
     </script>
 </body>
