@@ -1,181 +1,132 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Список "Справедливец"</title>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      background-color: #000;
-      font-family: 'Manrope', sans-serif;
-      color: #fff;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: #000;
-      border-bottom: 1px solid #111;
-    }
-    .logo {
-      border: 3px solid red;
-      padding: 0.5rem 1rem;
-      color: #fff;
-      font-weight: 800;
-    }
-    nav a {
-      margin-left: 2rem;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      color: #ff0033;
-    }
-    h1 {
-      text-align: center;
-      color: #fff;
-      font-size: 2.5rem;
-      margin-top: 2rem;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .card {
-      text-align: center;
-      cursor: pointer;
-    }
-    .card img {
-      width: 100%;
-      border-radius: 10px;
-      height: 250px;
-      object-fit: cover;
-    }
-    .card h2 {
-      color: #ff0033;
-      font-size: 1.2rem;
-      margin: 1rem 0 0.5rem;
-    }
-    .card p {
-      color: #eee;
-      font-size: 1rem;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: #111;
-      padding: 2rem;
-      border-radius: 10px;
-      max-width: 500px;
-      text-align: left;
-      color: #fff;
-      position: relative;
-    }
-    .modal-content h3 {
-      color: #ff0033;
-      margin-top: 0;
-    }
-    .close {
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #fff;
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: #666;
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
+<!-- 🧠 Brain FOR Floating Button -->
+<button id="bf-open">🧠</button>
 
-<header>
-  <div class="logo">ФОР</div>
-  <nav>
-    <a href="#">Главная</a>
-    <a href="#">Люди в ОЧСе</a>
-    <a href="#">О нас</a>
-  </nav>
-</header>
+<style>
+#bf-open{
+  position:fixed;right:20px;bottom:20px;z-index:9999;
+  width:60px;height:60px;border-radius:50%;
+  border:none;cursor:pointer;
+  font-size:24px;font-weight:bold;
+  color:#fff;
+  background:linear-gradient(135deg,#ff2d95,#7f00ff);
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+#bf-modal{position:fixed;inset:0;z-index:10000;display:none}
+#bf-modal.active{display:block}
+#bf-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
+#bf-win{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:900px;max-width:95%;height:600px;
+  background:#111;color:#fff;border-radius:14px;
+  display:flex;overflow:hidden;
+  font-family:Arial,sans-serif
+}
+#bf-left{width:280px;background:#161616;padding:15px;overflow:auto}
+#bf-right{flex:1;padding:15px;display:flex;flex-direction:column}
+.bf-btn{
+  background:linear-gradient(135deg,#ff2d95,#7f00ff);
+  border:none;border-radius:8px;
+  padding:10px;color:#fff;
+  cursor:pointer;font-weight:bold
+}
+.bf-list div{
+  background:#1f1f1f;padding:10px;
+  border-radius:8px;margin-bottom:8px;
+  cursor:pointer
+}
+input,textarea{
+  width:100%;background:#1c1c1c;color:#fff;
+  border:1px solid #333;border-radius:8px;
+  padding:10px
+}
+textarea{resize:none;flex:1}
+</style>
 
-<h1>Список "Справедливец"</h1>
+<div id="bf-modal">
+  <div id="bf-bg"></div>
+  <div id="bf-win">
+    <div id="bf-left">
+      <h3>📄 Шаблоны</h3>
+      <div class="bf-list" id="bf-templates"></div>
+      <button class="bf-btn" id="bf-add">➕ Новый</button>
+    </div>
 
-<div class="container">
-  <div class="card" onclick="openModal('nikita')">
-    <img src="images/nikita.jpg" alt="Nikita_Boroi">
-    <h2>Nikita_Boroi</h2>
-    <p>Оскорбления, поддержка оскорблений, попытка слива</p>
-  </div>
+    <div id="bf-right">
+      <input id="bf-title" placeholder="Заголовок жалобы">
+      <textarea id="bf-editor" placeholder="Текст жалобы (BBCode)"></textarea>
 
-  <div class="card" onclick="openModal('misha')">
-    <img src="images/misha.jpg" alt="Misha_Lokov">
-    <h2>Misha_Lokov</h2>
-    <p>Оскорбления, поддержка слива, антиФОР активность</p>
-  </div>
-
-  <div class="card" onclick="openModal('ivan')">
-    <img src="images/ivan.jpg" alt="Ivan_Xarpov">
-    <h2>Ivan_Xarpov</h2>
-    <p>Оскорбления, поддержка слива, БСФБ</p>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button class="bf-btn" id="bf-copy">📋 Копировать</button>
+        <button class="bf-btn" id="bf-forum">➡ На форум</button>
+        <button class="bf-btn" id="bf-close">✖ Закрыть</button>
+      </div>
+    </div>
   </div>
 </div>
-
-<!-- Модальные окна -->
-<div id="modal-nikita" class="modal" onclick="closeModal('nikita')">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span class="close" onclick="closeModal('nikita')">&times;</span>
-    <h3>Sergey_Burkov</h3>
-    <p>Подробности: Cоздание антиФОРовской банды,оскорбление членов ФОР и Главу ФОР.</p>
-  </div>
-</div>
-
-<div id="modal-misha" class="modal" onclick="closeModal('misha')">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span class="close" onclick="closeModal('misha')">&times;</span>
-    <h3>Misha_Lokov</h3>
-    <p>Подробности: участие в скоординированных действиях по дискредитации ФОР, распространение недостоверной информации, сотрудничество с антиФОР движением.</p>
-  </div>
-</div>
-
-<div id="modal-ivan" class="modal" onclick="closeModal('ivan')">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span class="close" onclick="closeModal('ivan')">&times;</span>
-    <h3>Ivan_Xarpov</h3>
-    <p>Подробности: публичные заявления против объединения, использование символики БСФБ, участие в антиФОР мероприятиях.</p>
-  </div>
-</div>
-
-<footer>
-  &copy; 2025 Справедливец / FOR. Все права защищены.
-</footer>
 
 <script>
-  function openModal(id) {
-    document.getElementById('modal-' + id).style.display = 'flex';
-  }
-  function closeModal(id) {
-    document.getElementById('modal-' + id).style.display = 'none';
-  }
+(function(){
+const TPL_KEY='BF_TEMPLATES';
+const templates=JSON.parse(localStorage.getItem(TPL_KEY)||'[]');
+if(!templates.length){
+  templates.push({
+    name:'ЖБ: Оскорбления',
+    text:`[CENTER][B]
+Мой ник:
+Ник нарушителя:
+Нарушение: Оскорбления
+Доказательства:
+[/B][/CENTER]`
+  });
+  localStorage.setItem(TPL_KEY,JSON.stringify(templates));
+}
+
+const modal=document.getElementById('bf-modal');
+document.getElementById('bf-open').onclick=()=>modal.classList.add('active');
+document.getElementById('bf-close').onclick=()=>modal.classList.remove('active');
+document.getElementById('bf-bg').onclick=()=>modal.classList.remove('active');
+
+const list=document.getElementById('bf-templates');
+function render(){
+  list.innerHTML='';
+  JSON.parse(localStorage.getItem(TPL_KEY)||'[]').forEach(t=>{
+    const d=document.createElement('div');
+    d.textContent=t.name;
+    d.onclick=()=>{
+      document.getElementById('bf-editor').value=t.text;
+      document.getElementById('bf-title').value=t.name;
+    };
+    list.appendChild(d);
+  });
+}
+render();
+
+document.getElementById('bf-add').onclick=()=>{
+  const name=prompt('Название шаблона');
+  if(!name)return;
+  const text=prompt('Текст шаблона');
+  if(!text)return;
+  templates.push({name,text});
+  localStorage.setItem(TPL_KEY,JSON.stringify(templates));
+  render();
+};
+
+document.getElementById('bf-copy').onclick=()=>{
+  navigator.clipboard.writeText(
+    document.getElementById('bf-title').value+'\n\n'+
+    document.getElementById('bf-editor').value
+  );
+  alert('Скопировано');
+};
+
+document.getElementById('bf-forum').onclick=()=>{
+  const title=document.getElementById('bf-title').value;
+  const text=document.getElementById('bf-editor').value;
+  if(!text.trim())return alert('Пусто');
+  localStorage.setItem('BF_TRANSFER',JSON.stringify({title,text}));
+  window.open('https://forum.radmir.games/post-thread','_blank');
+};
+})();
 </script>
 
-</body>
-</html>
