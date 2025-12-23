@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ФОР — Список Справедливец</title>
 
-<!-- INTER FONT -->
+<!-- BEAUTIFUL FONT -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -20,7 +20,7 @@
 body {
     background: #000;
     color: #fff;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
 }
 
@@ -30,7 +30,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 90px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,7 +38,7 @@ body {
     z-index: 10;
 }
 
-/* HOME */
+/* HOME BUTTON */
 .home-btn {
     position: absolute;
     left: 40px;
@@ -48,18 +48,21 @@ body {
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
-    opacity: 0.9;
+    opacity: 0.85;
 }
 
 .home-btn:hover {
     opacity: 1;
 }
 
-/* LOGO */
+/* LOGO WITH RED BORDER */
 .logo {
+    border: 2px solid #ff0000;
+    padding: 10px 22px;
     font-size: 22px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 2px;
+    color: #fff;
 }
 
 /* HERO */
@@ -83,8 +86,8 @@ body {
     position: absolute;
     bottom: 40px;
     left: 50%;
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-left: 3px solid #fff;
     border-bottom: 3px solid #fff;
     transform: translateX(-50%) rotate(-45deg);
@@ -110,6 +113,7 @@ body {
 
     .logo {
         font-size: 18px;
+        padding: 8px 18px;
     }
 }
 </style>
