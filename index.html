@@ -2,95 +2,97 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>BRAIN-FOR WEB v1.1</title>
+<title>BRAIN-FOR WEB v2.0</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ===== RESET ===== */
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#0f0f14;
+  font-family:Inter,Arial,sans-serif;
+  background:#0c0f18;
   color:#fff;
 }
-h1{padding:20px}
 
-/* FLOAT BUTTON */
+/* ===== FLOAT BTN ===== */
 #bf-open{
   position:fixed;
-  right:20px;
-  bottom:20px;
-  width:64px;
-  height:64px;
+  right:22px;
+  bottom:22px;
+  width:68px;
+  height:68px;
   border-radius:50%;
   border:none;
   cursor:pointer;
-  font-size:26px;
-  font-weight:bold;
+  font-size:28px;
   color:#fff;
-  background:linear-gradient(135deg,#ff2d95,#7f00ff);
-  box-shadow:0 12px 35px rgba(0,0,0,.45);
+  background:linear-gradient(135deg,#ff3c9e,#7b2cff);
+  box-shadow:0 15px 45px rgba(0,0,0,.55);
   z-index:9999;
 }
 
-/* MODAL */
-#bf-modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  z-index:10000;
-}
+/* ===== MODAL ===== */
+#bf-modal{position:fixed;inset:0;display:none;z-index:10000}
 #bf-modal.active{display:block}
-#bf-bg{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.7);
-}
+#bf-bg{position:absolute;inset:0;background:rgba(0,0,0,.75)}
+
 #bf-window{
   position:absolute;
-  left:50%;
-  top:50%;
+  left:50%;top:50%;
   transform:translate(-50%,-50%);
-  width:1000px;
-  max-width:95%;
-  height:650px;
-  background:#14141c;
-  border-radius:16px;
+  width:1100px;
+  max-width:96%;
+  height:720px;
+  background:#121629;
+  border-radius:18px;
   display:flex;
   overflow:hidden;
+  box-shadow:0 25px 80px rgba(0,0,0,.65);
 }
 
-/* LEFT */
+/* ===== SIDEBAR ===== */
 #bf-left{
   width:300px;
-  background:#101018;
-  padding:15px;
-  overflow-y:auto;
-}
-.bf-tpl{
-  background:#1c1c26;
-  border-radius:10px;
-  padding:10px;
-  margin-bottom:10px;
-  cursor:pointer;
-}
-.bf-tpl:hover{background:#232334}
-
-/* RIGHT */
-#bf-right{
-  flex:1;
-  padding:15px;
+  background:#0f1324;
+  padding:18px;
   display:flex;
   flex-direction:column;
-  gap:10px;
+}
+#bf-left h3{margin:0 0 12px;font-size:16px;opacity:.85}
+
+.bf-tpl{
+  background:#191e35;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:.15s;
+}
+.bf-tpl:hover{background:#232a4a;transform:translateY(-2px)}
+
+#bf-add{
+  margin-top:auto;
+  background:#2a3158;
 }
 
+/* ===== CONTENT ===== */
+#bf-right{
+  flex:1;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* ===== INPUTS ===== */
 input,textarea,select{
   width:100%;
-  background:#1b1b25;
+  background:#171c33;
+  border:1px solid #2c3260;
   color:#fff;
-  border:1px solid #333;
-  border-radius:10px;
-  padding:12px;
+  border-radius:12px;
+  padding:14px;
   font-size:14px;
 }
 textarea{
@@ -99,25 +101,39 @@ textarea{
   font-family:Consolas,monospace;
 }
 
-/* BUTTONS */
+/* ===== TOP BAR ===== */
+#bf-top{
+  display:flex;
+  gap:10px;
+}
+
+/* ===== BUTTONS ===== */
 .bf-row{display:flex;gap:10px}
 .bf-btn{
+  flex:1;
   border:none;
-  border-radius:10px;
-  padding:12px 14px;
-  font-weight:bold;
+  border-radius:12px;
+  padding:14px;
+  font-weight:700;
   cursor:pointer;
   color:#fff;
-  background:linear-gradient(135deg,#ff2d95,#7f00ff);
+  background:linear-gradient(135deg,#ff3c9e,#7b2cff);
 }
-.bf-btn.gray{background:#2a2a3a}
-.bf-btn.red{background:#aa1d1d}
+.bf-btn.gray{background:#2b325c}
+.bf-btn.red{background:#b92a2a}
+.bf-btn.green{background:#22aa77}
+
+/* ===== FOOTER ===== */
+#bf-footer{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  opacity:.6;
+}
 </style>
 </head>
 
 <body>
-
-<h1>Мой сайт</h1>
 
 <button id="bf-open">🧠</button>
 
@@ -125,68 +141,94 @@ textarea{
   <div id="bf-bg"></div>
 
   <div id="bf-window">
+
+    <!-- LEFT -->
     <div id="bf-left">
       <h3>📄 Шаблоны</h3>
       <div id="bf-tpls"></div>
-      <button class="bf-btn gray" id="bf-add">➕ Добавить шаблон</button>
+      <button class="bf-btn gray" id="bf-add">➕ Новый шаблон</button>
     </div>
 
+    <!-- RIGHT -->
     <div id="bf-right">
-      <input id="bf-title" placeholder="Заголовок жалобы">
 
-      <!-- ВЫБОР КАТЕГОРИИ -->
-      <select id="bf-category">
-        <option value="nosost">❌ Не сост</option>
-        <option value="gos">🏛 Гос</option>
-        <option value="crim">🔫 Крим</option>
-      </select>
+      <div id="bf-top">
+        <input id="bf-title" placeholder="Заголовок (авто)">
+        <select id="bf-category">
+          <option value="nosost">❌ Не сост</option>
+          <option value="gos">🏛 Гос</option>
+          <option value="crim">🔫 Крим</option>
+        </select>
+      </div>
 
       <textarea id="bf-editor" placeholder="Текст жалобы (BBCode)"></textarea>
 
       <div class="bf-row">
+        <button class="bf-btn gray" id="bf-preview">👁 Предпросмотр</button>
         <button class="bf-btn" id="bf-copy">📋 Копировать</button>
-        <button class="bf-btn" id="bf-forum">➡ На форум</button>
-        <button class="bf-btn red" id="bf-close">✖ Закрыть</button>
+        <button class="bf-btn green" id="bf-forum">➡ На форум</button>
+        <button class="bf-btn red" id="bf-close">✖</button>
       </div>
+
+      <div id="bf-footer">
+        <div>Alt + M — открыть</div>
+        <div>BRAIN-FOR WEB v2.0</div>
+      </div>
+
     </div>
   </div>
 </div>
 
 <script>
-const KEY='BF_TEMPLATES_V1';
+/* ===== HOTKEY ===== */
+document.addEventListener('keydown',e=>{
+  if(e.altKey && e.key.toLowerCase()==='m'){
+    modal.classList.toggle('active');
+  }
+});
+
+/* ===== STORAGE ===== */
+const KEY='BF_TEMPLATES_V2';
 if(!localStorage.getItem(KEY)){
   localStorage.setItem(KEY,JSON.stringify([
-    {
-      name:'ЖБ: Оскорбления',
-      text:`[CENTER][B]
+    {name:'ЖБ: Оскорбления',text:`[CENTER][B]
 Мой ник:
 Ник нарушителя:
 Нарушение: Оскорбления
 Доказательства:
-[/B][/CENTER]`
-    },
-    {
-      name:'ЖБ: DM / Убийство',
-      text:`[CENTER][B]
-Мой ник:
-Ник нарушителя:
-Нарушение: DM / Убийство
-Доказательства:
-[/B][/CENTER]`
-    }
+[/B][/CENTER]`}
   ]));
 }
 
+/* ===== ELEMENTS ===== */
 const modal=document.getElementById('bf-modal');
 const list=document.getElementById('bf-tpls');
 const title=document.getElementById('bf-title');
 const editor=document.getElementById('bf-editor');
 const category=document.getElementById('bf-category');
 
-document.getElementById('bf-open').onclick=()=>modal.classList.add('active');
-document.getElementById('bf-close').onclick=()=>modal.classList.remove('active');
-document.getElementById('bf-bg').onclick=()=>modal.classList.remove('active');
+/* ===== OPEN/CLOSE ===== */
+bf-open.onclick=()=>modal.classList.add('active');
+bf-close.onclick=bf-bg.onclick=()=>modal.classList.remove('active');
 
+/* ===== AUTOSAVE ===== */
+setInterval(()=>{
+  localStorage.setItem('BF_DRAFT',JSON.stringify({
+    title:title.value,
+    text:editor.value,
+    category:category.value
+  }));
+},2000);
+
+/* ===== RESTORE ===== */
+const d=JSON.parse(localStorage.getItem('BF_DRAFT')||'null');
+if(d){
+  title.value=d.title||'';
+  editor.value=d.text||'';
+  category.value=d.category||'nosost';
+}
+
+/* ===== RENDER ===== */
 function render(){
   list.innerHTML='';
   JSON.parse(localStorage.getItem(KEY)).forEach(t=>{
@@ -202,10 +244,11 @@ function render(){
 }
 render();
 
-document.getElementById('bf-add').onclick=()=>{
-  const n=prompt('Название шаблона');
+/* ===== ADD TEMPLATE ===== */
+bf-add.onclick=()=>{
+  const n=prompt('Название');
   if(!n)return;
-  const t=prompt('Текст шаблона');
+  const t=prompt('Текст');
   if(!t)return;
   const arr=JSON.parse(localStorage.getItem(KEY));
   arr.push({name:n,text:t});
@@ -213,16 +256,20 @@ document.getElementById('bf-add').onclick=()=>{
   render();
 };
 
-document.getElementById('bf-copy').onclick=()=>{
+/* ===== COPY ===== */
+bf-copy.onclick=()=>{
   navigator.clipboard.writeText(title.value+'\n\n'+editor.value);
   alert('Скопировано');
 };
 
-document.getElementById('bf-forum').onclick=()=>{
-  if(!editor.value.trim()){
-    alert('Текст пуст');
-    return;
-  }
+/* ===== PREVIEW ===== */
+bf-preview.onclick=()=>{
+  alert(editor.value);
+};
+
+/* ===== SEND ===== */
+bf-forum.onclick=()=>{
+  if(!editor.value.trim())return alert('Пусто');
 
   const URLS={
     nosost:'https://forum.radmir.games/forums/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B-%D0%BD%D0%B0-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%BE%D0%B2-%D0%BD%D0%B5-%D1%81%D0%BE%D1%81%D1%82-%D0%B2-%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F%D1%85.194/create-thread',
@@ -233,7 +280,6 @@ document.getElementById('bf-forum').onclick=()=>{
   localStorage.setItem('BF_TRANSFER',JSON.stringify({
     title:title.value,
     text:editor.value,
-    category:category.value,
     time:Date.now()
   }));
 
