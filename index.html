@@ -1,130 +1,181 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Справедливец</title>
+  <meta charset="UTF-8">
+  <title>Список "Справедливец"</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      background: #000;
-      color: #fff;
+      background-color: #000;
       font-family: 'Manrope', sans-serif;
+      color: #fff;
     }
-    nav {
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.2rem 2rem;
-      background: #000;
+      padding: 1rem 2rem;
+      background-color: #000;
+      border-bottom: 1px solid #111;
     }
-    .nav-left, .nav-center, .nav-right {
-      flex: 1;
-      display: flex;
-      align-items: center;
-    }
-    .nav-left {
-      justify-content: flex-start;
-      color: #bbb;
-      font-size: 1.3rem;
-    }
-    .nav-center {
-      justify-content: center;
-    }
-    .nav-center .logo {
+    .logo {
+      border: 3px solid red;
+      padding: 0.5rem 1rem;
       color: #fff;
-      font-size: 1.5rem;
-      border: 4px solid #ff0033;
-      padding: 0.5rem 1.5rem;
+      font-weight: 800;
     }
-    .nav-right {
-      justify-content: flex-end;
-      gap: 2rem;
-    }
-    .nav-right a {
-      color: #ff0033;
+    nav a {
+      margin-left: 2rem;
+      color: #fff;
       text-decoration: none;
       font-weight: bold;
     }
-    header {
+    nav a:hover {
+      color: #ff0033;
+    }
+    h1 {
       text-align: center;
-      padding: 6rem 2rem 2rem;
+      color: #fff;
+      font-size: 2.5rem;
+      margin-top: 2rem;
     }
-    header h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-    }
-    header p {
-      color: #aaa;
-      font-size: 1.2rem;
-      max-width: 800px;
-      margin: 1rem auto;
-    }
-    .cards {
-      padding: 3rem 2rem;
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
     }
     .card {
-      background: #111;
-      border: 1px solid #222;
+      text-align: center;
+      cursor: pointer;
+    }
+    .card img {
+      width: 100%;
       border-radius: 10px;
-      padding: 1.5rem;
+      height: 250px;
+      object-fit: cover;
     }
     .card h2 {
       color: #ff0033;
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+      margin: 1rem 0 0.5rem;
     }
     .card p {
-      color: #ccc;
+      color: #eee;
       font-size: 1rem;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #111;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      text-align: left;
+      color: #fff;
+      position: relative;
+    }
+    .modal-content h3 {
+      color: #ff0033;
+      margin-top: 0;
+    }
+    .close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #fff;
     }
     footer {
       text-align: center;
       padding: 2rem;
-      color: #555;
+      color: #666;
       font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
+<header>
+  <div class="logo">ФОР</div>
   <nav>
-    <div class="nav-left">Главная</div>
-    <div class="nav-center"><div class="logo">ФОР</div></div>
-    <div class="nav-right">
-      <a href="#ochse">Люди в ОЧСе</a>
-      <a href="#about">О нас</a>
-    </div>
+    <a href="#">Главная</a>
+    <a href="#">Люди в ОЧСе</a>
+    <a href="#">О нас</a>
   </nav>
+</header>
 
-  <header>
-    <h1>Список "Справедливец"</h1>
-    <p>Список людей, замеченных за антиФОРовской деятельностью, дискредитирующей и клевещущей участников объединения.</p>
-  </header>
+<h1>Список "Справедливец"</h1>
 
-  <section class="cards" id="ochse">
-    <div class="card"><h2>Горбун</h2><p>Регулярные оскорбления, поддержка слива, попытка слива, поддержка оскорблений.</p></div>
-    <div class="card"><h2>Roman_Bezlepko</h2><p>Оскорбления, поддержка слива, создание #АНТИСЛИВ.</p></div>
-    <div class="card"><h2>Luka_Melnyk</h2><p>Оскорбления, поддержка слива, поддержка антиФОР, БСФБ в подписи.</p></div>
-    <div class="card"><h2>Nikita_Boroi</h2><p>Оскорбления, поддержка оскорблений, попытка слива.</p></div>
-    <div class="card"><h2>Misha_Lokov</h2><p>Оскорбления, поддержка слива, поддержка оскорблений.</p></div>
-    <div class="card"><h2>Ivan_Xarpov</h2><p>Оскорбления, поддержка слива, попытка слива.</p></div>
-    <div class="card"><h2>Shon_Belly</h2><p>Оскорбления, поддержка, угрозы слива.</p></div>
-    <div class="card"><h2>Leonid_De_Black</h2><p>Оскорбления, поддержка, угрозы слива.</p></div>
-    <div class="card"><h2>Alex_Hollins</h2><p>Оскорбления, поддержка оскорблений.</p></div>
-    <div class="card"><h2>Mike_Hell</h2><p>Оскорбления, поддержка антиФОР.</p></div>
-    <div class="card"><h2>Daniel_Benzo</h2><p>Поддержка антиФОР, насмешки, дискредитация, помощь врагу.</p></div>
-  </section>
+<div class="container">
+  <div class="card" onclick="openModal('nikita')">
+    <img src="images/nikita.jpg" alt="Nikita_Boroi">
+    <h2>Nikita_Boroi</h2>
+    <p>Оскорбления, поддержка оскорблений, попытка слива</p>
+  </div>
 
-  <footer>
-    &copy; 2025 Справедливец
-  </footer>
+  <div class="card" onclick="openModal('misha')">
+    <img src="images/misha.jpg" alt="Misha_Lokov">
+    <h2>Misha_Lokov</h2>
+    <p>Оскорбления, поддержка слива, антиФОР активность</p>
+  </div>
+
+  <div class="card" onclick="openModal('ivan')">
+    <img src="images/ivan.jpg" alt="Ivan_Xarpov">
+    <h2>Ivan_Xarpov</h2>
+    <p>Оскорбления, поддержка слива, БСФБ</p>
+  </div>
+</div>
+
+<!-- Модальные окна -->
+<div id="modal-nikita" class="modal" onclick="closeModal('nikita')">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeModal('nikita')">&times;</span>
+    <h3>Sergey_Burkov</h3>
+    <p>Подробности: Cоздание антиФОРовской банды,оскорбление членов ФОР и Главу ФОР.</p>
+  </div>
+</div>
+
+<div id="modal-misha" class="modal" onclick="closeModal('misha')">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeModal('misha')">&times;</span>
+    <h3>Misha_Lokov</h3>
+    <p>Подробности: участие в скоординированных действиях по дискредитации ФОР, распространение недостоверной информации, сотрудничество с антиФОР движением.</p>
+  </div>
+</div>
+
+<div id="modal-ivan" class="modal" onclick="closeModal('ivan')">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeModal('ivan')">&times;</span>
+    <h3>Ivan_Xarpov</h3>
+    <p>Подробности: публичные заявления против объединения, использование символики БСФБ, участие в антиФОР мероприятиях.</p>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Справедливец / FOR. Все права защищены.
+</footer>
+
+<script>
+  function openModal(id) {
+    document.getElementById('modal-' + id).style.display = 'flex';
+  }
+  function closeModal(id) {
+    document.getElementById('modal-' + id).style.display = 'none';
+  }
+</script>
 
 </body>
 </html>
